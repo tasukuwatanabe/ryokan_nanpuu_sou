@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import Container from "../Container";
+import Container from "./Container";
 
 const HEADER_Header = styled.header`
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
