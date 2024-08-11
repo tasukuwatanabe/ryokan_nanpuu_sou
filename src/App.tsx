@@ -1,11 +1,11 @@
-function App() {
+import Header from "./components/header/Header";
+
+const App = () => {
   return (
     <div>
-      <header>
-        <div>南風荘</div>
-      </header>
+      <Header />
     </div>
   );
-}
+};
 
 export default App;
