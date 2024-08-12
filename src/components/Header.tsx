@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import Container from "./Container";
+import { Link } from "@tanstack/react-router";
 
 const HEADER_Header = styled.header`
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
@@ -27,18 +28,30 @@ const UL_NavList = styled.ul`
   }
 `;
 
+const LINK_Logo = styled(Link)`
+  text-decoration: none;
+  color: #333;
+`;
+
+const LINK_NavLink = styled(Link)`
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+`;
+
 const Header = () => {
   return (
     <HEADER_Header>
       <Container>
         <DIV_HeaderInner>
-          <H1_Title>南風荘</H1_Title>
+          <H1_Title>
+            <LINK_Logo to="/">南風荘</LINK_Logo>
+          </H1_Title>
           <nav>
             <UL_NavList>
-              <li>MENU1</li>
-              <li>MENU2</li>
-              <li>MENU3</li>
-              <li>MENU4</li>
+              <li>
+                <LINK_NavLink to="/login">ログイン</LINK_NavLink>
+              </li>
             </UL_NavList>
           </nav>
         </DIV_HeaderInner>
