@@ -1,0 +1,27 @@
+import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+
+import Wrapper from "../components/Wrapper";
+import Container from "../components/Container";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import styled from "styled-components";
+
+const DIV_Content = styled.div`
+  flex-grow: 1;
+`;
+
+export const Route = createRootRoute({
+  component: () => (
+    <Wrapper>
+      <Header />
+      <DIV_Content>
+        <Container>
+          <Outlet />
+          <TanStackRouterDevtools />
+        </Container>
+      </DIV_Content>
+      <Footer />
+    </Wrapper>
+  ),
+});
