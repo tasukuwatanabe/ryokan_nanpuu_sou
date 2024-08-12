@@ -1,9 +1,5 @@
-import { ReactNode } from "react";
 import styled from "styled-components";
-
-interface ContainerProps {
-  children: ReactNode;
-}
+import { ChildrenPropsType } from "../types";
 
 const DIV_Container = styled.div`
   padding: 15px;
@@ -11,7 +7,7 @@ const DIV_Container = styled.div`
   max-width: 1000px;
 `;
 
-const Container = ({ children }: ContainerProps) => {
+const Container = ({ children }: ChildrenPropsType) => {
   return <DIV_Container>{children}</DIV_Container>;
 };
 

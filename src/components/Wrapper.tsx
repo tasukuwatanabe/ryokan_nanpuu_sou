@@ -1,5 +1,6 @@
-import { type ReactNode } from "react";
 import styled from "styled-components";
+
+import { ChildrenPropsType } from "../types";
 
 const DIV_Wrapper = styled.div`
   min-height: 100vh;
@@ -7,11 +8,7 @@ const DIV_Wrapper = styled.div`
   flex-direction: column;
 `;
 
-interface WrapperProps {
-  children: ReactNode;
-}
-
-const Wrapper = ({ children }: WrapperProps) => {
+const Wrapper = ({ children }: ChildrenPropsType) => {
   return <DIV_Wrapper>{children}</DIV_Wrapper>;
 };
 
