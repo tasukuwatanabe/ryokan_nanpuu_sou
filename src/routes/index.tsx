@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
+import { type Room } from "../types";
 import PageGrid from "../components/PageGrid";
-import RoomCard from "../components/RoomCard";
-import styled from "styled-components";
+import RoomSearch from "../components/RoomSearch";
+import RoomIndex from "../components/RoomIndex";
 
 const roomsData = [
   {
@@ -12,6 +13,9 @@ const roomsData = [
     price: 9800,
     description: "海が一望できる",
     image: "example_1.jpg",
+    wifi: false,
+    smoking: true,
+    breakfast: false,
   },
   {
     id: 2,
@@ -19,6 +23,9 @@ const roomsData = [
     price: 15800,
     description: "山が一望できる",
     image: "example_2.jpg",
+    wifi: true,
+    smoking: false,
+    breakfast: false,
   },
   {
     id: 3,
@@ -26,6 +33,9 @@ const roomsData = [
     price: 19800,
     description: "夕焼けが楽しめる",
     image: "example_3.jpg",
+    wifi: true,
+    smoking: false,
+    breakfast: true,
   },
   {
     id: 4,
@@ -33,30 +43,33 @@ const roomsData = [
     price: 29800,
     description: "海が一望できる",
     image: "example_4.jpg",
+    wifi: true,
+    smoking: false,
+    breakfast: true,
   },
 ];
 
-const DIV_RoomList = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-`;
-
-const DIV_PriceRange = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  column-gap: 5px;
-`;
-
 const Index = () => {
-  const [rooms, setRooms] = useState(roomsData);
+  const [filteredRooms, setFilteredRooms] = useState<Room[] | []>([]);
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
+  const [wifi, setWifi] = useState<boolean>(false);
+  const [smoking, setSmoking] = useState<boolean>(false);
+  const [breakfast, setBreakfast] = useState<boolean>(false);
 
   useEffect(() => {
-    setRooms(roomsData);
-  }, []);
+    const filteredRooms = roomsData.filter((room) => {
+      if (room.price < minPrice) return;
+      if (maxPrice && maxPrice < room.price) return;
+      if (wifi && !room.wifi) return;
+      if (smoking && !room.smoking) return;
+      if (breakfast && !room.breakfast) return;
+
+      return true;
+    });
+
+    setFilteredRooms(filteredRooms);
+  }, [minPrice, maxPrice, wifi, smoking, breakfast]);
 
   const handleMinPrice: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     setMinPrice(Number(e.target.value));
@@ -69,41 +82,19 @@ const Index = () => {
   return (
     <PageGrid>
       <aside>
-        <div>
-          <span>予算</span>
-          <DIV_PriceRange>
-            <select onChange={handleMinPrice}>
-              <option value={0}>下限なし</option>
-              <option value={5000}>5000円</option>
-              <option value={10000}>10000円</option>
-              <option value={15000}>15000円</option>
-              <option value={20000}>20000円</option>
-              <option value={25000}>25000円</option>
-              <option value={30000}>30000円</option>
-            </select>
-            <span>〜</span>
-            <select onChange={handleMaxPrice}>
-              <option value={undefined}>上限なし</option>
-              <option value={5000}>5000円</option>
-              <option value={10000}>10000円</option>
-              <option value={15000}>15000円</option>
-              <option value={20000}>20000円</option>
-              <option value={25000}>25000円</option>
-              <option value={30000}>30000円</option>
-            </select>
-          </DIV_PriceRange>
-        </div>
+        <RoomSearch
+          wifi={wifi}
+          setWifi={setWifi}
+          smoking={smoking}
+          setSmoking={setSmoking}
+          breakfast={breakfast}
+          setBreakfast={setBreakfast}
+          handleMinPrice={handleMinPrice}
+          handleMaxPrice={handleMaxPrice}
+        />
       </aside>
       <main>
-        <DIV_RoomList>
-          {rooms &&
-            rooms.map((room) => {
-              if (room.price < minPrice) return;
-              if (maxPrice && room.price > maxPrice) return;
-
-              return <RoomCard key={room.name} room={room} />;
-            })}
-        </DIV_RoomList>
+        <RoomIndex rooms={filteredRooms} />
       </main>
     </PageGrid>
   );
