@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import PageGrid from "../components/PageGrid";
@@ -42,20 +42,67 @@ const DIV_RoomList = styled.div`
   row-gap: 20px;
 `;
 
+const DIV_PriceRange = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 5px;
+`;
+
 const Index = () => {
   const [rooms, setRooms] = useState(roomsData);
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     setRooms(roomsData);
   }, []);
 
+  const handleMinPrice: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+    setMinPrice(Number(e.target.value));
+  };
+
+  const handleMaxPrice: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+    setMaxPrice(Number(e.target.value));
+  };
+
   return (
     <PageGrid>
-      <aside>Room Filter</aside>
+      <aside>
+        <div>
+          <span>予算</span>
+          <DIV_PriceRange>
+            <select onChange={handleMinPrice}>
+              <option value={0}>下限なし</option>
+              <option value={5000}>5000円</option>
+              <option value={10000}>10000円</option>
+              <option value={15000}>15000円</option>
+              <option value={20000}>20000円</option>
+              <option value={25000}>25000円</option>
+              <option value={30000}>30000円</option>
+            </select>
+            <span>〜</span>
+            <select onChange={handleMaxPrice}>
+              <option value={undefined}>上限なし</option>
+              <option value={5000}>5000円</option>
+              <option value={10000}>10000円</option>
+              <option value={15000}>15000円</option>
+              <option value={20000}>20000円</option>
+              <option value={25000}>25000円</option>
+              <option value={30000}>30000円</option>
+            </select>
+          </DIV_PriceRange>
+        </div>
+      </aside>
       <main>
         <DIV_RoomList>
           {rooms &&
-            rooms.map((room) => <RoomCard key={room.name} room={room} />)}
+            rooms.map((room) => {
+              if (room.price < minPrice) return;
+              if (maxPrice && room.price > maxPrice) return;
+
+              return <RoomCard key={room.name} room={room} />;
+            })}
         </DIV_RoomList>
       </main>
     </PageGrid>
