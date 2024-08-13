@@ -69,7 +69,7 @@ const Index = () => {
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
   const [checkInDate, setCheckInDate] = useState<Date>(new Date());
   const [checkOutDate, setCheckOutDate] = useState<Date>(new Date());
-  const [minPrice, setMinPrice] = useState<number>(0);
+  const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
   const [wifi, setWifi] = useState<boolean>(false);
   const [smoking, setSmoking] = useState<boolean>(false);
@@ -80,7 +80,7 @@ const Index = () => {
       // TODO 日付での絞り込みを実装する
       // room.reservedDatesをloopで回し、予約日された日がcheckInDateとcheckOutDateの間にあるか判定する
 
-      if (room.price < minPrice) return;
+      if (minPrice && room.price < minPrice) return;
       if (maxPrice && maxPrice < room.price) return;
       if (wifi && !room.wifi) return;
       if (smoking && !room.smoking) return;
