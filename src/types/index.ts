@@ -13,4 +13,5 @@ export interface Room {
   wifi: boolean;
   smoking: boolean;
   breakfast: boolean;
+  reservedDates: Date[];
 }

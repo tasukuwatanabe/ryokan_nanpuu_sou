@@ -16,6 +16,11 @@ const roomsData = [
     wifi: false,
     smoking: true,
     breakfast: false,
+    reservedDates: [
+      new Date("2024-08-20"),
+      new Date("2024-08-21"),
+      new Date("2024-08-22"),
+    ],
   },
   {
     id: 2,
@@ -26,6 +31,11 @@ const roomsData = [
     wifi: true,
     smoking: false,
     breakfast: false,
+    reservedDates: [
+      new Date("2024-08-25"),
+      new Date("2024-08-26"),
+      new Date("2024-08-27"),
+    ],
   },
   {
     id: 3,
@@ -36,6 +46,7 @@ const roomsData = [
     wifi: true,
     smoking: false,
     breakfast: true,
+    reservedDates: [],
   },
   {
     id: 4,
@@ -45,12 +56,19 @@ const roomsData = [
     image: "example_4.jpg",
     wifi: true,
     smoking: false,
-    breakfast: true,
+    breakfast: false,
+    reservedDates: [
+      new Date("2024-08-29"),
+      new Date("2024-08-30"),
+      new Date("2024-08-31"),
+    ],
   },
 ];
 
 const Index = () => {
-  const [filteredRooms, setFilteredRooms] = useState<Room[] | []>([]);
+  const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
+  const [checkInDate, setCheckInDate] = useState<Date>(new Date());
+  const [checkOutDate, setCheckOutDate] = useState<Date>(new Date());
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
   const [wifi, setWifi] = useState<boolean>(false);
@@ -59,6 +77,9 @@ const Index = () => {
 
   useEffect(() => {
     const filteredRooms = roomsData.filter((room) => {
+      // TODO 日付での絞り込みを実装する
+      // room.reservedDatesをloopで回し、予約日された日がcheckInDateとcheckOutDateの間にあるか判定する
+
       if (room.price < minPrice) return;
       if (maxPrice && maxPrice < room.price) return;
       if (wifi && !room.wifi) return;
@@ -70,6 +91,16 @@ const Index = () => {
 
     setFilteredRooms(filteredRooms);
   }, [minPrice, maxPrice, wifi, smoking, breakfast]);
+
+  const handleCheckInDate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setCheckInDate(new Date(Date.parse(e.target.value)));
+  };
+
+  const handleCheckOutDate: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    setCheckOutDate(new Date(Date.parse(e.target.value)));
+  };
 
   const handleMinPrice: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     setMinPrice(Number(e.target.value));
@@ -83,6 +114,10 @@ const Index = () => {
     <PageGrid>
       <aside>
         <RoomSearch
+          checkInDate={checkInDate}
+          handleCheckInDate={handleCheckInDate}
+          checkOutDate={checkOutDate}
+          handleCheckOutDate={handleCheckOutDate}
           wifi={wifi}
           setWifi={setWifi}
           smoking={smoking}

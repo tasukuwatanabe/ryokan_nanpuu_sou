@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const DIV_PriceRange = styled.div`
+const DIV_Range = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  column-gap: 5px;
+  column-gap: 7px;
 `;
 
 const DIV_SearchCase = styled.div`
@@ -16,10 +16,10 @@ const DIV_SearchCase = styled.div`
 `;
 
 const SPAN_SearchItemLabel = styled.span`
-  font-size: 14px;
+  font-size: 13px;
   display: block;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 `;
 
 const DIV_CheckboxCase = styled.div`
@@ -31,6 +31,11 @@ const LABEL_CheckboxLabel = styled.label`
   display: flex;
   column-gap: 5px;
   cursor: pointer;
+`;
+
+const SPAN_RangeSpace = styled.span`
+  display: block;
+  height: 21px;
 `;
 
 interface FacilityCheckItem {
@@ -49,6 +54,10 @@ const Checkbox = ({ label, value, onChange }: FacilityCheckItem) => {
 };
 
 interface RoomSearchProps {
+  checkInDate: Date;
+  handleCheckInDate: React.ChangeEventHandler<HTMLInputElement>;
+  checkOutDate: Date;
+  handleCheckOutDate: React.ChangeEventHandler<HTMLInputElement>;
   wifi: boolean;
   setWifi: React.Dispatch<React.SetStateAction<boolean>>;
   smoking: boolean;
@@ -60,6 +69,10 @@ interface RoomSearchProps {
 }
 
 const RoomSearch = ({
+  checkInDate,
+  handleCheckInDate,
+  checkOutDate,
+  handleCheckOutDate,
   wifi,
   setWifi,
   smoking,
@@ -72,8 +85,34 @@ const RoomSearch = ({
   return (
     <DIV_SearchCase>
       <div>
+        <DIV_Range>
+          <div>
+            <SPAN_SearchItemLabel>チェックイン</SPAN_SearchItemLabel>
+            <input
+              type="date"
+              name="checkInDate"
+              value={checkInDate.toISOString().slice(0, 10)}
+              onChange={handleCheckInDate}
+            />
+          </div>
+          <div>
+            <SPAN_RangeSpace />
+            <span>〜</span>
+          </div>
+          <div>
+            <SPAN_SearchItemLabel>チェックアウト</SPAN_SearchItemLabel>
+            <input
+              type="date"
+              name="checkOutDate"
+              value={checkOutDate.toISOString().slice(0, 10)}
+              onChange={handleCheckOutDate}
+            />
+          </div>
+        </DIV_Range>
+      </div>
+      <div>
         <SPAN_SearchItemLabel>予算</SPAN_SearchItemLabel>
-        <DIV_PriceRange>
+        <DIV_Range>
           <select onChange={handleMinPrice}>
             <option value={0}>下限なし</option>
             <option value={5000}>5000円</option>
@@ -93,7 +132,7 @@ const RoomSearch = ({
             <option value={25000}>25000円</option>
             <option value={30000}>30000円</option>
           </select>
-        </DIV_PriceRange>
+        </DIV_Range>
       </div>
       <div>
         <SPAN_SearchItemLabel>設備・サービス</SPAN_SearchItemLabel>
