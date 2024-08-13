@@ -1,9 +1,16 @@
 import styled from "styled-components";
 
-const DIV_Range = styled.div`
+const DIV_FlexStart = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+`;
+
+const DIV_DateWrap = styled(DIV_FlexStart)`
+  column-gap: 10px;
+`;
+
+const DIV_PriceWrap = styled(DIV_FlexStart)`
   column-gap: 7px;
 `;
 
@@ -31,11 +38,6 @@ const LABEL_CheckboxLabel = styled.label`
   display: flex;
   column-gap: 5px;
   cursor: pointer;
-`;
-
-const SPAN_RangeSpace = styled.span`
-  display: block;
-  height: 21px;
 `;
 
 interface FacilityCheckItem {
@@ -85,7 +87,7 @@ const RoomSearch = ({
   return (
     <DIV_SearchCase>
       <div>
-        <DIV_Range>
+        <DIV_DateWrap>
           <div>
             <SPAN_SearchItemLabel>チェックイン</SPAN_SearchItemLabel>
             <input
@@ -96,10 +98,6 @@ const RoomSearch = ({
             />
           </div>
           <div>
-            <SPAN_RangeSpace />
-            <span>〜</span>
-          </div>
-          <div>
             <SPAN_SearchItemLabel>チェックアウト</SPAN_SearchItemLabel>
             <input
               type="date"
@@ -108,11 +106,11 @@ const RoomSearch = ({
               onChange={handleCheckOutDate}
             />
           </div>
-        </DIV_Range>
+        </DIV_DateWrap>
       </div>
       <div>
         <SPAN_SearchItemLabel>予算</SPAN_SearchItemLabel>
-        <DIV_Range>
+        <DIV_PriceWrap>
           <select onChange={handleMinPrice}>
             <option value={0}>下限なし</option>
             <option value={5000}>5000円</option>
@@ -132,7 +130,7 @@ const RoomSearch = ({
             <option value={25000}>25000円</option>
             <option value={30000}>30000円</option>
           </select>
-        </DIV_Range>
+        </DIV_PriceWrap>
       </div>
       <div>
         <SPAN_SearchItemLabel>設備・サービス</SPAN_SearchItemLabel>
