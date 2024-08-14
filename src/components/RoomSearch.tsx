@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { formatDateToJST } from "../utils";
+
 const DIV_FlexStart = styled.div`
   display: flex;
   align-items: center;
@@ -93,7 +95,7 @@ const RoomSearch = ({
             <input
               type="date"
               name="checkInDate"
-              value={checkInDate.toISOString().slice(0, 10)}
+              value={formatDateToJST(checkInDate)}
               onChange={handleCheckInDate}
             />
           </div>
@@ -102,7 +104,7 @@ const RoomSearch = ({
             <input
               type="date"
               name="checkOutDate"
-              value={checkOutDate.toISOString().slice(0, 10)}
+              value={formatDateToJST(checkOutDate)}
               onChange={handleCheckOutDate}
             />
           </div>

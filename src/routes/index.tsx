@@ -6,7 +6,7 @@ import PageGrid from "../components/PageGrid";
 import RoomSearch from "../components/RoomSearch";
 import RoomIndex from "../components/RoomIndex";
 
-const roomsData = [
+const roomList = [
   {
     id: 1,
     name: "梅の間",
@@ -17,9 +17,9 @@ const roomsData = [
     smoking: true,
     breakfast: false,
     reservedDates: [
-      new Date("2024-08-20"),
-      new Date("2024-08-21"),
-      new Date("2024-08-22"),
+      new Date(2024, 7, 20),
+      new Date(2024, 7, 21),
+      new Date(2024, 7, 22),
     ],
   },
   {
@@ -32,9 +32,9 @@ const roomsData = [
     smoking: false,
     breakfast: false,
     reservedDates: [
-      new Date("2024-08-25"),
-      new Date("2024-08-26"),
-      new Date("2024-08-27"),
+      new Date(2024, 7, 25),
+      new Date(2024, 7, 26),
+      new Date(2024, 7, 27),
     ],
   },
   {
@@ -46,7 +46,7 @@ const roomsData = [
     wifi: true,
     smoking: false,
     breakfast: true,
-    reservedDates: [],
+    reservedDates: [new Date(2024, 7, 1)],
   },
   {
     id: 4,
@@ -58,17 +58,20 @@ const roomsData = [
     smoking: false,
     breakfast: false,
     reservedDates: [
-      new Date("2024-08-29"),
-      new Date("2024-08-30"),
-      new Date("2024-08-31"),
+      new Date(2024, 7, 29),
+      new Date(2024, 7, 30),
+      new Date(2024, 7, 31),
     ],
   },
 ];
 
 const Index = () => {
+  const today = new Date();
+  const todaysMidnight = new Date(today.setHours(0, 0, 0, 0));
+
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
-  const [checkInDate, setCheckInDate] = useState<Date>(new Date());
-  const [checkOutDate, setCheckOutDate] = useState<Date>(new Date());
+  const [checkInDate, setCheckInDate] = useState<Date>(todaysMidnight);
+  const [checkOutDate, setCheckOutDate] = useState<Date>(todaysMidnight);
   const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
   const [wifi, setWifi] = useState<boolean>(false);
@@ -76,21 +79,39 @@ const Index = () => {
   const [breakfast, setBreakfast] = useState<boolean>(false);
 
   useEffect(() => {
-    const filteredRooms = roomsData.filter((room) => {
-      // TODO 日付での絞り込みを実装する
-      // room.reservedDatesをloopで回し、予約日された日がcheckInDateとcheckOutDateの間にあるか判定する
+    const filteredRooms = roomList.filter((roomItem) => {
+      // roomItem.reservedDatesをloopで回し、予約日された日がcheckInDateとcheckOutDateの間にあるか判定する
+      if (roomItem.reservedDates.length > 0) {
+        const reservedDateInRange = roomItem.reservedDates.find(
+          (reservedDate) => {
+            const formattedCheckInDate = checkInDate.getTime();
+            const formattedCheckOutDate = checkOutDate.getTime();
+            const formattedReservedDate = reservedDate.getTime();
+            console.log(checkInDate);
+            console.log(checkOutDate);
+            console.log(reservedDate);
 
-      if (minPrice && room.price < minPrice) return;
-      if (maxPrice && maxPrice < room.price) return;
-      if (wifi && !room.wifi) return;
-      if (smoking && !room.smoking) return;
-      if (breakfast && !room.breakfast) return;
+            return (
+              formattedCheckInDate <= formattedReservedDate &&
+              formattedReservedDate <= formattedCheckOutDate
+            );
+          }
+        );
+
+        if (reservedDateInRange) return;
+      }
+
+      if (minPrice && roomItem.price < minPrice) return;
+      if (maxPrice && maxPrice < roomItem.price) return;
+      if (wifi && !roomItem.wifi) return;
+      if (smoking && !roomItem.smoking) return;
+      if (breakfast && !roomItem.breakfast) return;
 
       return true;
     });
 
     setFilteredRooms(filteredRooms);
-  }, [minPrice, maxPrice, wifi, smoking, breakfast]);
+  }, [checkInDate, checkOutDate, minPrice, maxPrice, wifi, smoking, breakfast]);
 
   const handleCheckInDate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setCheckInDate(new Date(Date.parse(e.target.value)));
