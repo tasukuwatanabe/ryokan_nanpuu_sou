@@ -5,6 +5,7 @@ import { type Room } from "../types";
 import PageGrid from "../components/PageGrid";
 import RoomSearch from "../components/RoomSearch";
 import RoomIndex from "../components/RoomIndex";
+import { parseDateStringToMidnight } from "../utils";
 
 const roomList = [
   {
@@ -80,22 +81,11 @@ const Index = () => {
 
   useEffect(() => {
     const filteredRooms = roomList.filter((roomItem) => {
-      // roomItem.reservedDatesをloopで回し、予約日された日がcheckInDateとcheckOutDateの間にあるか判定する
+      // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
       if (roomItem.reservedDates.length > 0) {
         const reservedDateInRange = roomItem.reservedDates.find(
-          (reservedDate) => {
-            const formattedCheckInDate = checkInDate.getTime();
-            const formattedCheckOutDate = checkOutDate.getTime();
-            const formattedReservedDate = reservedDate.getTime();
-            console.log(checkInDate);
-            console.log(checkOutDate);
-            console.log(reservedDate);
-
-            return (
-              formattedCheckInDate <= formattedReservedDate &&
-              formattedReservedDate <= formattedCheckOutDate
-            );
-          }
+          (reservedDate) =>
+            checkInDate <= reservedDate && reservedDate <= checkOutDate
         );
 
         if (reservedDateInRange) return;
@@ -114,13 +104,13 @@ const Index = () => {
   }, [checkInDate, checkOutDate, minPrice, maxPrice, wifi, smoking, breakfast]);
 
   const handleCheckInDate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setCheckInDate(new Date(Date.parse(e.target.value)));
+    setCheckInDate(parseDateStringToMidnight(e.target.value));
   };
 
   const handleCheckOutDate: React.ChangeEventHandler<HTMLInputElement> = (
     e
   ) => {
-    setCheckOutDate(new Date(Date.parse(e.target.value)));
+    setCheckOutDate(parseDateStringToMidnight(e.target.value));
   };
 
   const handleMinPrice: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
