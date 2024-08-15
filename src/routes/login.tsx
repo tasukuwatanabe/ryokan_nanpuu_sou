@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import LoginForm from "../components/LoginForm";
 
-const Login = () => <div>Login</div>;
+const Login = () => <LoginForm />;
 
 export const Route = createFileRoute("/login")({
   component: Login,
