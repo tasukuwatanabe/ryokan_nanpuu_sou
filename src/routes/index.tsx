@@ -103,21 +103,29 @@ const Index = () => {
     setFilteredRooms(filteredRooms);
   }, [checkInDate, checkOutDate, minPrice, maxPrice, wifi, smoking, breakfast]);
 
-  const handleCheckInDate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setCheckInDate(parseDateStringToMidnight(e.target.value));
-  };
-
-  const handleCheckOutDate: React.ChangeEventHandler<HTMLInputElement> = (
+  const handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement> = (
     e
   ) => {
-    setCheckOutDate(parseDateStringToMidnight(e.target.value));
+    const parsedCheckInDate = parseDateStringToMidnight(e.target.value);
+    setCheckInDate(parsedCheckInDate);
   };
 
-  const handleMinPrice: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+  const handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    const parsedCheckOutDate = parseDateStringToMidnight(e.target.value);
+    setCheckOutDate(parsedCheckOutDate);
+  };
+
+  const handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    e
+  ) => {
     setMinPrice(Number(e.target.value));
   };
 
-  const handleMaxPrice: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+  const handleMaxPriceChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    e
+  ) => {
     setMaxPrice(Number(e.target.value));
   };
 
@@ -126,17 +134,17 @@ const Index = () => {
       <aside>
         <RoomSearch
           checkInDate={checkInDate}
-          handleCheckInDate={handleCheckInDate}
           checkOutDate={checkOutDate}
-          handleCheckOutDate={handleCheckOutDate}
           wifi={wifi}
           setWifi={setWifi}
           smoking={smoking}
           setSmoking={setSmoking}
           breakfast={breakfast}
           setBreakfast={setBreakfast}
-          handleMinPrice={handleMinPrice}
-          handleMaxPrice={handleMaxPrice}
+          handleMinPriceChange={handleMinPriceChange}
+          handleMaxPriceChange={handleMaxPriceChange}
+          handleCheckInDateChange={handleCheckInDateChange}
+          handleCheckOutDateChange={handleCheckOutDateChange}
         />
       </aside>
       <main>

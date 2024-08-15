@@ -59,32 +59,32 @@ const Checkbox = ({ label, value, onChange }: FacilityCheckItem) => {
 
 interface RoomSearchProps {
   checkInDate: Date;
-  handleCheckInDate: React.ChangeEventHandler<HTMLInputElement>;
+  handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement>;
   checkOutDate: Date;
-  handleCheckOutDate: React.ChangeEventHandler<HTMLInputElement>;
+  handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement>;
   wifi: boolean;
   setWifi: React.Dispatch<React.SetStateAction<boolean>>;
   smoking: boolean;
   setSmoking: React.Dispatch<React.SetStateAction<boolean>>;
   breakfast: boolean;
   setBreakfast: React.Dispatch<React.SetStateAction<boolean>>;
-  handleMinPrice: React.ChangeEventHandler<HTMLSelectElement>;
-  handleMaxPrice: React.ChangeEventHandler<HTMLSelectElement>;
+  handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
+  handleMaxPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 const RoomSearch = ({
   checkInDate,
-  handleCheckInDate,
+  handleCheckInDateChange,
   checkOutDate,
-  handleCheckOutDate,
+  handleCheckOutDateChange,
   wifi,
   setWifi,
   smoking,
   setSmoking,
   breakfast,
   setBreakfast,
-  handleMinPrice,
-  handleMaxPrice,
+  handleMinPriceChange,
+  handleMaxPriceChange,
 }: RoomSearchProps) => {
   return (
     <DIV_SearchCase>
@@ -96,7 +96,7 @@ const RoomSearch = ({
               type="date"
               name="checkInDate"
               value={formatDateToJST(checkInDate)}
-              onChange={handleCheckInDate}
+              onChange={handleCheckInDateChange}
             />
           </div>
           <div>
@@ -105,7 +105,7 @@ const RoomSearch = ({
               type="date"
               name="checkOutDate"
               value={formatDateToJST(checkOutDate)}
-              onChange={handleCheckOutDate}
+              onChange={handleCheckOutDateChange}
             />
           </div>
         </DIV_DateWrap>
@@ -113,7 +113,7 @@ const RoomSearch = ({
       <div>
         <SPAN_SearchItemLabel>予算</SPAN_SearchItemLabel>
         <DIV_PriceWrap>
-          <select onChange={handleMinPrice}>
+          <select onChange={handleMinPriceChange}>
             <option value={0}>下限なし</option>
             <option value={5000}>5000円</option>
             <option value={10000}>10000円</option>
@@ -123,7 +123,7 @@ const RoomSearch = ({
             <option value={30000}>30000円</option>
           </select>
           <span>〜</span>
-          <select onChange={handleMaxPrice}>
+          <select onChange={handleMaxPriceChange}>
             <option value={undefined}>上限なし</option>
             <option value={5000}>5000円</option>
             <option value={10000}>10000円</option>
