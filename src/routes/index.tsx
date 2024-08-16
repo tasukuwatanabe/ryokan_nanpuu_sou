@@ -17,9 +17,6 @@ const Index = () => {
   const [checkOutDate, setCheckOutDate] = useState<Date>(todaysMidnight);
   const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
-  const [wifi, setWifi] = useState<boolean>(false);
-  const [smoking, setSmoking] = useState<boolean>(false);
-  const [breakfast, setBreakfast] = useState<boolean>(false);
 
   useEffect(() => {
     const filteredRooms = roomList.filter((roomItem) => {
@@ -35,15 +32,12 @@ const Index = () => {
 
       if (minPrice && roomItem.price < minPrice) return;
       if (maxPrice && maxPrice < roomItem.price) return;
-      if (wifi && !roomItem.wifi) return;
-      if (smoking && !roomItem.smoking) return;
-      if (breakfast && !roomItem.breakfast) return;
 
       return true;
     });
 
     setFilteredRooms(filteredRooms);
-  }, [checkInDate, checkOutDate, minPrice, maxPrice, wifi, smoking, breakfast]);
+  }, [checkInDate, checkOutDate, minPrice, maxPrice]);
 
   const handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement> = (
     e
@@ -77,12 +71,6 @@ const Index = () => {
         <RoomSearch
           checkInDate={checkInDate}
           checkOutDate={checkOutDate}
-          wifi={wifi}
-          setWifi={setWifi}
-          smoking={smoking}
-          setSmoking={setSmoking}
-          breakfast={breakfast}
-          setBreakfast={setBreakfast}
           handleMinPriceChange={handleMinPriceChange}
           handleMaxPriceChange={handleMaxPriceChange}
           handleCheckInDateChange={handleCheckInDateChange}

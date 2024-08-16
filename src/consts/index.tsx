@@ -5,9 +5,6 @@ export const roomList = [
     price: 9800,
     description: "海が一望できる",
     image: "example_1.jpg",
-    wifi: false,
-    smoking: true,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 20),
       new Date(2024, 7, 21),
@@ -20,9 +17,6 @@ export const roomList = [
     price: 15800,
     description: "山が一望できる",
     image: "example_2.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 25),
       new Date(2024, 7, 26),
@@ -35,9 +29,6 @@ export const roomList = [
     price: 19800,
     description: "夕焼けが楽しめる",
     image: "example_3.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: true,
     reservedDates: [new Date(2024, 7, 1)],
   },
   {
@@ -46,9 +37,6 @@ export const roomList = [
     price: 29800,
     description: "海が一望できる",
     image: "example_4.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 29),
       new Date(2024, 7, 30),
@@ -61,9 +49,6 @@ export const roomList = [
     price: 19800,
     description: "海が一望できる",
     image: "example_1.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 29),
       new Date(2024, 7, 30),
@@ -76,9 +61,6 @@ export const roomList = [
     price: 9800,
     description: "富士が一望できる",
     image: "example_2.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 29),
       new Date(2024, 7, 30),
@@ -91,9 +73,6 @@ export const roomList = [
     price: 4800,
     description: "海が一望できる",
     image: "example_3.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 29),
       new Date(2024, 7, 30),
@@ -106,9 +85,6 @@ export const roomList = [
     price: 12800,
     description: "海が一望できる",
     image: "example_2.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 29),
       new Date(2024, 7, 30),
@@ -121,9 +97,6 @@ export const roomList = [
     price: 16800,
     description: "海が一望できる",
     image: "example_1.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 29),
       new Date(2024, 7, 30),
@@ -136,9 +109,6 @@ export const roomList = [
     price: 34800,
     description: "海が一望できる",
     image: "example_4.jpg",
-    wifi: true,
-    smoking: false,
-    breakfast: false,
     reservedDates: [
       new Date(2024, 7, 29),
       new Date(2024, 7, 30),

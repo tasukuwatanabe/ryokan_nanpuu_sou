@@ -31,43 +31,11 @@ const SPAN_SearchItemLabel = styled.span`
   margin-bottom: 4px;
 `;
 
-const DIV_CheckboxCase = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const LABEL_CheckboxLabel = styled.label`
-  display: flex;
-  column-gap: 5px;
-  cursor: pointer;
-`;
-
-interface FacilityCheckItem {
-  label: string;
-  value: boolean;
-  onChange: () => void;
-}
-
-const Checkbox = ({ label, value, onChange }: FacilityCheckItem) => {
-  return (
-    <LABEL_CheckboxLabel>
-      <input type="checkbox" checked={value} onChange={onChange} />
-      {label}
-    </LABEL_CheckboxLabel>
-  );
-};
-
 interface RoomSearchProps {
   checkInDate: Date;
   handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement>;
   checkOutDate: Date;
   handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement>;
-  wifi: boolean;
-  setWifi: React.Dispatch<React.SetStateAction<boolean>>;
-  smoking: boolean;
-  setSmoking: React.Dispatch<React.SetStateAction<boolean>>;
-  breakfast: boolean;
-  setBreakfast: React.Dispatch<React.SetStateAction<boolean>>;
   handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
   handleMaxPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
@@ -77,12 +45,6 @@ const RoomSearch = ({
   handleCheckInDateChange,
   checkOutDate,
   handleCheckOutDateChange,
-  wifi,
-  setWifi,
-  smoking,
-  setSmoking,
-  breakfast,
-  setBreakfast,
   handleMinPriceChange,
   handleMaxPriceChange,
 }: RoomSearchProps) => {
@@ -133,26 +95,6 @@ const RoomSearch = ({
             <option value={30000}>30000円</option>
           </select>
         </DIV_PriceWrap>
-      </div>
-      <div>
-        <SPAN_SearchItemLabel>設備・サービス</SPAN_SearchItemLabel>
-        <DIV_CheckboxCase>
-          <Checkbox
-            label="Wifi"
-            value={wifi}
-            onChange={() => setWifi((state) => !state)}
-          />
-          <Checkbox
-            label="禁煙"
-            value={smoking}
-            onChange={() => setSmoking((state) => !state)}
-          />
-          <Checkbox
-            label="朝食付き"
-            value={breakfast}
-            onChange={() => setBreakfast((state) => !state)}
-          />
-        </DIV_CheckboxCase>
       </div>
     </DIV_SearchCase>
   );

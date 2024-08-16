@@ -10,8 +10,5 @@ export interface Room {
   price: number;
   description: string;
   image: string;
-  wifi: boolean;
-  smoking: boolean;
-  breakfast: boolean;
   reservedDates: Date[];
 }
