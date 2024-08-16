@@ -2,26 +2,37 @@ import styled from "styled-components";
 
 import { formatDateToJST } from "../utils";
 
-const DIV_FlexStart = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const DIV_DateWrap = styled(DIV_FlexStart)`
-  column-gap: 10px;
-`;
-
-const DIV_PriceWrap = styled(DIV_FlexStart)`
-  column-gap: 7px;
-`;
-
 const DIV_SearchCase = styled.div`
   padding: 15px;
   background-color: rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+
+  input,
+  select {
+    width: 100%;
+    height: 35px;
+  }
+`;
+
+const DIV_FlexStart = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
+
+const DIV_DateWrap = styled(DIV_FlexStart)`
+  column-gap: 10px;
+`;
+
+const DIV_GuestsWrap = styled(DIV_FlexStart)`
+  column-gap: 10px;
+`;
+
+const DIV_PriceWrap = styled(DIV_FlexStart)`
+  grid-template-columns: 1fr 15px 1fr;
+  align-items: center;
+  column-gap: 7px;
 `;
 
 const SPAN_SearchItemLabel = styled.span`
@@ -33,21 +44,45 @@ const SPAN_SearchItemLabel = styled.span`
 
 interface RoomSearchProps {
   checkInDate: Date;
-  handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement>;
   checkOutDate: Date;
+  handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement>;
   handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement>;
   handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
   handleMaxPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
+  handleAdultNumChange: React.ChangeEventHandler<HTMLSelectElement>;
+  handleChildNumChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 const RoomSearch = ({
   checkInDate,
-  handleCheckInDateChange,
   checkOutDate,
+  handleCheckInDateChange,
   handleCheckOutDateChange,
+  handleAdultNumChange,
+  handleChildNumChange,
   handleMinPriceChange,
   handleMaxPriceChange,
 }: RoomSearchProps) => {
+  const adultNumOptions = [...Array(10).keys()].map((num) => {
+    const numPlusOne = num + 1;
+    const numPlusOneWithUnit = `${numPlusOne}名`;
+    return (
+      <option value={numPlusOne} key={numPlusOneWithUnit}>
+        {numPlusOneWithUnit}
+        {numPlusOne === 10 ? "〜" : ""}
+      </option>
+    );
+  });
+  const childNumOptions = [...Array(11).keys()].map((num) => {
+    const numWithUnit = `${num}名`;
+    return (
+      <option value={num} key={numWithUnit}>
+        {numWithUnit}
+        {num === 10 ? "〜" : ""}
+      </option>
+    );
+  });
+
   return (
     <DIV_SearchCase>
       <div>
@@ -71,6 +106,18 @@ const RoomSearch = ({
             />
           </div>
         </DIV_DateWrap>
+      </div>
+      <div>
+        <DIV_GuestsWrap>
+          <div>
+            <SPAN_SearchItemLabel>大人人数</SPAN_SearchItemLabel>
+            <select onChange={handleAdultNumChange}>{adultNumOptions}</select>
+          </div>
+          <div>
+            <SPAN_SearchItemLabel>子供人数</SPAN_SearchItemLabel>
+            <select onChange={handleChildNumChange}>{childNumOptions}</select>
+          </div>
+        </DIV_GuestsWrap>
       </div>
       <div>
         <SPAN_SearchItemLabel>予算</SPAN_SearchItemLabel>

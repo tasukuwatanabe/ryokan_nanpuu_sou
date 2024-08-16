@@ -15,6 +15,8 @@ const Index = () => {
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
   const [checkInDate, setCheckInDate] = useState<Date>(todaysMidnight);
   const [checkOutDate, setCheckOutDate] = useState<Date>(todaysMidnight);
+  const [adultNum, setAdultNum] = useState<number>(1);
+  const [childNum, setChildNum] = useState<number>(0);
   const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
 
@@ -30,6 +32,7 @@ const Index = () => {
         if (reservedDateInRange) return;
       }
 
+      if (roomItem.capacity < adultNum + childNum) return;
       if (minPrice && roomItem.price < minPrice) return;
       if (maxPrice && maxPrice < roomItem.price) return;
 
@@ -37,7 +40,7 @@ const Index = () => {
     });
 
     setFilteredRooms(filteredRooms);
-  }, [checkInDate, checkOutDate, minPrice, maxPrice]);
+  }, [checkInDate, checkOutDate, adultNum, childNum, minPrice, maxPrice]);
 
   const handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement> = (
     e
@@ -51,6 +54,18 @@ const Index = () => {
   ) => {
     const parsedCheckOutDate = parseDateStringToMidnight(e.target.value);
     setCheckOutDate(parsedCheckOutDate);
+  };
+
+  const handleAdultNumChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    e
+  ) => {
+    setAdultNum(Number(e.target.value));
+  };
+
+  const handleChildNumChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    e
+  ) => {
+    setChildNum(Number(e.target.value));
   };
 
   const handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement> = (
@@ -71,10 +86,12 @@ const Index = () => {
         <RoomSearch
           checkInDate={checkInDate}
           checkOutDate={checkOutDate}
-          handleMinPriceChange={handleMinPriceChange}
-          handleMaxPriceChange={handleMaxPriceChange}
           handleCheckInDateChange={handleCheckInDateChange}
           handleCheckOutDateChange={handleCheckOutDateChange}
+          handleAdultNumChange={handleAdultNumChange}
+          handleChildNumChange={handleChildNumChange}
+          handleMinPriceChange={handleMinPriceChange}
+          handleMaxPriceChange={handleMaxPriceChange}
         />
       </aside>
       <main>
