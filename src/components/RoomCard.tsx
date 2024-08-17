@@ -1,6 +1,5 @@
 import { type Room } from "../types";
 import styled from "styled-components";
-import Button from "./button/Button";
 
 const DIV_RoomCard = styled.div`
   display: grid;
@@ -32,7 +31,7 @@ const DIV_TextTop = styled.div`
 
 const DIV_TextBottom = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-end;
   column-gap: 30px;
 `;
@@ -80,7 +79,6 @@ const RoomCard = ({ room }: RoomProps) => {
           <SPAN_PricePerAdult>
             大人1人あたり：<SPAN_Price>{price}</SPAN_Price>円
           </SPAN_PricePerAdult>
-          <Button text="予約に進む" url="#" />
         </DIV_TextBottom>
       </DIV_TextCase>
     </DIV_RoomCard>
