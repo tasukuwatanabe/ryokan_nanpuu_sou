@@ -17,7 +17,7 @@ const RoomIndex = ({ rooms }: RoomIndexProps) =>
   rooms.length > 0 ? (
     <DIV_RoomList>
       {rooms.map((room) => (
-        <RoomCard key={room.name} room={room} />
+        <RoomCard key={`${room.id}-${room.name}`} room={room} />
       ))}
     </DIV_RoomList>
   ) : (
