@@ -19,7 +19,7 @@ const IMG_Image = styled.img`
 const DIV_TextCase = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 10px 15px;
 `;
 
 const DIV_TextTop = styled.div`
@@ -35,7 +35,17 @@ const DIV_TextBottom = styled.div`
 
 const P_Name = styled.span`
   font-size: 20px;
+  font-family: "Sawarabi Mincho", serif;
   font-weight: 700;
+`;
+
+const SPAN_PricePerAdult = styled.span`
+  font-size: 0.8rem;
+`;
+
+const SPAN_Price = styled.span`
+  font-size: 1.4rem;
+  margin-inline: 5px;
 `;
 
 interface RoomProps {
@@ -55,7 +65,9 @@ const RoomCard = ({ room }: RoomProps) => {
           <P_Name>{name}</P_Name>
         </DIV_TextTop>
         <DIV_TextBottom>
-          <span>大人1人あたり：{price}円</span>
+          <SPAN_PricePerAdult>
+            大人1人あたり：<SPAN_Price>{price}</SPAN_Price>円
+          </SPAN_PricePerAdult>
         </DIV_TextBottom>
       </DIV_TextCase>
     </DIV_RoomCard>

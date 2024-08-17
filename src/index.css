@@ -1,5 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=BIZ+UDMincho&family=Catamaran:wght@700&family=Fascinate+Inline&family=Sawarabi+Mincho&family=Yuji+Syuku&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  font-family: serif;
+  color: #333;
 }
