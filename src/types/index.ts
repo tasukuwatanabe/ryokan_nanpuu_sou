@@ -10,5 +10,4 @@ export interface Room {
   price: number;
   description: string;
   image: string;
-  reservedDates: Date[];
 }

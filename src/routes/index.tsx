@@ -23,14 +23,14 @@ const Index = () => {
   useEffect(() => {
     const filteredRooms = roomList.filter((roomItem) => {
       // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
-      if (roomItem.reservedDates.length > 0) {
-        const reservedDateInRange = roomItem.reservedDates.find(
-          (reservedDate) =>
-            checkInDate <= reservedDate && reservedDate <= checkOutDate
-        );
+      // if (roomItem.reservedDates.length > 0) {
+      //   const reservedDateInRange = roomItem.reservedDates.find(
+      //     (reservedDate) =>
+      //       checkInDate <= reservedDate && reservedDate <= checkOutDate
+      //   );
 
-        if (reservedDateInRange) return;
-      }
+      //   if (reservedDateInRange) return;
+      // }
 
       if (roomItem.capacity < adultNum + childNum) return;
       if (minPrice && roomItem.price < minPrice) return;

@@ -33,7 +33,7 @@ const DIV_TextBottom = styled.div`
   text-align: right;
 `;
 
-const SPAN_Name = styled.span`
+const P_Name = styled.span`
   font-size: 20px;
   font-weight: 700;
 `;
@@ -43,7 +43,7 @@ interface RoomProps {
 }
 
 const RoomCard = ({ room }: RoomProps) => {
-  const { name, price, description, image } = room;
+  const { name, price, image } = room;
 
   return (
     <DIV_RoomCard>
@@ -52,8 +52,7 @@ const RoomCard = ({ room }: RoomProps) => {
       </div>
       <DIV_TextCase>
         <DIV_TextTop>
-          <SPAN_Name>{name}</SPAN_Name>
-          <span>{description}</span>
+          <P_Name>{name}</P_Name>
         </DIV_TextTop>
         <DIV_TextBottom>
           <span>大人1人あたり：{price}円</span>
