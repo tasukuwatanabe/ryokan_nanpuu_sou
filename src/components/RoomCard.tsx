@@ -8,6 +8,13 @@ const DIV_RoomCard = styled.div`
   border-radius: 7px;
   border: 1px solid #c1c1c1;
   overflow: hidden;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  @media (any-hover) {
+    &:hover {
+      opacity: 0.6;
+    }
+  }
 `;
 
 const IMG_Image = styled.img`
