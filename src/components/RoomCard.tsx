@@ -1,7 +1,8 @@
+import { Link } from "@tanstack/react-router";
 import { type Room } from "../types";
 import styled from "styled-components";
 
-const DIV_RoomCard = styled.div`
+const A_Link = styled(Link)`
   display: grid;
   grid-template-columns: 250px auto;
   height: 180px;
@@ -73,7 +74,7 @@ const RoomCard = ({ room }: RoomProps) => {
   const { name, price, description, image } = room;
 
   return (
-    <DIV_RoomCard>
+    <A_Link to={`/rooms/${room.id}`}>
       <div>
         <IMG_Image src={`/room/${image}`} alt={name} />
       </div>
@@ -88,7 +89,7 @@ const RoomCard = ({ room }: RoomProps) => {
           </SPAN_PricePerAdult>
         </DIV_TextBottom>
       </DIV_TextCase>
-    </DIV_RoomCard>
+    </A_Link>
   );
 };
 

@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import { type Room } from "../types";
 import RoomCard from "../components/RoomCard";
-import { Link } from "@tanstack/react-router";
 
 const DIV_RoomList = styled.div`
   display: flex;
@@ -18,9 +17,7 @@ const RoomIndex = ({ rooms }: RoomIndexProps) =>
   rooms.length > 0 ? (
     <DIV_RoomList>
       {rooms.map((room) => (
-        <Link to={`/rooms/${room.id}`}>
-          <RoomCard key={`${room.id}-${room.name}`} room={room} />
-        </Link>
+        <RoomCard key={`${room.id}-${room.name}`} room={room} />
       ))}
     </DIV_RoomList>
   ) : (
