@@ -6,15 +6,24 @@ import { roomList } from "../consts";
 import PageGrid from "../components/PageGrid";
 import RoomSearch from "../components/RoomSearch";
 import RoomIndex from "../components/RoomIndex";
-import { parseDateStringToMidnight } from "../utils";
+import {
+  addDaysToDate,
+  parseDateStringToMidnight,
+  setHoursToMidnight,
+} from "../utils";
 
 const Index = () => {
-  const today = new Date();
-  const todaysMidnight = new Date(today.setHours(0, 0, 0, 0));
+  const tomorrow = addDaysToDate(new Date(), 1);
+  const tomorrowAtMidnight = setHoursToMidnight(tomorrow);
+
+  const dayAfterTomorrow = addDaysToDate(new Date(), 2);
+  const dayAfterTomorrowAtMidnight = setHoursToMidnight(dayAfterTomorrow);
 
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
-  const [checkInDate, setCheckInDate] = useState<Date>(todaysMidnight);
-  const [checkOutDate, setCheckOutDate] = useState<Date>(todaysMidnight);
+  const [checkInDate, setCheckInDate] = useState<Date | "">(tomorrowAtMidnight);
+  const [checkOutDate, setCheckOutDate] = useState<Date | "">(
+    dayAfterTomorrowAtMidnight
+  );
   const [adultNum, setAdultNum] = useState<number>(1);
   const [childNum, setChildNum] = useState<number>(0);
   const [minPrice, setMinPrice] = useState<number | undefined>(undefined);

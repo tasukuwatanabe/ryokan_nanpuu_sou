@@ -43,8 +43,8 @@ const SPAN_SearchItemLabel = styled.span`
 `;
 
 interface RoomSearchProps {
-  checkInDate: Date;
-  checkOutDate: Date;
+  checkInDate: Date | "";
+  checkOutDate: Date | "";
   handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement>;
   handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement>;
   handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
