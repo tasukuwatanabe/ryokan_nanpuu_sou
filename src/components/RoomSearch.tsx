@@ -18,7 +18,7 @@ const DIV_SearchCase = styled.div`
 
 const DIV_FlexStart = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 130px);
 `;
 
 const DIV_DateWrap = styled(DIV_FlexStart)`

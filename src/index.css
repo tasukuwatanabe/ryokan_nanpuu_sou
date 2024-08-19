@@ -16,3 +16,8 @@ a {
   color: initial;
   text-decoration: none;
 }
+
+input,
+select {
+  padding: 4px;
+}
