@@ -57,6 +57,7 @@ interface RoomSearchProps {
   handleMaxPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
   handleAdultNumChange: React.ChangeEventHandler<HTMLSelectElement>;
   handleChildNumChange: React.ChangeEventHandler<HTMLSelectElement>;
+  handleRoomSearch: () => void;
 }
 
 const RoomSearch = ({
@@ -68,6 +69,7 @@ const RoomSearch = ({
   handleChildNumChange,
   handleMinPriceChange,
   handleMaxPriceChange,
+  handleRoomSearch,
 }: RoomSearchProps) => {
   const adultNumOptions = [...Array(10).keys()].map((num) => {
     const numPlusOne = num + 1;
@@ -147,7 +149,7 @@ const RoomSearch = ({
       </div>
       <DIV_ButtonWrap>
         <Button text="条件をクリア" />
-        <Button text="部屋を検索" $primary />
+        <Button text="部屋を検索" $primary onClick={handleRoomSearch} />
       </DIV_ButtonWrap>
     </DIV_SearchCase>
   );

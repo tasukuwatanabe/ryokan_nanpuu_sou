@@ -29,27 +29,7 @@ const Index = () => {
   const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
 
-  useEffect(() => {
-    const filteredRooms = roomList.filter((roomItem) => {
-      // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
-      // if (roomItem.reservedDates.length > 0) {
-      //   const reservedDateInRange = roomItem.reservedDates.find(
-      //     (reservedDate) =>
-      //       checkInDate <= reservedDate && reservedDate <= checkOutDate
-      //   );
-
-      //   if (reservedDateInRange) return;
-      // }
-
-      if (roomItem.capacity < adultNum + childNum) return;
-      if (minPrice && roomItem.price < minPrice) return;
-      if (maxPrice && maxPrice < roomItem.price) return;
-
-      return true;
-    });
-
-    setFilteredRooms(filteredRooms);
-  }, [checkInDate, checkOutDate, adultNum, childNum, minPrice, maxPrice]);
+  useEffect(() => handleRoomSearch(), []);
 
   const handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement> = (
     e
@@ -89,6 +69,28 @@ const Index = () => {
     setMaxPrice(Number(e.target.value));
   };
 
+  const handleRoomSearch = () => {
+    const filteredRooms = roomList.filter((roomItem) => {
+      // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
+      // if (roomItem.reservedDates.length > 0) {
+      //   const reservedDateInRange = roomItem.reservedDates.find(
+      //     (reservedDate) =>
+      //       checkInDate <= reservedDate && reservedDate <= checkOutDate
+      //   );
+
+      //   if (reservedDateInRange) return;
+      // }
+
+      if (roomItem.capacity < adultNum + childNum) return;
+      if (minPrice && roomItem.price < minPrice) return;
+      if (maxPrice && maxPrice < roomItem.price) return;
+
+      return true;
+    });
+
+    setFilteredRooms(filteredRooms);
+  };
+
   return (
     <PageGrid>
       <aside>
@@ -101,6 +103,7 @@ const Index = () => {
           handleChildNumChange={handleChildNumChange}
           handleMinPriceChange={handleMinPriceChange}
           handleMaxPriceChange={handleMaxPriceChange}
+          handleRoomSearch={handleRoomSearch}
         />
       </aside>
       <main>

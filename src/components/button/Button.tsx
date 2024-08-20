@@ -37,15 +37,17 @@ interface ButtonProps {
   url?: string;
   color?: string;
   $primary?: boolean;
+  onClick?: () => void;
 }
 
-const Button = ({ text, url, color, $primary }: ButtonProps) => {
+const Button = ({ text, url, color, $primary, onClick }: ButtonProps) => {
   return (
     <Button_Button
       as={url ? "a" : "button"}
       href={url || undefined}
       color={color}
       $primary={$primary}
+      onClick={onClick}
     >
       <span>{text}</span>
       {$primary && <Chevron />}
