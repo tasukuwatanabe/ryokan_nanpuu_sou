@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { formatDateToJST } from "../utils";
+import Button from "./button/Button";
 
 const DIV_SearchCase = styled.div`
   padding: 15px;
@@ -33,6 +34,11 @@ const DIV_PriceWrap = styled(DIV_FlexStart)`
   grid-template-columns: 1fr 15px 1fr;
   align-items: center;
   column-gap: 7px;
+`;
+
+const DIV_ButtonWrap = styled(DIV_FlexStart)`
+  column-gap: 10px;
+  margin-top: 15px;
 `;
 
 const SPAN_SearchItemLabel = styled.span`
@@ -85,40 +91,36 @@ const RoomSearch = ({
 
   return (
     <DIV_SearchCase>
-      <div>
-        <DIV_DateWrap>
-          <div>
-            <SPAN_SearchItemLabel>チェックイン</SPAN_SearchItemLabel>
-            <input
-              type="date"
-              name="checkInDate"
-              value={formatDateToJST(checkInDate)}
-              onChange={handleCheckInDateChange}
-            />
-          </div>
-          <div>
-            <SPAN_SearchItemLabel>チェックアウト</SPAN_SearchItemLabel>
-            <input
-              type="date"
-              name="checkOutDate"
-              value={formatDateToJST(checkOutDate)}
-              onChange={handleCheckOutDateChange}
-            />
-          </div>
-        </DIV_DateWrap>
-      </div>
-      <div>
-        <DIV_GuestsWrap>
-          <div>
-            <SPAN_SearchItemLabel>大人人数</SPAN_SearchItemLabel>
-            <select onChange={handleAdultNumChange}>{adultNumOptions}</select>
-          </div>
-          <div>
-            <SPAN_SearchItemLabel>子供人数</SPAN_SearchItemLabel>
-            <select onChange={handleChildNumChange}>{childNumOptions}</select>
-          </div>
-        </DIV_GuestsWrap>
-      </div>
+      <DIV_DateWrap>
+        <div>
+          <SPAN_SearchItemLabel>チェックイン</SPAN_SearchItemLabel>
+          <input
+            type="date"
+            name="checkInDate"
+            value={formatDateToJST(checkInDate)}
+            onChange={handleCheckInDateChange}
+          />
+        </div>
+        <div>
+          <SPAN_SearchItemLabel>チェックアウト</SPAN_SearchItemLabel>
+          <input
+            type="date"
+            name="checkOutDate"
+            value={formatDateToJST(checkOutDate)}
+            onChange={handleCheckOutDateChange}
+          />
+        </div>
+      </DIV_DateWrap>
+      <DIV_GuestsWrap>
+        <div>
+          <SPAN_SearchItemLabel>大人人数</SPAN_SearchItemLabel>
+          <select onChange={handleAdultNumChange}>{adultNumOptions}</select>
+        </div>
+        <div>
+          <SPAN_SearchItemLabel>子供人数</SPAN_SearchItemLabel>
+          <select onChange={handleChildNumChange}>{childNumOptions}</select>
+        </div>
+      </DIV_GuestsWrap>
       <div>
         <SPAN_SearchItemLabel>予算</SPAN_SearchItemLabel>
         <DIV_PriceWrap>
@@ -143,6 +145,10 @@ const RoomSearch = ({
           </select>
         </DIV_PriceWrap>
       </div>
+      <DIV_ButtonWrap>
+        <Button text="条件をクリア" />
+        <Button text="部屋を検索" $primary />
+      </DIV_ButtonWrap>
     </DIV_SearchCase>
   );
 };

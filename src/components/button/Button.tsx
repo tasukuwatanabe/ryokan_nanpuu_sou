@@ -2,25 +2,26 @@ import styled from "styled-components";
 
 import Chevron from "../icon/Chevron";
 
-const Button_Button = styled.button`
+const Button_Button = styled.button<{ $primary?: boolean }>`
   width: 100%;
   height: 40px;
-  color: #fff;
-  background-color: ${(props) => props.color};
-  border: 1px solid ${(props) => props.color};
+  color: ${(props) => (props.$primary ? "#fff" : "#333")};
+  background-color: ${(props) => (props.$primary ? props.color : "#fafafa")};
+  border: 1px solid ${(props) => (props.$primary ? props.color : "#aaa")};
   text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 10px;
   transition-duration: 0.1s;
+  cursor: pointer;
 
   @media (any-hover: hover) {
     &:hover {
-      color: ${(props) => props.color};
-      background-color: #fff;
+      opacity: 0.6;
     }
   }
+
   svg {
     width: 10px;
     height: 10px;
@@ -33,14 +34,21 @@ Button_Button.defaultProps = {
 
 interface ButtonProps {
   text: string;
-  url: string;
+  url?: string;
+  color?: string;
+  $primary?: boolean;
 }
 
-const Button = ({ text, url }: ButtonProps) => {
+const Button = ({ text, url, color, $primary }: ButtonProps) => {
   return (
-    <Button_Button as="a" href={url}>
+    <Button_Button
+      as={url ? "a" : "button"}
+      href={url || undefined}
+      color={color}
+      $primary={$primary}
+    >
       <span>{text}</span>
-      <Chevron />
+      {$primary && <Chevron />}
     </Button_Button>
   );
 };
