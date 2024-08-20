@@ -51,6 +51,10 @@ const SPAN_SearchItemLabel = styled.span`
 interface RoomSearchProps {
   checkInDate: Date | "";
   checkOutDate: Date | "";
+  adultNum: number;
+  childNum: number;
+  minPrice: number;
+  maxPrice: number;
   handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement>;
   handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement>;
   handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
@@ -58,11 +62,16 @@ interface RoomSearchProps {
   handleAdultNumChange: React.ChangeEventHandler<HTMLSelectElement>;
   handleChildNumChange: React.ChangeEventHandler<HTMLSelectElement>;
   handleRoomSearch: () => void;
+  clearConditions: () => void;
 }
 
 const RoomSearch = ({
   checkInDate,
   checkOutDate,
+  adultNum,
+  childNum,
+  minPrice,
+  maxPrice,
   handleCheckInDateChange,
   handleCheckOutDateChange,
   handleAdultNumChange,
@@ -70,6 +79,7 @@ const RoomSearch = ({
   handleMinPriceChange,
   handleMaxPriceChange,
   handleRoomSearch,
+  clearConditions,
 }: RoomSearchProps) => {
   const adultNumOptions = [...Array(10).keys()].map((num) => {
     const numPlusOne = num + 1;
@@ -116,17 +126,21 @@ const RoomSearch = ({
       <DIV_GuestsWrap>
         <div>
           <SPAN_SearchItemLabel>大人人数</SPAN_SearchItemLabel>
-          <select onChange={handleAdultNumChange}>{adultNumOptions}</select>
+          <select value={adultNum} onChange={handleAdultNumChange}>
+            {adultNumOptions}
+          </select>
         </div>
         <div>
           <SPAN_SearchItemLabel>子供人数</SPAN_SearchItemLabel>
-          <select onChange={handleChildNumChange}>{childNumOptions}</select>
+          <select value={childNum} onChange={handleChildNumChange}>
+            {childNumOptions}
+          </select>
         </div>
       </DIV_GuestsWrap>
       <div>
         <SPAN_SearchItemLabel>予算</SPAN_SearchItemLabel>
         <DIV_PriceWrap>
-          <select onChange={handleMinPriceChange}>
+          <select value={minPrice} onChange={handleMinPriceChange}>
             <option value={0}>下限なし</option>
             <option value={5000}>5000円</option>
             <option value={10000}>10000円</option>
@@ -136,8 +150,8 @@ const RoomSearch = ({
             <option value={30000}>30000円</option>
           </select>
           <span>〜</span>
-          <select onChange={handleMaxPriceChange}>
-            <option value={undefined}>上限なし</option>
+          <select value={maxPrice} onChange={handleMaxPriceChange}>
+            <option value={0}>上限なし</option>
             <option value={5000}>5000円</option>
             <option value={10000}>10000円</option>
             <option value={15000}>15000円</option>
@@ -148,7 +162,7 @@ const RoomSearch = ({
         </DIV_PriceWrap>
       </div>
       <DIV_ButtonWrap>
-        <Button text="条件をクリア" />
+        <Button text="条件をクリア" onClick={clearConditions} />
         <Button text="部屋を検索" $primary onClick={handleRoomSearch} />
       </DIV_ButtonWrap>
     </DIV_SearchCase>

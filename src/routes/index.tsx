@@ -12,6 +12,9 @@ import {
   setHoursToMidnight,
 } from "../utils";
 
+const ADULT_MIN_COUNT = 1;
+const CHILD_MIN_COUNT = 0;
+
 const Index = () => {
   const tomorrow = addDaysToDate(new Date(), 1);
   const tomorrowAtMidnight = setHoursToMidnight(tomorrow);
@@ -24,10 +27,10 @@ const Index = () => {
   const [checkOutDate, setCheckOutDate] = useState<Date | "">(
     dayAfterTomorrowAtMidnight
   );
-  const [adultNum, setAdultNum] = useState<number>(1);
-  const [childNum, setChildNum] = useState<number>(0);
-  const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
-  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
+  const [adultNum, setAdultNum] = useState<number>(ADULT_MIN_COUNT);
+  const [childNum, setChildNum] = useState<number>(CHILD_MIN_COUNT);
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>(0);
 
   useEffect(() => handleRoomSearch(), []);
 
@@ -69,6 +72,15 @@ const Index = () => {
     setMaxPrice(Number(e.target.value));
   };
 
+  const clearConditions = () => {
+    setCheckInDate(tomorrowAtMidnight);
+    setCheckOutDate(dayAfterTomorrowAtMidnight);
+    setAdultNum(ADULT_MIN_COUNT);
+    setChildNum(CHILD_MIN_COUNT);
+    setMinPrice(0);
+    setMaxPrice(0);
+  };
+
   const handleRoomSearch = () => {
     const filteredRooms = roomList.filter((roomItem) => {
       // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
@@ -97,6 +109,10 @@ const Index = () => {
         <RoomSearch
           checkInDate={checkInDate}
           checkOutDate={checkOutDate}
+          adultNum={adultNum}
+          childNum={childNum}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
           handleCheckInDateChange={handleCheckInDateChange}
           handleCheckOutDateChange={handleCheckOutDateChange}
           handleAdultNumChange={handleAdultNumChange}
@@ -104,6 +120,7 @@ const Index = () => {
           handleMinPriceChange={handleMinPriceChange}
           handleMaxPriceChange={handleMaxPriceChange}
           handleRoomSearch={handleRoomSearch}
+          clearConditions={clearConditions}
         />
       </aside>
       <main>
