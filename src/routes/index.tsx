@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { type Room } from "../types";
-import { roomList } from "../consts";
+import { roomList, reservationList } from "../consts";
 import PageGrid from "../components/PageGrid";
 import RoomSearch from "../components/RoomSearch";
 import RoomIndex from "../components/RoomIndex";
@@ -81,21 +81,39 @@ const Index = () => {
     setMaxPrice(0);
   };
 
+  // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
+  const checkReservationWithinPeriod = (roomId: number): boolean => {
+    const roomReservations = reservationList.filter((reservation) => {
+      return reservation.roomId === roomId;
+    });
+
+    if (!roomReservations) return false;
+
+    const reservationsWithinPeriod = roomReservations.filter((reservation) => {
+      const reservedCheckInDateAtMidnight = setHoursToMidnight(
+        reservation.checkInDate
+      );
+      const reservedCheckOutDateAtMidnight = setHoursToMidnight(
+        reservation.checkOutDate
+      );
+
+      return !(
+        checkOutDate <= reservedCheckInDateAtMidnight ||
+        reservedCheckOutDateAtMidnight <= checkInDate
+      );
+    });
+
+    return reservationsWithinPeriod.length > 0;
+  };
+
   const handleRoomSearch = () => {
-    const filteredRooms = roomList.filter((roomItem) => {
-      // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
-      // if (roomItem.reservedDates.length > 0) {
-      //   const reservedDateInRange = roomItem.reservedDates.find(
-      //     (reservedDate) =>
-      //       checkInDate <= reservedDate && reservedDate <= checkOutDate
-      //   );
+    const filteredRooms = roomList.filter((room) => {
+      const reservedWithinPeriod = checkReservationWithinPeriod(room.id);
+      if (reservedWithinPeriod) return;
 
-      //   if (reservedDateInRange) return;
-      // }
-
-      if (roomItem.capacity < adultNum + childNum) return;
-      if (minPrice && roomItem.price < minPrice) return;
-      if (maxPrice && maxPrice < roomItem.price) return;
+      if (room.capacity < adultNum + childNum) return;
+      if (minPrice && room.price < minPrice) return;
+      if (maxPrice && maxPrice < room.price) return;
 
       return true;
     });
