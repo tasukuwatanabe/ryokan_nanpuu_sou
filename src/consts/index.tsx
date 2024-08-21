@@ -180,3 +180,126 @@ export const roomList = [
     capacity: 6,
   },
 ];
+
+export const reservationList = [
+  {
+    id: 1,
+    roomId: 1,
+    checkInDate: new Date("2024-09-07"),
+    checkOutDate: new Date("2024-09-09"),
+  },
+  {
+    id: 2,
+    roomId: 2,
+    checkInDate: new Date("2024-08-01"),
+    checkOutDate: new Date("2024-08-03"),
+  },
+  {
+    id: 3,
+    roomId: 3,
+    checkInDate: new Date("2024-09-02"),
+    checkOutDate: new Date("2024-09-03"),
+  },
+  {
+    id: 4,
+    roomId: 4,
+    checkInDate: new Date("2024-08-04"),
+    checkOutDate: new Date("2024-08-05"),
+  },
+  {
+    id: 5,
+    roomId: 5,
+    checkInDate: new Date("2024-09-10"),
+    checkOutDate: new Date("2024-09-12"),
+  },
+  {
+    id: 6,
+    roomId: 6,
+    checkInDate: new Date("2024-09-19"),
+    checkOutDate: new Date("2024-09-22"),
+  },
+  {
+    id: 7,
+    roomId: 7,
+    checkInDate: new Date("2024-08-13"),
+    checkOutDate: new Date("2024-08-14"),
+  },
+  {
+    id: 8,
+    roomId: 8,
+    checkInDate: new Date("2024-09-13"),
+    checkOutDate: new Date("2024-09-15"),
+  },
+  {
+    id: 9,
+    roomId: 9,
+    checkInDate: new Date("2024-08-25"),
+    checkOutDate: new Date("2024-08-28"),
+  },
+  {
+    id: 10,
+    roomId: 10,
+    checkInDate: new Date("2024-09-22"),
+    checkOutDate: new Date("2024-09-25"),
+  },
+  {
+    id: 11,
+    roomId: 11,
+    checkInDate: new Date("2024-09-17"),
+    checkOutDate: new Date("2024-09-20"),
+  },
+  {
+    id: 12,
+    roomId: 12,
+    checkInDate: new Date("2024-09-11"),
+    checkOutDate: new Date("2024-09-14"),
+  },
+  {
+    id: 13,
+    roomId: 13,
+    checkInDate: new Date("2024-09-20"),
+    checkOutDate: new Date("2024-09-21"),
+  },
+  {
+    id: 14,
+    roomId: 14,
+    checkInDate: new Date("2024-09-07"),
+    checkOutDate: new Date("2024-09-09"),
+  },
+  {
+    id: 15,
+    roomId: 15,
+    checkInDate: new Date("2024-08-04"),
+    checkOutDate: new Date("2024-08-05"),
+  },
+  {
+    id: 16,
+    roomId: 16,
+    checkInDate: new Date("2024-09-04"),
+    checkOutDate: new Date("2024-09-05"),
+  },
+  {
+    id: 17,
+    roomId: 17,
+    checkInDate: new Date("2024-08-19"),
+    checkOutDate: new Date("2024-08-21"),
+  },
+  {
+    id: 18,
+    roomId: 18,
+    checkInDate: new Date("2024-08-23"),
+    checkOutDate: new Date("2024-08-24"),
+  },
+  {
+    id: 19,
+    roomId: 19,
+    checkInDate: new Date("2024-08-12"),
+    checkOutDate: new Date("2024-08-15"),
+  },
+  {
+    id: 20,
+    roomId: 20,
+    checkInDate: new Date("2024-08-29"),
+    checkOutDate: new Date("2024-08-31"),
+  },
+];
