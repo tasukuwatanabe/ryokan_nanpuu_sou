@@ -9,7 +9,7 @@ export const parseDateStringToMidnight = (dateString: string): Date | "" => {
   return setHoursToMidnight(JSTInDate);
 };
 
-export const formatDateToJST = (date: Date | ""): string | "" => {
+export const formatDateToString = (date: Date | ""): string | "" => {
   if (!date) return "";
 
   const year = date.getFullYear();

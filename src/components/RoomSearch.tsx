@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { formatDateToJST } from "../utils";
+import { addDaysToDate, formatDateToString } from "../utils";
 import Button from "./button/Button";
 
 const DIV_SearchCase = styled.div`
@@ -81,6 +81,11 @@ const RoomSearch = ({
   handleRoomSearch,
   clearConditions,
 }: RoomSearchProps) => {
+  const calcDateFromToday = (additionalDays: number = 0): string => {
+    const targetDate = addDaysToDate(new Date(), additionalDays);
+    return formatDateToString(targetDate);
+  };
+
   const adultNumOptions = [...Array(10).keys()].map((num) => {
     const numPlusOne = num + 1;
     const numPlusOneWithUnit = `${numPlusOne}名`;
@@ -91,6 +96,7 @@ const RoomSearch = ({
       </option>
     );
   });
+
   const childNumOptions = [...Array(11).keys()].map((num) => {
     const numWithUnit = `${num}名`;
     return (
@@ -109,8 +115,9 @@ const RoomSearch = ({
           <input
             type="date"
             name="checkInDate"
-            value={formatDateToJST(checkInDate)}
+            value={formatDateToString(checkInDate)}
             onChange={handleCheckInDateChange}
+            min={calcDateFromToday(1)}
           />
         </div>
         <div>
@@ -118,8 +125,9 @@ const RoomSearch = ({
           <input
             type="date"
             name="checkOutDate"
-            value={formatDateToJST(checkOutDate)}
+            value={formatDateToString(checkOutDate)}
             onChange={handleCheckOutDateChange}
+            min={calcDateFromToday(2)}
           />
         </div>
       </DIV_DateWrap>
