@@ -10,4 +10,7 @@ export interface Room {
   price: number;
   description: string;
   image: string;
+  capacity: number;
 }
+
+export type SortType = "asc" | "desc";

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { type Room } from "../types";
+import type { Room, SortType } from "../types";
 import { roomList, reservationList } from "../consts";
 import PageGrid from "../components/PageGrid";
 import RoomSearch from "../components/RoomSearch";
@@ -14,6 +15,30 @@ import {
 
 const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;
+
+const UL_FilterList = styled.ul`
+  display: flex;
+  justify-content: flex-end;
+  list-style-type: none;
+  margin-bottom: 10px;
+`;
+
+const LI_FilterItem = styled.li`
+  font-size: 14px;
+  line-height: 1.2;
+  padding-inline: 10px;
+  border-left: 1px solid #f0f0f0;
+
+  &:last-of-type {
+    border-right: 1px solid #f0f0f0;
+  }
+
+  &:not(.active) {
+    color: #ad9b3c;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+`;
 
 const Index = () => {
   const tomorrow = addDaysToDate(new Date(), 1);
@@ -31,6 +56,7 @@ const Index = () => {
   const [childNum, setChildNum] = useState<number>(CHILD_MIN_COUNT);
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(0);
+  const [sortType, setSortType] = useState<SortType>("asc");
 
   useEffect(() => handleRoomSearch(), []);
 
@@ -106,8 +132,20 @@ const Index = () => {
     return reservationsWithinPeriod.length > 0;
   };
 
-  const handleRoomSearch = () => {
-    const filteredRooms = roomList.filter((room) => {
+  const sortRooms = (rooms: Room[], sortType: SortType = "asc"): Room[] => {
+    const sortedRooms = rooms.sort((a, b) => {
+      if (sortType === "asc") {
+        return a.price - b.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
+
+    return sortedRooms;
+  };
+
+  const filterRooms = (rooms: Room[]): Room[] => {
+    const filteredRooms = rooms.filter((room) => {
       const reservedWithinPeriod = checkReservationWithinPeriod(room.id);
       if (reservedWithinPeriod) return;
 
@@ -118,7 +156,21 @@ const Index = () => {
       return true;
     });
 
-    setFilteredRooms(filteredRooms);
+    return filteredRooms;
+  };
+
+  const handleRoomSearch = (sortType: SortType = "asc") => {
+    const filteredRooms = filterRooms(roomList);
+    const sortedRooms = sortRooms(filteredRooms, sortType);
+
+    setFilteredRooms(sortedRooms);
+  };
+
+  const handleSortChange = (sortType: SortType = "asc") => {
+    setSortType(sortType);
+    const sortedRooms = sortRooms(filteredRooms, sortType);
+
+    setFilteredRooms(sortedRooms);
   };
 
   return (
@@ -142,6 +194,20 @@ const Index = () => {
         />
       </aside>
       <main>
+        <UL_FilterList>
+          <LI_FilterItem
+            className={sortType === "asc" ? "active" : ""}
+            onClick={() => handleSortChange("asc")}
+          >
+            料金が安い順
+          </LI_FilterItem>
+          <LI_FilterItem
+            className={sortType === "desc" ? "active" : ""}
+            onClick={() => handleSortChange("desc")}
+          >
+            料金が高い順
+          </LI_FilterItem>
+        </UL_FilterList>
         <RoomIndex rooms={filteredRooms} />
       </main>
     </PageGrid>
