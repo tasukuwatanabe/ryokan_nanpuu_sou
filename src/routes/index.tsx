@@ -1,8 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 
-import type { Room, SortType } from "../types";
+import type { SortType } from "../types";
+import { reservationList, roomList } from "../consts";
 import PageGrid from "../components/PageGrid";
 import RoomSearch from "../components/RoomSearch";
 import RoomIndex from "../components/RoomIndex";
@@ -11,8 +13,6 @@ import {
   parseDateStringToMidnight,
   setHoursToMidnight,
 } from "../utils";
-import { useQuery } from "@tanstack/react-query";
-import { reservationList, roomList } from "../consts";
 
 const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;
@@ -41,6 +41,8 @@ const LI_FilterItem = styled.li`
   }
 `;
 
+const getRoomList = () => roomList;
+
 const Index = () => {
   const tomorrow = addDaysToDate(new Date(), 1);
   const tomorrowAtMidnight = setHoursToMidnight(tomorrow);
@@ -48,37 +50,46 @@ const Index = () => {
   const dayAfterTomorrow = addDaysToDate(new Date(), 2);
   const dayAfterTomorrowAtMidnight = setHoursToMidnight(dayAfterTomorrow);
 
-  const [checkInDate, setCheckInDate] = useState<Date | "">(tomorrowAtMidnight);
-  const [checkOutDate, setCheckOutDate] = useState<Date | "">(
-    dayAfterTomorrowAtMidnight
+  const initialState = {
+    checkInDate: tomorrowAtMidnight,
+    checkOutDate: dayAfterTomorrowAtMidnight,
+    adultNum: ADULT_MIN_COUNT,
+    childNum: CHILD_MIN_COUNT,
+    minPrice: 0,
+    maxPrice: 0,
+  };
+
+  const [checkInDate, setCheckInDate] = useState<Date>(
+    initialState.checkInDate
   );
-  const [adultNum, setAdultNum] = useState<number>(ADULT_MIN_COUNT);
-  const [childNum, setChildNum] = useState<number>(CHILD_MIN_COUNT);
-  const [minPrice, setMinPrice] = useState<number>(0);
-  const [maxPrice, setMaxPrice] = useState<number>(0);
+  const [checkOutDate, setCheckOutDate] = useState<Date>(
+    initialState.checkOutDate
+  );
+  const [adultNum, setAdultNum] = useState<number>(initialState.adultNum);
+  const [childNum, setChildNum] = useState<number>(initialState.childNum);
+  const [minPrice, setMinPrice] = useState<number>(initialState.minPrice);
+  const [maxPrice, setMaxPrice] = useState<number>(initialState.maxPrice);
   const [sortType, setSortType] = useState<SortType>("asc");
 
-  const { status, data } = useQuery({
+  const [filterOptions, setFilterOptions] = useState(initialState);
+
+  const { data, status } = useQuery({
     queryKey: ["rooms"],
-    queryFn: () => roomList,
+    queryFn: getRoomList,
   });
-
-  if (status !== "success") return;
-
-  let roomDisplayList: Room[] = [];
 
   const handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement> = (
     e
   ) => {
     const parsedCheckInDate = parseDateStringToMidnight(e.target.value);
-    setCheckInDate(parsedCheckInDate);
+    setCheckInDate(new Date(parsedCheckInDate));
   };
 
   const handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement> = (
     e
   ) => {
     const parsedCheckOutDate = parseDateStringToMidnight(e.target.value);
-    setCheckOutDate(parsedCheckOutDate);
+    setCheckOutDate(new Date(parsedCheckOutDate));
   };
 
   const handleAdultNumChange: React.ChangeEventHandler<HTMLSelectElement> = (
@@ -105,6 +116,9 @@ const Index = () => {
     setMaxPrice(Number(e.target.value));
   };
 
+  const handleSortChange = (sortType: SortType = "asc") =>
+    setSortType(sortType);
+
   const clearConditions = () => {
     setCheckInDate(tomorrowAtMidnight);
     setCheckOutDate(dayAfterTomorrowAtMidnight);
@@ -113,13 +127,6 @@ const Index = () => {
     setMinPrice(0);
     setMaxPrice(0);
   };
-
-  const sortRooms = (rooms: Room[] = [], sortType: SortType = "asc"): Room[] =>
-    rooms.sort((a, b) =>
-      sortType === "asc" ? a.price - b.price : b.price - a.price
-    );
-
-  roomDisplayList = sortRooms(data, sortType);
 
   // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
   const checkReservationWithinPeriod = (roomId: number): boolean => {
@@ -137,6 +144,8 @@ const Index = () => {
         reservation.checkOutDate
       );
 
+      const { checkInDate, checkOutDate } = filterOptions;
+
       return !(
         checkOutDate <= reservedCheckInDateAtMidnight ||
         reservedCheckOutDateAtMidnight <= checkInDate
@@ -146,10 +155,14 @@ const Index = () => {
     return reservationsWithinPeriod.length > 0;
   };
 
-  const filterRooms = (rooms: Room[] = []): Room[] => {
-    const filteredRooms = rooms.filter((room) => {
+  if (status !== "success") return;
+
+  const filterRooms = () =>
+    data!.filter((room) => {
       const reservedWithinPeriod = checkReservationWithinPeriod(room.id);
       if (reservedWithinPeriod) return;
+
+      const { adultNum, childNum, minPrice, maxPrice } = filterOptions;
 
       if (room.capacity < adultNum + childNum) return;
       if (minPrice && room.price < minPrice) return;
@@ -158,16 +171,27 @@ const Index = () => {
       return true;
     });
 
-    return filteredRooms;
+  const sortRooms = () => {
+    const filteredRooms = filterRooms();
+    const sortedRooms = filteredRooms.sort((a, b) =>
+      sortType === "asc" ? a.price - b.price : b.price - a.price
+    );
+
+    return sortedRooms;
   };
 
-  const handleRoomSearch = (sortType: SortType = "asc"): void => {
-    const filteredRooms = filterRooms(roomDisplayList);
-    roomDisplayList = sortRooms(filteredRooms, sortType);
-  };
+  const sortedRooms = sortRooms();
 
-  const handleSortChange = (sortType: SortType = "asc") =>
-    setSortType(sortType);
+  const handleRoomSearch = () => {
+    setFilterOptions({
+      checkInDate,
+      checkOutDate,
+      adultNum,
+      childNum,
+      minPrice,
+      maxPrice,
+    });
+  };
 
   return (
     <PageGrid>
@@ -204,7 +228,7 @@ const Index = () => {
             料金が高い順
           </LI_FilterItem>
         </UL_FilterList>
-        <RoomIndex rooms={roomDisplayList} />
+        <RoomIndex rooms={sortedRooms} />
       </main>
     </PageGrid>
   );
