@@ -1,7 +1,7 @@
 import styled from "styled-components";
+import { Link } from "@tanstack/react-router";
 
 import Container from "./Container";
-import { Link } from "@tanstack/react-router";
 
 const HEADER_Header = styled.header`
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
@@ -23,9 +23,6 @@ const UL_NavList = styled.ul`
   align-items: center;
   column-gap: 50px;
   list-style-type: none;
-  @media screen and (max-width: 1023px) {
-    display: none;
-  }
 `;
 
 const LINK_Logo = styled(Link)`

@@ -21,7 +21,7 @@ const UL_FilterList = styled.ul`
   display: flex;
   justify-content: flex-end;
   list-style-type: none;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 const LI_FilterItem = styled.li`

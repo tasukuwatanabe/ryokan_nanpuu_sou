@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ChildrenPropsType } from "../types";
 
 const DIV_Container = styled.div`
-  padding: 15px;
+  padding: 20px;
   margin: 0 auto;
   max-width: 1000px;
 `;

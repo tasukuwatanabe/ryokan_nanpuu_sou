@@ -3,9 +3,6 @@ import { type Room } from "../types";
 import styled from "styled-components";
 
 const A_Link = styled(Link)`
-  display: grid;
-  grid-template-columns: 250px auto;
-  height: 180px;
   border-radius: 7px;
   border: 1px solid #c1c1c1;
   overflow: hidden;
@@ -16,9 +13,15 @@ const A_Link = styled(Link)`
       opacity: 0.6;
     }
   }
+  @media screen and (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 250px auto;
+    height: 180px;
+  }
 `;
 
 const IMG_Image = styled.img`
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -27,6 +30,7 @@ const IMG_Image = styled.img`
 const DIV_TextCase = styled.div`
   display: flex;
   flex-direction: column;
+  row-gap: 10px;
   padding: 12px 12px;
 `;
 
