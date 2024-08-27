@@ -13,32 +13,13 @@ import {
   parseDateStringToMidnight,
   setHoursToMidnight,
 } from "../utils";
+import RoomSortFilter from "../components/RoomSortFilter";
 
 const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;
 
-const UL_FilterList = styled.ul`
-  display: flex;
-  justify-content: flex-end;
-  list-style-type: none;
-  margin-bottom: 15px;
-`;
-
-const LI_FilterItem = styled.li`
-  font-size: 14px;
-  line-height: 1.2;
-  padding-inline: 10px;
-  border-left: 1px solid #f0f0f0;
-
-  &:last-of-type {
-    border-right: 1px solid #f0f0f0;
-  }
-
-  &:not(.active) {
-    color: #ad9b3c;
-    cursor: pointer;
-    text-decoration: underline;
-  }
+const MAIN_Main = styled.main`
+  position: relative;
 `;
 
 const getRoomList = () => roomList;
@@ -69,7 +50,7 @@ const Index = () => {
   const [childNum, setChildNum] = useState<number>(initialState.childNum);
   const [minPrice, setMinPrice] = useState<number>(initialState.minPrice);
   const [maxPrice, setMaxPrice] = useState<number>(initialState.maxPrice);
-  const [sortType, setSortType] = useState<SortType>("asc");
+  const [sortType, setSortType] = useState<SortType>(1);
 
   const [filterOptions, setFilterOptions] = useState(initialState);
 
@@ -115,9 +96,6 @@ const Index = () => {
   ) => {
     setMaxPrice(Number(e.target.value));
   };
-
-  const handleSortChange = (sortType: SortType = "asc") =>
-    setSortType(sortType);
 
   const clearConditions = () => {
     setCheckInDate(tomorrowAtMidnight);
@@ -174,7 +152,7 @@ const Index = () => {
   const sortRooms = () => {
     const filteredRooms = filterRooms();
     const sortedRooms = filteredRooms.sort((a, b) =>
-      sortType === "asc" ? a.price - b.price : b.price - a.price
+      sortType === 1 ? a.price - b.price : b.price - a.price
     );
 
     return sortedRooms;
@@ -213,23 +191,10 @@ const Index = () => {
           clearConditions={clearConditions}
         />
       </aside>
-      <main>
-        <UL_FilterList>
-          <LI_FilterItem
-            className={sortType === "asc" ? "active" : ""}
-            onClick={() => handleSortChange("asc")}
-          >
-            料金が安い順
-          </LI_FilterItem>
-          <LI_FilterItem
-            className={sortType === "desc" ? "active" : ""}
-            onClick={() => handleSortChange("desc")}
-          >
-            料金が高い順
-          </LI_FilterItem>
-        </UL_FilterList>
+      <MAIN_Main>
+        <RoomSortFilter sortType={sortType} setSortType={setSortType} />
         <RoomIndex rooms={sortedRooms} />
-      </main>
+      </MAIN_Main>
     </PageGrid>
   );
 };

@@ -13,4 +13,4 @@ export interface Room {
   capacity: number;
 }
 
-export type SortType = "asc" | "desc";
+export type SortType = 1 | -1;
