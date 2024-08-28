@@ -2,9 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { db, collection, getDocs } from "../firebase";
 
 import type { SortType } from "../types";
-import { reservationList, roomList } from "../consts";
+import { reservationList } from "../consts";
 import PageGrid from "../components/PageGrid";
 import RoomSearch from "../components/RoomSearch";
 import RoomIndex from "../components/RoomIndex";
@@ -22,7 +23,13 @@ const MAIN_Main = styled.main`
   position: relative;
 `;
 
-const getRoomList = () => roomList;
+const getRooms = async () => {
+  const roomsCol = collection(db, "rooms");
+  const roomSnapshot = await getDocs(roomsCol);
+  const roomList = roomSnapshot.docs.map((doc) => doc.data());
+
+  return roomList;
+};
 
 const Index = () => {
   const tomorrow = addDaysToDate(new Date(), 1);
@@ -56,7 +63,7 @@ const Index = () => {
 
   const { data, status } = useQuery({
     queryKey: ["rooms"],
-    queryFn: getRoomList,
+    queryFn: getRooms,
   });
 
   const handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement> = (
