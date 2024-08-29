@@ -14,7 +14,7 @@ import {
   parseDateStringToMidnight,
   setHoursToMidnight,
 } from "../utils";
-import RoomSortFilter from "../components/RoomSortFilter";
+import RoomSort from "../components/RoomSort";
 
 const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;
@@ -199,7 +199,7 @@ const Index = () => {
         />
       </aside>
       <MAIN_Main>
-        <RoomSortFilter sortType={sortType} setSortType={setSortType} />
+        <RoomSort sortType={sortType} setSortType={setSortType} />
         <RoomIndex rooms={sortedRooms} />
       </MAIN_Main>
     </PageGrid>
