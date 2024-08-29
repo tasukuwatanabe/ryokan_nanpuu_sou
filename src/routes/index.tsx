@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { db, collection, getDocs } from "../firebase";
 
-import type { SortType } from "../types";
+import type { Room, SortType } from "../types";
 import { reservationList } from "../consts";
 import PageGrid from "../components/PageGrid";
 import RoomSearch from "../components/RoomSearch";
@@ -26,7 +26,7 @@ const MAIN_Main = styled.main`
 const getRooms = async () => {
   const roomsCol = collection(db, "rooms");
   const roomSnapshot = await getDocs(roomsCol);
-  const roomList = roomSnapshot.docs.map((doc) => doc.data());
+  const roomList = roomSnapshot.docs.map((doc) => doc.data() as Room);
 
   return roomList;
 };
