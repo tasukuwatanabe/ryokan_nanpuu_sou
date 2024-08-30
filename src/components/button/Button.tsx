@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Chevron from "../icon/Chevron";
 
-const Button_Button = styled.button<{ $primary?: boolean }>`
+const BUTTON_Button = styled.button<{ $primary?: boolean }>`
   width: 100%;
   height: 40px;
   color: ${(props) => (props.$primary ? "#fff" : "#333")};
@@ -28,30 +28,42 @@ const Button_Button = styled.button<{ $primary?: boolean }>`
   }
 `;
 
-Button_Button.defaultProps = {
+BUTTON_Button.defaultProps = {
   color: "#ad9b3c",
 };
 
 interface ButtonProps {
+  className?: string;
   text: string;
   url?: string;
+  type?: "button" | "submit" | "reset";
   color?: string;
   $primary?: boolean;
   onClick?: () => void;
 }
 
-const Button = ({ text, url, color, $primary, onClick }: ButtonProps) => {
+const Button = ({
+  className,
+  text,
+  url,
+  type = "button",
+  color,
+  $primary,
+  onClick,
+}: ButtonProps) => {
   return (
-    <Button_Button
+    <BUTTON_Button
+      className={className}
       as={url ? "a" : "button"}
       href={url || undefined}
       color={color}
+      type={type}
       $primary={$primary}
       onClick={onClick}
     >
       <span>{text}</span>
       {$primary && <Chevron />}
-    </Button_Button>
+    </BUTTON_Button>
   );
 };
 
