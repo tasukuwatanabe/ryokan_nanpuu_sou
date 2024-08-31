@@ -4,11 +4,9 @@ import styled from "styled-components";
 import RegisterForm from "../components/RegisterForm";
 
 const DIV_RegisterPageWrapper = styled.div`
-  width: 100%;
-  max-height: 500px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 const Register = () => {

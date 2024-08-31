@@ -4,11 +4,9 @@ import styled from "styled-components";
 import LoginForm from "../components/LoginForm";
 
 const DIV_LoginPageWrapper = styled.div`
-  width: 100%;
-  max-height: 500px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 const Login = () => {
