@@ -36,7 +36,7 @@ const BUTTON_Button = styled(Button)`
   margin-bottom: 15px;
 `;
 
-const P_GuideToRegister = styled.p`
+const P_GuideToLogin = styled.p`
   font-size: 14px;
 
   a {
@@ -45,9 +45,10 @@ const P_GuideToRegister = styled.p`
   }
 `;
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const handleFormSubmit = async (e: any) => {
     e.preventDefault();
@@ -85,16 +86,24 @@ const LoginForm = () => {
               onChange={(e: any) => setPassword(e.target.value)}
             />
           </DIV_FormGroup>
+          <DIV_FormGroup>
+            <label htmlFor="password">パスワード（確認用）</label>
+            <input
+              type="password"
+              value={passwordConfirmation}
+              onChange={(e: any) => setPasswordConfirmation(e.target.value)}
+            />
+          </DIV_FormGroup>
         </DIV_FormFieldWrap>
-        <BUTTON_Button type="submit" text="ログイン" $primary={true} />
+        <BUTTON_Button type="submit" text="新規登録" $primary={true} />
       </FORM_Form>
       <div>
-        <P_GuideToRegister>
-          アカウントをお持ちでない方は<Link to="/register">新規登録</Link>
-        </P_GuideToRegister>
+        <P_GuideToLogin>
+          すでにアカウントをお持ちの方は<Link to="/login">ログイン</Link>
+        </P_GuideToLogin>
       </div>
     </DIV_AuthBox>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import styled from "styled-components";
 
 const DIV_Content = styled.div`
+  display: flex;
   flex-grow: 1;
   padding-block: 20px;
   @media screen and (min-width: 768px) {

@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router";
-import { type Room } from "../types";
 import styled from "styled-components";
+import { Link } from "@tanstack/react-router";
+
+import type { Room } from "../types";
 
 const A_Link = styled(Link)`
   border-radius: 7px;
