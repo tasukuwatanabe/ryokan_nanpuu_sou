@@ -86,7 +86,9 @@ const LoginForm = () => {
             />
           </DIV_FormGroup>
         </DIV_FormFieldWrap>
-        <BUTTON_Button type="submit" text="ログイン" $primary={true} />
+        <BUTTON_Button type="submit" primary={true}>
+          ログイン
+        </BUTTON_Button>
       </FORM_Form>
       <div>
         <P_GuideToRegister>

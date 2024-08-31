@@ -173,8 +173,10 @@ const RoomSearch = ({
         </DIV_PriceWrap>
       </div>
       <DIV_ButtonWrap>
-        <Button text="条件をクリア" onClick={clearConditions} />
-        <Button text="部屋を検索" $primary onClick={handleRoomSearch} />
+        <Button onClick={clearConditions}>条件をクリア</Button>
+        <Button onClick={handleRoomSearch} primary={true}>
+          部屋を検索
+        </Button>
       </DIV_ButtonWrap>
     </DIV_SearchCase>
   );

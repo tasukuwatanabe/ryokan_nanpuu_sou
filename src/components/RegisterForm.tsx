@@ -95,7 +95,9 @@ const RegisterForm = () => {
             />
           </DIV_FormGroup>
         </DIV_FormFieldWrap>
-        <BUTTON_Button type="submit" text="新規登録" $primary={true} />
+        <BUTTON_Button type="submit" primary={true}>
+          新規登録
+        </BUTTON_Button>
       </FORM_Form>
       <div>
         <P_GuideToLogin>

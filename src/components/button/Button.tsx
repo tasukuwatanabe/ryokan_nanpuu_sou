@@ -1,13 +1,49 @@
 import styled from "styled-components";
 
-import Chevron from "../icon/Chevron";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
-const BUTTON_Button = styled.button<{ $primary?: boolean }>`
+type ButtonProps = ComponentPropsWithoutRef<"button"> & {
+  href?: never;
+  primary?: boolean;
+  children: ReactNode;
+  onClick?: () => void;
+};
+
+type LinkProps = ComponentPropsWithoutRef<"a"> & {
+  href: string;
+  primary?: boolean;
+  children: ReactNode;
+  onClick?: never;
+};
+
+const isLinkProps = (props: ButtonProps | LinkProps): props is LinkProps =>
+  "href" in props;
+
+const Button = (props: ButtonProps | LinkProps) => {
+  if (isLinkProps(props)) {
+    const { children, primary, ...otherProps } = props;
+    return (
+      <a {...otherProps}>
+        <span>{children}</span>
+      </a>
+    );
+  }
+
+  const { children, type = "button", primary, ...otherProps } = props;
+  return (
+    <button type={type} {...otherProps}>
+      <span>{children}</span>
+    </button>
+  );
+};
+
+const StyledButton = styled(Button)`
+  color: ${(props) => (props.primary ? "#fff" : "#333")};
+  background-color: ${(props) => (props.primary ? "#ad9b3c" : "#fafafa")};
+  border: 1px solid ${(props) => (props.primary ? "#ad9b3c" : "#aaa")};
+
   width: 100%;
   height: 40px;
-  color: ${(props) => (props.$primary ? "#fff" : "#333")};
-  background-color: ${(props) => (props.$primary ? props.color : "#fafafa")};
-  border: 1px solid ${(props) => (props.$primary ? props.color : "#aaa")};
   text-decoration: none;
   display: flex;
   justify-content: center;
@@ -21,50 +57,6 @@ const BUTTON_Button = styled.button<{ $primary?: boolean }>`
       opacity: 0.6;
     }
   }
-
-  svg {
-    width: 10px;
-    height: 10px;
-  }
 `;
 
-BUTTON_Button.defaultProps = {
-  color: "#ad9b3c",
-};
-
-interface ButtonProps {
-  className?: string;
-  text: string;
-  url?: string;
-  type?: "button" | "submit" | "reset";
-  color?: string;
-  $primary?: boolean;
-  onClick?: () => void;
-}
-
-const Button = ({
-  className,
-  text,
-  url,
-  type = "button",
-  color,
-  $primary,
-  onClick,
-}: ButtonProps) => {
-  return (
-    <BUTTON_Button
-      className={className}
-      as={url ? "a" : "button"}
-      href={url || undefined}
-      color={color}
-      type={type}
-      $primary={$primary}
-      onClick={onClick}
-    >
-      <span>{text}</span>
-      {$primary && <Chevron />}
-    </BUTTON_Button>
-  );
-};
-
-export default Button;
+export default StyledButton;
