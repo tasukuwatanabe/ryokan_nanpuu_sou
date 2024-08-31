@@ -8,6 +8,7 @@ const HEADER_Header = styled.header`
 `;
 
 const DIV_HeaderInner = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
