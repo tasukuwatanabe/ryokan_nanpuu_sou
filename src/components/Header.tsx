@@ -29,7 +29,7 @@ const Header = () => {
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full hover:cursor-pointer outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="rounded-full"
                 >
                   <CircleUser className="h-5 w-5" />
                   <span className="sr-only">Toggle user menu</span>
