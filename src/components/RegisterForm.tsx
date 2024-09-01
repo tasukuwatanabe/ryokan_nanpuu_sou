@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 import Button from "./button/Button";
-import { useAuth } from "../contexts/Auth";
+import { useAuth } from "../contexts/authContext";
 import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
 
 const DIV_AuthBox = styled.div`

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "@tanstack/react-router";
 
-import { useAuth } from "../contexts/Auth";
+import { useAuth } from "../contexts/authContext";
 import Container from "./Container";
 import { doSignOut } from "../firebase/auth";
 

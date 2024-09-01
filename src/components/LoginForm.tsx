@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { doSignInWithEmailAndPassword } from "../firebase/auth";
 import Button from "./button/Button";
-import { useAuth } from "../contexts/Auth";
+import { useAuth } from "../contexts/authContext";
 
 const DIV_AuthBox = styled.div`
   width: 100%;
