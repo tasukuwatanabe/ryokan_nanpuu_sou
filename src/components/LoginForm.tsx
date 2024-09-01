@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from "react";
+import { type ChangeEvent, type FormEvent, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import styled from "styled-components";
 
@@ -49,7 +49,7 @@ const P_GuideToRegister = styled.p`
 
 const LoginForm = () => {
   const { userLoggedIn } = useAuth();
-  const navigate = useNavigate({ from: "/login" });
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -80,17 +80,22 @@ const LoginForm = () => {
             <label htmlFor="email">メールアドレス</label>
             <input
               type="email"
-              name="email"
+              id="email"
               value={email}
-              onChange={(e: any) => setEmail(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
             />
           </DIV_FormGroup>
           <DIV_FormGroup>
             <label htmlFor="password">パスワード</label>
             <input
               type="password"
+              id="password"
               value={password}
-              onChange={(e: any) => setPassword(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
             />
           </DIV_FormGroup>
         </DIV_FormFieldWrap>
