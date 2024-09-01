@@ -2,9 +2,9 @@ import { type ChangeEvent, type FormEvent, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "@tanstack/react-router";
 
-import { useAuth } from "../contexts/authContext";
-import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
-import { Button } from "./ui/button";
+import { useAuth } from "@/contexts/authContext";
+import { doCreateUserWithEmailAndPassword } from "@/firebase/auth";
+import { Button } from "@/components/ui/button";
 
 const DIV_AuthBox = styled.div`
   width: 100%;

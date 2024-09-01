@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { ReactNode } from "@tanstack/react-router";
 
-import { auth } from "../firebase/firebase";
+import { auth } from "@/firebase/firebase";
 
 interface IAuthContext {
   currentUser: User | null | undefined;

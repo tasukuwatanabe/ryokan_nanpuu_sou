@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
+import { ReactNode } from "@tanstack/react-router";
 import styled from "styled-components";
 
-import { SortType } from "../types";
-import { ReactNode } from "@tanstack/react-router";
+import { SortType } from "@/types";
 
 const UL_SortList = styled.ul`
   display: flex;

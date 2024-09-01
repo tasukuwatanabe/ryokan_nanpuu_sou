@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import type { Room } from "../types";
-import RoomCard from "../components/RoomCard";
+import type { Room } from "@/types";
+import RoomCard from "@/components/RoomCard";
 
 const DIV_RoomList = styled.div`
   display: flex;

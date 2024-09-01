@@ -1,9 +1,9 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-import Wrapper from "../components/Wrapper";
-import Container from "../components/Container";
-import Header from "../components/Header";
+import Wrapper from "@/components/Wrapper";
+import Container from "@/components/Container";
+import Header from "@/components/Header";
 import styled from "styled-components";
 
 const DIV_Content = styled.div`

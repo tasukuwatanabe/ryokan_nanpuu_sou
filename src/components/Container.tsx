@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ChildrenPropsType } from "../types";
+import { ChildrenPropsType } from "@/types";
 
 const DIV_Container = styled.div`
   padding: 20px;

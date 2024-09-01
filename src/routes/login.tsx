@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import styled from "styled-components";
 
-import LoginForm from "../components/LoginForm";
+import LoginForm from "@/components/LoginForm";
 
 const DIV_LoginPageWrapper = styled.div`
   margin-top: 50px;

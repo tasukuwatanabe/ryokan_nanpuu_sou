@@ -3,18 +3,18 @@ import styled from "styled-components";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
-import { db, collection, getDocs } from "../firebase/firebase";
-import type { Room, SortType } from "../types";
-import { reservationList } from "../consts";
-import PageGrid from "../components/PageGrid";
-import RoomSearch from "../components/RoomSearch";
-import RoomIndex from "../components/RoomIndex";
+import { db, collection, getDocs } from "@/firebase/firebase";
+import type { Room, SortType } from "@/types";
+import { reservationList } from "@/consts";
+import PageGrid from "@/components/PageGrid";
+import RoomSearch from "@/components/RoomSearch";
+import RoomIndex from "@/components/RoomIndex";
 import {
   addDaysToDate,
   parseDateStringToMidnight,
   setHoursToMidnight,
-} from "../utils";
-import RoomSort from "../components/RoomSort";
+} from "@/utils";
+import RoomSort from "@/components/RoomSort";
 
 const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;

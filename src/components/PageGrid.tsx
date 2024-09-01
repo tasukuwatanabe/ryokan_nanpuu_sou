@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { ChildrenPropsType } from "../types";
+import { ChildrenPropsType } from "@/types";
 
 const DIV_PageGrid = styled.div`
   width: 100%;

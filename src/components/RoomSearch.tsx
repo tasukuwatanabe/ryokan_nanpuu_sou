@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import { addDaysToDate, formatDateToString } from "../utils";
-import { Button } from "./ui/button";
+import { addDaysToDate, formatDateToString } from "@/utils";
+import { Button } from "@/components/ui/button";
 
 const DIV_SearchCase = styled.div`
   padding: 15px;

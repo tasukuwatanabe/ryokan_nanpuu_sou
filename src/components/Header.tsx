@@ -1,15 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { CircleUser } from "lucide-react";
 
-import { doSignOut } from "../firebase/auth";
+import { doSignOut } from "@/firebase/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { useAuth } from "../contexts/authContext";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const { currentUser } = useAuth();
