@@ -48,7 +48,7 @@ const SPAN_SignOut = styled.span`
 `;
 
 const Header = () => {
-  const { currentUser, userLoggedIn } = useAuth();
+  const { currentUser } = useAuth();
 
   return (
     <HEADER_Header>
@@ -60,9 +60,9 @@ const Header = () => {
           <nav>
             <UL_NavList>
               <li>
-                {userLoggedIn && currentUser ? (
+                {currentUser?.email ? (
                   <p>
-                    currentUser.email [
+                    {currentUser.email} [
                     <SPAN_SignOut onClick={doSignOut}>ログアウト</SPAN_SignOut>]
                   </p>
                 ) : (
