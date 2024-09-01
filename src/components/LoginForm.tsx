@@ -54,7 +54,7 @@ const LoginForm = () => {
     try {
       await doSignInWithGoogle();
 
-      navigate({ to: "/" });
+      window.location.pathname = "/";
     } catch (error) {
       console.log(error);
     }
