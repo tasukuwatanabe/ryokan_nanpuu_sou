@@ -51,7 +51,6 @@ const DIV_TextBottom = styled.div`
 
 const P_Name = styled.p`
   font-size: 20px;
-  font-family: "Sawarabi Mincho", serif;
   font-weight: 700;
 `;
 

@@ -31,7 +31,6 @@ const LINK_Logo = styled(Link)`
   text-decoration: none;
   color: #333;
   font-size: 22px;
-  font-family: "Sawarabi Mincho", serif;
   font-weight: 700;
 `;
 
