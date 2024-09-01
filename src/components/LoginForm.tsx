@@ -50,7 +50,7 @@ const LoginForm = () => {
     }
   };
 
-  const handleSignInWithGoogle = async (e: any) => {
+  const handleSignInWithGoogle = async () => {
     try {
       await doSignInWithGoogle();
 
