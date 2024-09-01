@@ -4,7 +4,6 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import Wrapper from "../components/Wrapper";
 import Container from "../components/Container";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import styled from "styled-components";
 
 const DIV_Content = styled.div`
@@ -25,7 +24,6 @@ export const Route = createRootRoute({
           <TanStackRouterDevtools />
         </Container>
       </DIV_Content>
-      <Footer />
     </Wrapper>
   ),
 });
