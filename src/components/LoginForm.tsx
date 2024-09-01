@@ -3,8 +3,8 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import styled from "styled-components";
 
 import { doSignInWithEmailAndPassword } from "../firebase/auth";
-import Button from "./button/Button";
 import { useAuth } from "../contexts/authContext";
+import { Button } from "./ui/button";
 
 const DIV_AuthBox = styled.div`
   width: 100%;
@@ -32,10 +32,6 @@ const DIV_FormGroup = styled.div`
   input {
     height: 40px;
   }
-`;
-
-const BUTTON_Button = styled(Button)`
-  margin-bottom: 15px;
 `;
 
 const P_GuideToRegister = styled.p`
@@ -99,9 +95,12 @@ const LoginForm = () => {
             />
           </DIV_FormGroup>
         </DIV_FormFieldWrap>
-        <BUTTON_Button type="submit" primary={true}>
+        <Button
+          type="submit"
+          className="bg-sky-500 hover:bg-sky-400 w-full mb-4"
+        >
           ログイン
-        </BUTTON_Button>
+        </Button>
       </form>
       <div>
         <P_GuideToRegister>
