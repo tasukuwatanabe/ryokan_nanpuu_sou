@@ -1,9 +1,7 @@
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
 import styled from "styled-components";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "@tanstack/react-router";
 
-import { auth } from "../firebase";
 import Button from "./button/Button";
 
 const DIV_AuthBox = styled.div`
@@ -50,19 +48,8 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  const handleFormSubmit = async (e: any) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    try {
-      const credential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(credential);
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (

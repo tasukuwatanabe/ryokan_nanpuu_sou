@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
+import { Link, Navigate, useNavigate } from "@tanstack/react-router";
 import styled from "styled-components";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link } from "@tanstack/react-router";
 
-import { auth } from "../firebase";
+import { doSignInWithEmailAndPassword } from "../firebase/auth";
 import Button from "./button/Button";
+import { useAuth } from "../contexts/Auth";
 
 const DIV_AuthBox = styled.div`
   width: 100%;
@@ -46,21 +46,26 @@ const P_GuideToRegister = styled.p`
 `;
 
 const LoginForm = () => {
+  const { userLoggedIn } = useAuth();
+  const navigate = useNavigate({ from: "/login" });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleFormSubmit = async (e: any) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const credential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(credential);
-    } catch (error) {
-      console.error(error);
+    if (!userLoggedIn) {
+      try {
+        await doSignInWithEmailAndPassword(email, password);
+
+        setEmail("");
+        setPassword("");
+
+        navigate({ to: "/" });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

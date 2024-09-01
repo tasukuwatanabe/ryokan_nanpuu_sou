@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { Link } from "@tanstack/react-router";
 
+import { useAuth } from "../contexts/Auth";
 import Container from "./Container";
+import { doSignOut } from "../firebase/auth";
 
 const HEADER_Header = styled.header`
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
@@ -39,7 +41,15 @@ const LINK_NavLink = styled(Link)`
   font-size: 16px;
 `;
 
+const SPAN_SignOut = styled.span`
+  text-decoration: underline;
+  font-size: 13px;
+  cursor: pointer;
+`;
+
 const Header = () => {
+  const { currentUser, userLoggedIn } = useAuth();
+
   return (
     <HEADER_Header>
       <Container>
@@ -50,7 +60,14 @@ const Header = () => {
           <nav>
             <UL_NavList>
               <li>
-                <LINK_NavLink to="/login">ログイン</LINK_NavLink>
+                {userLoggedIn && currentUser ? (
+                  <p>
+                    currentUser.email [
+                    <SPAN_SignOut onClick={doSignOut}>ログアウト</SPAN_SignOut>]
+                  </p>
+                ) : (
+                  <LINK_NavLink to="/login">ログイン</LINK_NavLink>
+                )}
               </li>
             </UL_NavList>
           </nav>

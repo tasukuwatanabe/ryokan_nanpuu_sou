@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
-import { db, collection, getDocs } from "../firebase";
+import { db, collection, getDocs } from "../firebase/firebase";
 import type { Room, SortType } from "../types";
 import { reservationList } from "../consts";
 import PageGrid from "../components/PageGrid";
