@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { addDaysToDate, formatDateToString } from "../utils";
-import Button from "./button/Button";
+import { Button } from "./ui/button";
 
 const DIV_SearchCase = styled.div`
   padding: 15px;
@@ -173,8 +173,13 @@ const RoomSearch = ({
         </DIV_PriceWrap>
       </div>
       <DIV_ButtonWrap>
-        <Button onClick={clearConditions}>条件をクリア</Button>
-        <Button onClick={handleRoomSearch} primary={true}>
+        <Button onClick={clearConditions} variant="outline">
+          条件をクリア
+        </Button>
+        <Button
+          onClick={handleRoomSearch}
+          className="bg-sky-500 hover:bg-sky-400"
+        >
           部屋を検索
         </Button>
       </DIV_ButtonWrap>
