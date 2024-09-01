@@ -9,11 +9,13 @@ import { useAuth } from "../contexts/Auth";
 const DIV_AuthBox = styled.div`
   width: 100%;
   max-width: 400px;
-  padding: 40px 25px;
+  padding: 30px 25px 40px;
   border: 1px solid #c0c0c0;
 `;
 
-const FORM_Form = styled.form``;
+const H2_Heading = styled.h2`
+  margin-bottom: 30px;
+`;
 
 const DIV_FormFieldWrap = styled.div`
   display: flex;
@@ -71,7 +73,8 @@ const LoginForm = () => {
 
   return (
     <DIV_AuthBox>
-      <FORM_Form onSubmit={handleFormSubmit}>
+      <H2_Heading>ログイン</H2_Heading>
+      <form onSubmit={handleFormSubmit}>
         <DIV_FormFieldWrap>
           <DIV_FormGroup>
             <label htmlFor="email">メールアドレス</label>
@@ -94,7 +97,7 @@ const LoginForm = () => {
         <BUTTON_Button type="submit" primary={true}>
           ログイン
         </BUTTON_Button>
-      </FORM_Form>
+      </form>
       <div>
         <P_GuideToRegister>
           アカウントをお持ちでない方は<Link to="/register">新規登録</Link>

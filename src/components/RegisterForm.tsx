@@ -1,17 +1,21 @@
 import { type FormEvent, useState } from "react";
 import styled from "styled-components";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 import Button from "./button/Button";
+import { useAuth } from "../contexts/Auth";
+import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
 
 const DIV_AuthBox = styled.div`
   width: 100%;
   max-width: 400px;
-  padding: 40px 25px;
+  padding: 30px 25px 40px;
   border: 1px solid #c0c0c0;
 `;
 
-const FORM_Form = styled.form``;
+const H2_Heading = styled.h2`
+  margin-bottom: 30px;
+`;
 
 const DIV_FormFieldWrap = styled.div`
   display: flex;
@@ -44,17 +48,33 @@ const P_GuideToLogin = styled.p`
 `;
 
 const RegisterForm = () => {
+  const { userLoggedIn } = useAuth();
+  const navigate = useNavigate({ from: "/register" });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!userLoggedIn) {
+      try {
+        await doCreateUserWithEmailAndPassword(email, password);
+
+        setEmail("");
+        setPassword("");
+
+        navigate({ to: "/" });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
     <DIV_AuthBox>
-      <FORM_Form onSubmit={handleFormSubmit}>
+      <H2_Heading>新規登録</H2_Heading>
+      <form onSubmit={handleFormSubmit}>
         <DIV_FormFieldWrap>
           <DIV_FormGroup>
             <label htmlFor="email">メールアドレス</label>
@@ -73,19 +93,11 @@ const RegisterForm = () => {
               onChange={(e: any) => setPassword(e.target.value)}
             />
           </DIV_FormGroup>
-          <DIV_FormGroup>
-            <label htmlFor="password">パスワード（確認用）</label>
-            <input
-              type="password"
-              value={passwordConfirmation}
-              onChange={(e: any) => setPasswordConfirmation(e.target.value)}
-            />
-          </DIV_FormGroup>
         </DIV_FormFieldWrap>
         <BUTTON_Button type="submit" primary={true}>
           新規登録
         </BUTTON_Button>
-      </FORM_Form>
+      </form>
       <div>
         <P_GuideToLogin>
           すでにアカウントをお持ちの方は<Link to="/login">ログイン</Link>
