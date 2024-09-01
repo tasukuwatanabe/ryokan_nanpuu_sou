@@ -1,5 +1,5 @@
 import { type FormEvent, useState } from "react";
-import { Link, Navigate, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import styled from "styled-components";
 
 import { doSignInWithEmailAndPassword } from "../firebase/auth";
