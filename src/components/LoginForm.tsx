@@ -135,7 +135,6 @@ const LoginForm = () => {
       </CardContent>
     </Card>
   );
-  // );
 };
 
 export default LoginForm;

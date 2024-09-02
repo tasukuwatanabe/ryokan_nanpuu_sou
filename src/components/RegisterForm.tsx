@@ -1,64 +1,47 @@
-import { type ChangeEvent, type FormEvent, useState } from "react";
-import styled from "styled-components";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
+import {
+  doCreateUserWithEmailAndPassword,
+  doSignInWithGoogle,
+} from "@/firebase/auth";
 import { useAuth } from "@/contexts/authContext";
-import { doCreateUserWithEmailAndPassword } from "@/firebase/auth";
+
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
-const DIV_AuthBox = styled.div`
-  width: 100%;
-  max-width: 400px;
-  padding: 30px 25px 40px;
-  border: 1px solid #c0c0c0;
-`;
-
-const H2_Heading = styled.h2`
-  margin-bottom: 30px;
-`;
-
-const DIV_FormFieldWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-  margin-bottom: 40px;
-`;
-
-const DIV_FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-
-  input {
-    height: 40px;
-  }
-`;
-
-const P_GuideToLogin = styled.p`
-  font-size: 14px;
-
-  a {
-    padding-left: 3px;
-    text-decoration: underline;
-  }
-`;
+const formSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+});
 
 const RegisterForm = () => {
   const { userLoggedIn } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (!userLoggedIn) {
       try {
-        await doCreateUserWithEmailAndPassword(email, password);
-
-        setEmail("");
-        setPassword("");
+        await doCreateUserWithEmailAndPassword(values.email, values.password);
 
         navigate({ to: "/" });
       } catch (error) {
@@ -67,47 +50,82 @@ const RegisterForm = () => {
     }
   };
 
+  const handleSignInWithGoogle = async () => {
+    try {
+      await doSignInWithGoogle();
+
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <DIV_AuthBox>
-      <H2_Heading>新規登録</H2_Heading>
-      <form onSubmit={handleFormSubmit}>
-        <DIV_FormFieldWrap>
-          <DIV_FormGroup>
-            <label htmlFor="email">メールアドレス</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
-            />
-          </DIV_FormGroup>
-          <DIV_FormGroup>
-            <label htmlFor="password">パスワード</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
-            />
-          </DIV_FormGroup>
-        </DIV_FormFieldWrap>
-        <Button
-          type="submit"
-          className="bg-sky-500 hover:bg-sky-400 w-full mb-4"
-        >
-          新規登録
-        </Button>
-      </form>
-      <div>
-        <P_GuideToLogin>
-          すでにアカウントをお持ちの方は<Link to="/login">ログイン</Link>
-        </P_GuideToLogin>
-      </div>
-    </DIV_AuthBox>
+    <Card className="w-full mx-auto max-w-md">
+      <CardHeader>
+        <CardTitle className="text-2xl">新規登録</CardTitle>
+      </CardHeader>
+      <CardContent className="grid gap-8">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-8">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>メールアドレス</FormLabel>
+                      <FormControl>
+                        <Input placeholder="hello@email.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid gap-2">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>パスワード</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <div className="grid gap-4">
+              <Button
+                type="submit"
+                className="w-full bg-sky-500 hover:bg-sky-400"
+              >
+                新規登録
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleSignInWithGoogle}
+                className="w-full"
+              >
+                Googleで新規登録
+              </Button>
+            </div>
+            <div className="text-center text-sm">
+              アカウントをお持ちの方は{" "}
+              <Link to="/register" className="underline">
+                ログイン
+              </Link>
+            </div>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };
 
