@@ -48,9 +48,14 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link to="/login" className="">
-              ログイン
-            </Link>
+            <div className="flex gap-10">
+              <Link to="/login" className="text-sm">
+                ログイン
+              </Link>
+              <Link to="/register" className="text-sm">
+                新規登録
+              </Link>
+            </div>
           )}
         </div>
       </div>
