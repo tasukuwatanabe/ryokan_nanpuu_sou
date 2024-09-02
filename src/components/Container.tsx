@@ -1,14 +1,7 @@
-import styled from "styled-components";
 import { ChildrenPropsType } from "@/types";
 
-const DIV_Container = styled.div`
-  padding: 20px;
-  margin: 0 auto;
-  max-width: 1000px;
-`;
-
 const Container = ({ children }: ChildrenPropsType) => {
-  return <DIV_Container>{children}</DIV_Container>;
+  return <div className="p-5 mx-auto max-w-[1000px]">{children}</div>;
 };
 
 export default Container;
