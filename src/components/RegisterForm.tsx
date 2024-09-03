@@ -22,8 +22,10 @@ import {
 } from "@/components/ui/form";
 
 const formSchema = z.object({
-  email: z.string(),
-  password: z.string(),
+  email: z
+    .string()
+    .email({ message: "メールアドレスの形式が正しくありません。" }),
+  password: z.string().min(6, "パスワードは6文字以上で入力してください。"),
 });
 
 const RegisterForm = () => {
