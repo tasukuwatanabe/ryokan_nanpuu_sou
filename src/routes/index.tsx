@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styled from "styled-components";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,10 +17,6 @@ import RoomSort from "@/components/RoomSort";
 
 const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;
-
-const MAIN_Main = styled.main`
-  position: relative;
-`;
 
 const getRooms = async () => {
   const roomsCol = collection(db, "rooms");
@@ -198,10 +193,10 @@ const Index = () => {
           clearConditions={clearConditions}
         />
       </aside>
-      <MAIN_Main>
+      <div className="relative">
         <RoomSort sortType={sortType} setSortType={setSortType} />
         <RoomIndex rooms={sortedRooms} />
-      </MAIN_Main>
+      </div>
     </PageGrid>
   );
 };

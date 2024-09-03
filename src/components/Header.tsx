@@ -48,7 +48,7 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <div className="flex gap-10">
+            <div className="flex gap-x-4 md:gap-x-10">
               <Link to="/login" className="text-sm">
                 ログイン
               </Link>

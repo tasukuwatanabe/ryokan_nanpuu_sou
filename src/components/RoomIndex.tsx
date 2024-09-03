@@ -1,21 +1,13 @@
-import styled from "styled-components";
-
 import type { Room } from "@/types";
 import RoomCard from "@/components/RoomCard";
 
-const DIV_RoomList = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-`;
-
 const RoomIndex = ({ rooms }: { rooms: Room[] }) => {
   return rooms.length > 0 ? (
-    <DIV_RoomList>
+    <div className="flex flex-col gap-y-5">
       {rooms.map((room: Room) => (
         <RoomCard key={`${room.id}-${room.name}`} room={room} />
       ))}
-    </DIV_RoomList>
+    </div>
   ) : (
     <p>お部屋が見つかりませんでした。</p>
   );
