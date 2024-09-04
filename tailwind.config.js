@@ -52,6 +52,7 @@ export default {
         },
       },
       gridTemplateColumns: {
+        cardGrid: "250px auto",
         pageGrid: "300px auto",
       },
     },
