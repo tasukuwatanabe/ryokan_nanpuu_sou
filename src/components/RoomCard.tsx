@@ -26,7 +26,7 @@ const RoomCard = ({ room }: RoomProps) => {
           <p className="text-lg font-bold">{name}</p>
           <p className="text-sm text-gray-500">{description}</p>
         </div>
-        <div className="flex justify-end align-bottom gap-x-7">
+        <div className="flex justify-end gap-x-7">
           <span className="text-xs">
             大人1人あたり：<span className="text-xl mr-1">{price}</span>円
           </span>
