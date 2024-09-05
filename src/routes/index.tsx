@@ -6,7 +6,8 @@ import { db, collection, getDocs } from "@/firebase/firebase";
 import type { Room, SortType } from "@/types";
 import { reservationList } from "@/consts";
 import PageGrid from "@/components/PageGrid";
-import RoomSearch from "@/components/RoomSearch";
+// import RoomSearch from "@/components/RoomSearch";
+import RoomSearchNew from "@/components/RoomSearchNew";
 import RoomIndex from "@/components/RoomIndex";
 import {
   addDaysToDate,
@@ -176,7 +177,7 @@ const Index = () => {
   return (
     <PageGrid>
       <aside>
-        <RoomSearch
+        <RoomSearchNew
           checkInDate={checkInDate}
           checkOutDate={checkOutDate}
           adultNum={adultNum}
