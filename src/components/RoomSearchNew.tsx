@@ -1,7 +1,10 @@
-import { addDaysToDate, formatDateToString } from "@/utils";
+import React from "react";
+import { format } from "date-fns";
+import { type SelectSingleEventHandler } from "react-day-picker";
+
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -10,20 +13,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { calcDateFromToday } from "@/utils";
 
 interface RoomSearchProps {
-  checkInDate: Date | "";
-  checkOutDate: Date | "";
-  adultNum: number;
-  childNum: number;
-  minPrice: number;
-  maxPrice: number;
-  handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement>;
-  handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement>;
-  handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
-  handleMaxPriceChange: React.ChangeEventHandler<HTMLSelectElement>;
-  handleAdultNumChange: React.ChangeEventHandler<HTMLSelectElement>;
-  handleChildNumChange: React.ChangeEventHandler<HTMLSelectElement>;
+  checkInDate: Date;
+  checkOutDate: Date;
+  adultNum: string;
+  childNum: string;
+  minPrice: string;
+  maxPrice: string;
+  handleCheckInDateChange: SelectSingleEventHandler;
+  handleCheckOutDateChange: SelectSingleEventHandler;
+  setAdultNum: React.Dispatch<React.SetStateAction<string>>;
+  setChildNum: React.Dispatch<React.SetStateAction<string>>;
+  setMinPrice: React.Dispatch<React.SetStateAction<string>>;
+  setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
   handleRoomSearch: () => void;
   clearConditions: () => void;
 }
@@ -37,35 +48,48 @@ const RoomSearchNew = ({
   maxPrice,
   handleCheckInDateChange,
   handleCheckOutDateChange,
-  handleAdultNumChange,
-  handleChildNumChange,
-  handleMinPriceChange,
-  handleMaxPriceChange,
+  setAdultNum,
+  setChildNum,
+  setMinPrice,
+  setMaxPrice,
   handleRoomSearch,
   clearConditions,
 }: RoomSearchProps) => {
-  const calcDateFromToday = (additionalDays: number = 0): string => {
-    const targetDate = addDaysToDate(new Date(), additionalDays);
-    return formatDateToString(targetDate);
-  };
+  const arrayFromOneToTen = [...Array(10).keys()].map((num) => num + 1);
 
-  const adultNumOptions = [...Array(10).keys()].map((num) => {
-    const numPlusOne = num + 1;
-    const numPlusOneWithUnit = `${numPlusOne}名`;
-    return (
-      <SelectItem value={String(numPlusOne)} key={numPlusOneWithUnit}>
-        {numPlusOneWithUnit}
-        {numPlusOne === 10 ? "〜" : ""}
-      </SelectItem>
-    );
-  });
-
-  const childNumOptions = [...Array(11).keys()].map((num) => {
+  const guestNumOptions = arrayFromOneToTen.map((num) => {
     const numWithUnit = `${num}名`;
+
     return (
       <SelectItem value={String(num)} key={numWithUnit}>
         {numWithUnit}
         {num === 10 ? "〜" : ""}
+      </SelectItem>
+    );
+  });
+
+  const minPriceOptions = arrayFromOneToTen.map((num) => {
+    if (num === 0) return;
+
+    const price = num * 10000;
+    const priceWithUnit = `${price}円`;
+
+    return (
+      <SelectItem value={String(price)} key={priceWithUnit}>
+        {priceWithUnit}
+      </SelectItem>
+    );
+  });
+
+  const maxPriceOptions = arrayFromOneToTen.map((num) => {
+    if (num === 0) return;
+
+    const price = num * 10000;
+    const priceWithUnit = `${price}円`;
+
+    return (
+      <SelectItem value={String(price)} key={priceWithUnit}>
+        {priceWithUnit}
       </SelectItem>
     );
   });
@@ -78,13 +102,69 @@ const RoomSearchNew = ({
             <Label htmlFor="checkInDate" className="text-xs font-bold">
               チェックイン
             </Label>
-            <Input id="checkInDate" type="number" placeholder="0.4" />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "px-3 block",
+                    !checkInDate && "text-muted-foreground"
+                  )}
+                >
+                  <div className="flex items-center font-normal">
+                    {checkInDate ? (
+                      format(checkInDate, "yyyy/MM/dd")
+                    ) : (
+                      <span>日付を選択</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4" />
+                  </div>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={checkInDate}
+                  onSelect={handleCheckInDateChange}
+                  fromDate={calcDateFromToday(1)}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
           <div className="grid gap-1">
             <Label htmlFor="checkOutDate" className="text-xs font-bold">
               チェックアウト
             </Label>
-            <Input id="checkOutDate" type="number" placeholder="0.4" />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "px-3 block",
+                    !checkInDate && "text-muted-foreground"
+                  )}
+                >
+                  <div className="flex items-center font-normal">
+                    {checkOutDate ? (
+                      format(checkOutDate, "yyyy/MM/dd")
+                    ) : (
+                      <span>日付を選択</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4" />
+                  </div>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={checkOutDate}
+                  onSelect={handleCheckOutDateChange}
+                  fromDate={calcDateFromToday(2)}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-3">
@@ -92,12 +172,16 @@ const RoomSearchNew = ({
             <Label htmlFor="adultNum" className="text-xs font-bold">
               大人人数
             </Label>
-            <Select>
-              <SelectTrigger id="adultNum" className="">
-                <SelectValue placeholder="人数を選択" />
+            <Select
+              value={adultNum}
+              defaultValue="1"
+              onValueChange={setAdultNum}
+            >
+              <SelectTrigger id="adultNum">
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>{adultNumOptions}</SelectGroup>
+                <SelectGroup>{guestNumOptions}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -105,12 +189,19 @@ const RoomSearchNew = ({
             <Label htmlFor="childNum" className="text-xs font-bold">
               子供人数
             </Label>
-            <Select>
-              <SelectTrigger id="childNum" className="">
-                <SelectValue placeholder="人数を選択" />
+            <Select
+              value={childNum}
+              defaultValue="0"
+              onValueChange={setChildNum}
+            >
+              <SelectTrigger id="childNum">
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>{childNumOptions}</SelectGroup>
+                <SelectGroup>
+                  <SelectItem value="0">0名</SelectItem>
+                  {guestNumOptions}
+                </SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -120,13 +211,33 @@ const RoomSearchNew = ({
             <Label htmlFor="minPrice" className="text-xs font-bold">
               下限料金
             </Label>
-            <Input id="minPrice" type="number" placeholder="0" />
+            <Select value={minPrice} onValueChange={setMinPrice}>
+              <SelectTrigger id="minPrice">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="0">下限なし</SelectItem>
+                  {minPriceOptions}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className="grid gap-1">
             <Label htmlFor="maxPrice" className="text-xs font-bold">
               上限料金
             </Label>
-            <Input id="maxPrice" type="number" placeholder="100000" />
+            <Select value={maxPrice} onValueChange={setMaxPrice}>
+              <SelectTrigger id="minPrice">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="0">上限なし</SelectItem>
+                  {maxPriceOptions}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-3 mt-2">

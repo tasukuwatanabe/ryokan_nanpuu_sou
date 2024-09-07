@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { SelectSingleEventHandler } from "react-day-picker";
 
 import { db, collection, getDocs } from "@/firebase/firebase";
 import type { Room, SortType } from "@/types";
 import { reservationList } from "@/consts";
 import PageGrid from "@/components/PageGrid";
-// import RoomSearch from "@/components/RoomSearch";
 import RoomSearchNew from "@/components/RoomSearchNew";
 import RoomIndex from "@/components/RoomIndex";
 import {
   addDaysToDate,
+  formatDateToString,
   parseDateStringToMidnight,
   setHoursToMidnight,
 } from "@/utils";
@@ -37,10 +38,10 @@ const Index = () => {
   const initialState = {
     checkInDate: tomorrowAtMidnight,
     checkOutDate: dayAfterTomorrowAtMidnight,
-    adultNum: ADULT_MIN_COUNT,
-    childNum: CHILD_MIN_COUNT,
-    minPrice: 0,
-    maxPrice: 0,
+    adultNum: String(ADULT_MIN_COUNT),
+    childNum: String(CHILD_MIN_COUNT),
+    minPrice: String(0),
+    maxPrice: String(0),
   };
 
   const [checkInDate, setCheckInDate] = useState<Date>(
@@ -49,10 +50,10 @@ const Index = () => {
   const [checkOutDate, setCheckOutDate] = useState<Date>(
     initialState.checkOutDate
   );
-  const [adultNum, setAdultNum] = useState<number>(initialState.adultNum);
-  const [childNum, setChildNum] = useState<number>(initialState.childNum);
-  const [minPrice, setMinPrice] = useState<number>(initialState.minPrice);
-  const [maxPrice, setMaxPrice] = useState<number>(initialState.maxPrice);
+  const [adultNum, setAdultNum] = useState<string>(initialState.adultNum);
+  const [childNum, setChildNum] = useState<string>(initialState.childNum);
+  const [minPrice, setMinPrice] = useState<string>(initialState.minPrice);
+  const [maxPrice, setMaxPrice] = useState<string>(initialState.maxPrice);
   const [sortType, setSortType] = useState<SortType>(1);
 
   const [filterOptions, setFilterOptions] = useState(initialState);
@@ -62,51 +63,31 @@ const Index = () => {
     queryFn: getRooms,
   });
 
-  const handleCheckInDateChange: React.ChangeEventHandler<HTMLInputElement> = (
-    e
-  ) => {
-    const parsedCheckInDate = parseDateStringToMidnight(e.target.value);
+  const handleCheckInDateChange: SelectSingleEventHandler = (day) => {
+    if (!day) return;
+
+    const parsedCheckInDate = parseDateStringToMidnight(
+      formatDateToString(day)
+    );
     setCheckInDate(new Date(parsedCheckInDate));
   };
 
-  const handleCheckOutDateChange: React.ChangeEventHandler<HTMLInputElement> = (
-    e
-  ) => {
-    const parsedCheckOutDate = parseDateStringToMidnight(e.target.value);
+  const handleCheckOutDateChange: SelectSingleEventHandler = (day) => {
+    if (!day) return;
+
+    const parsedCheckOutDate = parseDateStringToMidnight(
+      formatDateToString(day)
+    );
     setCheckOutDate(new Date(parsedCheckOutDate));
-  };
-
-  const handleAdultNumChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
-    setAdultNum(Number(e.target.value));
-  };
-
-  const handleChildNumChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
-    setChildNum(Number(e.target.value));
-  };
-
-  const handleMinPriceChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
-    setMinPrice(Number(e.target.value));
-  };
-
-  const handleMaxPriceChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
-    setMaxPrice(Number(e.target.value));
   };
 
   const clearConditions = () => {
     setCheckInDate(tomorrowAtMidnight);
-    setCheckOutDate(dayAfterTomorrowAtMidnight);
-    setAdultNum(ADULT_MIN_COUNT);
-    setChildNum(CHILD_MIN_COUNT);
-    setMinPrice(0);
-    setMaxPrice(0);
+    setCheckOutDate(new Date(dayAfterTomorrowAtMidnight));
+    setAdultNum(initialState.adultNum);
+    setChildNum(initialState.childNum);
+    setMinPrice(initialState.minPrice);
+    setMaxPrice(initialState.maxPrice);
   };
 
   // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
@@ -145,9 +126,14 @@ const Index = () => {
 
       const { adultNum, childNum, minPrice, maxPrice } = filterOptions;
 
-      if (room.capacity < adultNum + childNum) return;
-      if (minPrice && room.price < minPrice) return;
-      if (maxPrice && maxPrice < room.price) return;
+      const adultNumNumber = Number(adultNum);
+      const childNumNumber = Number(childNum);
+      const minPriceNumber = Number(minPrice);
+      const maxPriceNumber = Number(maxPrice);
+
+      if (room.capacity < adultNumNumber + childNumNumber) return;
+      if (minPriceNumber !== 0 && room.price < minPriceNumber) return;
+      if (maxPriceNumber !== 0 && maxPriceNumber < room.price) return;
 
       return true;
     });
@@ -186,10 +172,10 @@ const Index = () => {
           maxPrice={maxPrice}
           handleCheckInDateChange={handleCheckInDateChange}
           handleCheckOutDateChange={handleCheckOutDateChange}
-          handleAdultNumChange={handleAdultNumChange}
-          handleChildNumChange={handleChildNumChange}
-          handleMinPriceChange={handleMinPriceChange}
-          handleMaxPriceChange={handleMaxPriceChange}
+          setAdultNum={setAdultNum}
+          setChildNum={setChildNum}
+          setMinPrice={setMinPrice}
+          setMaxPrice={setMaxPrice}
           handleRoomSearch={handleRoomSearch}
           clearConditions={clearConditions}
         />

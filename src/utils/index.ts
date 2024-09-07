@@ -25,3 +25,7 @@ export const addDaysToDate = (
 ): Date => {
   return new Date(date.setDate(date.getDate() + days));
 };
+
+export const calcDateFromToday = (additionalDays: number = 0): Date => {
+  return addDaysToDate(new Date(), additionalDays);
+};
