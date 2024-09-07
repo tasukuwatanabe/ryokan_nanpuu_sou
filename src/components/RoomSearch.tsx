@@ -69,8 +69,6 @@ const RoomSearchNew = ({
   });
 
   const minPriceOptions = arrayFromOneToTen.map((num) => {
-    if (num === 0) return;
-
     const price = num * 10000;
     const priceWithUnit = `${price}円`;
 
@@ -82,8 +80,6 @@ const RoomSearchNew = ({
   });
 
   const maxPriceOptions = arrayFromOneToTen.map((num) => {
-    if (num === 0) return;
-
     const price = num * 10000;
     const priceWithUnit = `${price}円`;
 
