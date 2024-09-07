@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
-import { calcDateFromToday } from "@/utils";
+import { calcDateFromToday } from "@/utils/date";
 
 interface RoomSearchProps {
   checkInDate: Date;

@@ -14,7 +14,7 @@ import {
   formatDateToString,
   parseDateStringToMidnight,
   setHoursToMidnight,
-} from "@/utils";
+} from "@/utils/date";
 import RoomSort from "@/components/RoomSort";
 
 const ADULT_MIN_COUNT = 1;
