@@ -3,30 +3,22 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { SelectSingleEventHandler } from "react-day-picker";
 
-import { db, collection, getDocs } from "@/firebase/firebase";
 import type { Room, SortType } from "@/types";
 import { reservationList } from "@/consts";
-import PageGrid from "@/components/PageGrid";
-import RoomSearch from "@/components/RoomSearch";
-import RoomIndex from "@/components/RoomIndex";
 import {
   addDaysToDate,
   formatDateToString,
   parseDateStringToMidnight,
   setHoursToMidnight,
 } from "@/utils/date";
+import { getRooms } from "@/api/room";
+import PageGrid from "@/components/PageGrid";
+import RoomSearch from "@/components/RoomSearch";
+import RoomIndex from "@/components/RoomIndex";
 import RoomSort from "@/components/RoomSort";
 
 const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;
-
-const getRooms = async () => {
-  const roomsCol = collection(db, "rooms");
-  const roomSnapshot = await getDocs(roomsCol);
-  const roomList = roomSnapshot.docs.map((doc) => doc.data() as Room);
-
-  return roomList;
-};
 
 const Index = () => {
   const tomorrow = addDaysToDate(new Date(), 1);
@@ -91,9 +83,9 @@ const Index = () => {
   };
 
   // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
-  const checkReservationWithinPeriod = (roomId: number): boolean => {
+  const checkReservationWithinPeriod = (roomId: string): boolean => {
     const roomReservations = reservationList.filter((reservation) => {
-      return reservation.roomId === roomId;
+      return reservation.roomId === Number(roomId);
     });
 
     if (!roomReservations) return false;

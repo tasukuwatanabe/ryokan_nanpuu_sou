@@ -7,12 +7,14 @@ interface RoomProps {
 }
 
 const RoomCard = ({ room }: RoomProps) => {
-  const { name, price, description, image } = room;
+  console.log(room);
+  const { id, name, price, description, image } = room;
 
   return (
     <Link
-      to={`/rooms/${room.id}`}
+      to="/rooms/$roomId"
       className="height-[180px] rounded-sm overflow-hidden border border-gray-300 md:grid md:grid-cols-cardGrid duration-200 hover:opacity-60"
+      params={{ roomId: id }}
     >
       <div>
         <img
