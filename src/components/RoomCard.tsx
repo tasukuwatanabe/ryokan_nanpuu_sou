@@ -7,7 +7,6 @@ interface RoomProps {
 }
 
 const RoomCard = ({ room }: RoomProps) => {
-  console.log(room);
   const { id, name, price, description, image } = room;
 
   return (
