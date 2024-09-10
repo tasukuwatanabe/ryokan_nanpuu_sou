@@ -1,71 +1,13 @@
-import {
-  createFileRoute,
-  Link,
-  notFound,
-  useNavigate,
-} from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+
 import { getRoomById } from "@/api/room";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useAuth } from "@/contexts/authContext";
-import {
-  doSignInWithEmailAndPassword,
-  doSignInWithGoogle,
-} from "@/firebase/auth";
-
-const formSchema = z.object({
-  email: z
-    .string()
-    .email({ message: "メールアドレスの形式が正しくありません。" }),
-  password: z.string().min(6, "パスワードは6文字以上で入力してください。"),
-});
+import LoginForm from "@/components/LoginForm";
+import { Button } from "@/components/ui/button";
 
 const Room = () => {
   const { userLoggedIn } = useAuth();
   const { room } = Route.useLoaderData();
-  const navigate = useNavigate();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (!userLoggedIn) {
-      try {
-        await doSignInWithEmailAndPassword(values.email, values.password);
-
-        navigate({ to: "/" });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const handleSignInWithGoogle = async () => {
-    try {
-      await doSignInWithGoogle();
-
-      window.location.href = "/";
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div>
@@ -116,81 +58,26 @@ const Room = () => {
               </div>
             </div>
           </div>
-          <hr className="my-6" />
-          <div>
-            <h2 className="text-2xl mb-6">
-              予約するにはログインまたは登録してください
-            </h2>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="grid gap-8"
-              >
-                <div className="grid gap-4">
-                  <div className="grid gap-2">
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>メールアドレス</FormLabel>
-                          <FormControl>
-                            <Input placeholder="hello@email.com" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <FormField
-                      control={form.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>パスワード</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div className="">
-                      <Link
-                        to="/"
-                        className="ml-auto inline-block text-sm underline"
-                      >
-                        パスワードを忘れた場合
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="grid gap-4">
-                  <Button
-                    type="submit"
-                    className="w-full bg-sky-500 hover:bg-sky-400"
-                  >
-                    ログイン
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleSignInWithGoogle}
-                    className="w-full"
-                  >
-                    Googleでログイン
-                  </Button>
-                </div>
-                <div className="text-center text-sm">
-                  アカウントをお持ちでない方は{" "}
-                  <Link to="/register" className="underline">
-                    新規登録
-                  </Link>
-                </div>
-              </form>
-            </Form>
-          </div>
+
+          {userLoggedIn ? (
+            <>
+              <hr className="my-6" />
+              <div>
+                <h2 className="text-2xl mb-6">
+                  予約するにはログインまたは登録してください
+                </h2>
+                <LoginForm />
+              </div>
+            </>
+          ) : (
+            <Button
+              type="submit"
+              size="xl"
+              className="w-full bg-sky-500 hover:bg-sky-400 mt-10 text-md"
+            >
+              この内容で予約する
+            </Button>
+          )}
         </div>
       </div>
     </div>

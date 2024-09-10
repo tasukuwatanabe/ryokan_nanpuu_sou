@@ -111,7 +111,7 @@ const RegisterForm = () => {
         </div>
         <div className="text-center text-sm">
           アカウントをお持ちの方は{" "}
-          <Link to="/register" className="underline">
+          <Link to="/login" className="underline">
             ログイン
           </Link>
         </div>
