@@ -54,6 +54,8 @@ export default {
       gridTemplateColumns: {
         cardGrid: "250px auto",
         pageGrid: "300px auto",
+        roomPageGrid: "400px auto",
+        roomPageCardGrid: "100px auto",
         searchGrid: "repeat(2, 130px)",
         searchPriceGrid: "1fr 15px 1fr",
       },
