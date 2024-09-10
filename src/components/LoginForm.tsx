@@ -67,7 +67,7 @@ const LoginForm = () => {
       <CardHeader>
         <CardTitle className="text-2xl">ログイン</CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-8">
+      <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-8">
             <div className="grid gap-4">
