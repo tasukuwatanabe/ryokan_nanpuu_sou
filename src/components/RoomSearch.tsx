@@ -92,7 +92,7 @@ const RoomSearchNew = ({
 
   return (
     <div className="grid w-full items-start gap-6 overflow-auto">
-      <div className="grid gap-6 rounded-lg border px-4 pt-6 pb-5">
+      <div className="grid gap-6 rounded-sm border px-4 pt-6 pb-5">
         <div className="grid grid-cols-2 gap-x-3">
           <div className="grid gap-1">
             <Label htmlFor="checkInDate" className="text-xs font-bold">
@@ -103,7 +103,7 @@ const RoomSearchNew = ({
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "px-3 block",
+                    "px-3 block rounded-sm",
                     !checkInDate && "text-muted-foreground"
                   )}
                 >
@@ -137,7 +137,7 @@ const RoomSearchNew = ({
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "px-3 block",
+                    "px-3 block rounded-sm",
                     !checkInDate && "text-muted-foreground"
                   )}
                 >
@@ -173,7 +173,7 @@ const RoomSearchNew = ({
               defaultValue="1"
               onValueChange={setAdultNum}
             >
-              <SelectTrigger id="adultNum">
+              <SelectTrigger id="adultNum" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -190,7 +190,7 @@ const RoomSearchNew = ({
               defaultValue="0"
               onValueChange={setChildNum}
             >
-              <SelectTrigger id="childNum">
+              <SelectTrigger id="childNum" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -208,7 +208,7 @@ const RoomSearchNew = ({
               下限料金
             </Label>
             <Select value={minPrice} onValueChange={setMinPrice}>
-              <SelectTrigger id="minPrice">
+              <SelectTrigger id="minPrice" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -224,7 +224,7 @@ const RoomSearchNew = ({
               上限料金
             </Label>
             <Select value={maxPrice} onValueChange={setMaxPrice}>
-              <SelectTrigger id="minPrice">
+              <SelectTrigger id="minPrice" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -237,12 +237,16 @@ const RoomSearchNew = ({
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-3 mt-2">
-          <Button onClick={clearConditions} variant="outline">
+          <Button
+            onClick={clearConditions}
+            variant="outline"
+            className="rounded-sm"
+          >
             条件をクリア
           </Button>
           <Button
             onClick={handleRoomSearch}
-            className="bg-sky-500 hover:bg-sky-400"
+            className="bg-sky-500 hover:bg-sky-400 rounded-sm"
           >
             部屋を検索
           </Button>
