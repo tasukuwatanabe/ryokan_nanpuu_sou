@@ -60,6 +60,14 @@ const Room = () => {
           </div>
 
           {userLoggedIn ? (
+            <Button
+              type="submit"
+              size="xl"
+              className="w-full bg-sky-500 hover:bg-sky-400 mt-10 text-md"
+            >
+              この内容で予約する
+            </Button>
+          ) : (
             <>
               <hr className="my-6" />
               <div>
@@ -69,14 +77,6 @@ const Room = () => {
                 <LoginForm />
               </div>
             </>
-          ) : (
-            <Button
-              type="submit"
-              size="xl"
-              className="w-full bg-sky-500 hover:bg-sky-400 mt-10 text-md"
-            >
-              この内容で予約する
-            </Button>
           )}
         </div>
       </div>
