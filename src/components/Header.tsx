@@ -18,7 +18,7 @@ const Header = () => {
     <header className="sticky top-0 border-b bg-background">
       <div className="max-w-[1000px] flex h-16 justify-between items-center m-auto px-6">
         <nav className="flex-col gap-6 text-lg font-medium">
-          <Link to="/" className="text-xl font-semibold">
+          <Link to="/" className="text-xl">
             南風荘
           </Link>
         </nav>
@@ -36,8 +36,10 @@ const Header = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="hover:cursor-pointer">
-                  <Link to="/mypage">マイページ</Link>
+                <DropdownMenuItem className="block hover:cursor-pointer">
+                  <Link to="/mypage" className="block">
+                    マイページ
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={doSignOut}

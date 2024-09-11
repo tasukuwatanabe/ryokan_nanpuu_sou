@@ -9,7 +9,7 @@ export const Route = createRootRoute({
   component: () => (
     <Wrapper>
       <Header />
-      <div className="flex-grow py-4 md:py-12">
+      <div className="flex-grow py-4 md:py-20">
         <Container>
           <Outlet />
           <TanStackRouterDevtools />
