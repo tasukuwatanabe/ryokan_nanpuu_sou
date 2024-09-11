@@ -32,11 +32,6 @@ const Room = () => {
           </div>
         </div>
         <div>
-          <div>
-            <h2 className="text-2xl mb-2">{room.name}</h2>
-            <p>{room.description}</p>
-          </div>
-          <hr className="my-6" />
           <div className="grid gap-y-7">
             <div className="grid gap-y-2">
               <p className="text-gray-500">宿泊日</p>
