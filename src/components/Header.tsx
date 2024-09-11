@@ -37,7 +37,7 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem className="hover:cursor-pointer">
-                  マイページ
+                  <Link to="/mypage">マイページ</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={doSignOut}
