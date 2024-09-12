@@ -12,7 +12,7 @@ import { useAuth } from "../contexts/authContext";
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
-  const { currentUser } = useAuth();
+  const { userLoggedIn } = useAuth();
 
   return (
     <header className="sticky top-0 border-b bg-background">
@@ -23,7 +23,7 @@ const Header = () => {
           </Link>
         </nav>
         <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-          {currentUser?.email ? (
+          {userLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

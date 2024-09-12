@@ -4,7 +4,7 @@ import { ReactNode } from "@tanstack/react-router";
 
 import { auth } from "@/firebase/firebase";
 
-interface IAuthContext {
+export interface IAuthContext {
   currentUser: User | null | undefined;
   userLoggedIn: boolean;
   loading: boolean;
