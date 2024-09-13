@@ -10,9 +10,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "../contexts/authContext";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "@tanstack/react-router";
 
 const Header = () => {
   const { userLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const redirectMyPage = () => {
+    navigate({ to: "/mypage" });
+  };
 
   return (
     <header className="sticky top-0 border-b bg-background">
@@ -36,10 +42,11 @@ const Header = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="block hover:cursor-pointer">
-                  <Link to="/mypage" className="block">
-                    マイページ
-                  </Link>
+                <DropdownMenuItem
+                  className="block hover:cursor-pointer"
+                  onClick={redirectMyPage}
+                >
+                  マイページ
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={doSignOut}
