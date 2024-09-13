@@ -31,6 +31,7 @@ export const doSignInWithGoogle = async () => {
 };
 
 export const doSignOut = () => {
+  location.pathname = "/";
   return auth.signOut();
 };
 
@@ -46,6 +47,6 @@ export const doPasswordChange = (password: string) => {
 export const doSendEmailVerification = () => {
   if (!auth.currentUser) return;
   return sendEmailVerification(auth.currentUser, {
-    url: `${window.location.origin}/home`,
+    url: `${location.origin}/home`,
   });
 };
