@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,6 +31,9 @@ const LoginForm = () => {
   const { userLoggedIn } = useAuth();
   const navigate = useNavigate();
 
+  const pathname = useLocation();
+  const redirectPath = pathname.pathname === "/login" ? "/" : pathname.pathname;
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,7 +47,7 @@ const LoginForm = () => {
       try {
         await doSignInWithEmailAndPassword(values.email, values.password);
 
-        navigate({ to: "/" });
+        navigate({ to: redirectPath });
       } catch (error) {
         console.log(error);
       }
@@ -55,7 +58,7 @@ const LoginForm = () => {
     try {
       await doSignInWithGoogle();
 
-      location.href = "/";
+      location.pathname = redirectPath;
     } catch (error) {
       console.log(error);
     }
