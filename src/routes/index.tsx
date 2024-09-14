@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  createFileRoute,
-  Router,
-  useLocation,
-  useNavigate,
-  useRouter,
-} from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { SelectSingleEventHandler } from "react-day-picker";
 
@@ -55,6 +49,8 @@ const Index = () => {
   const [sortType, setSortType] = useState<SortType>(1);
 
   const [filterOptions, setFilterOptions] = useState(initialState);
+
+  const router = useRouter();
 
   const { data, status } = useQuery({
     queryKey: ["rooms"],
@@ -147,28 +143,16 @@ const Index = () => {
 
   const sortedRooms = sortRooms();
 
-  const router = useRouter();
-
   const handleRoomSearch = () => {
-    // const currentUrl = new URL(window.location.href);
-    // currentUrl.searchParams.set("check_in", formatDateToString(checkInDate));
-    // currentUrl.searchParams.set("check_out", formatDateToString(checkInDate));
-    // currentUrl.searchParams.set("adult_num", adultNum);
-    // currentUrl.searchParams.set("child_num", childNum);
-    // currentUrl.searchParams.set("min_price", minPrice);
-    // currentUrl.searchParams.set("max_price", maxPrice);
-
-    // console.log(currentUrl);
-
     router.navigate({
-      to: window.location.pathname,
+      to: "/",
       search: {
         check_in: formatDateToString(checkInDate),
         check_out: formatDateToString(checkInDate),
-        adult_num: adultNum,
-        child_num: childNum,
-        min_price: minPrice,
-        max_price: maxPrice,
+        adult_num: Number(adultNum),
+        child_num: Number(childNum),
+        min_price: Number(minPrice),
+        max_price: Number(maxPrice),
       },
     });
 
