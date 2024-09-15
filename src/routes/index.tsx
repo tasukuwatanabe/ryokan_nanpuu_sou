@@ -8,6 +8,7 @@ import { reservationList } from "@/consts";
 import {
   dayAfterTomorrowAtMidnight,
   formatDateToString,
+  isValidDate,
   parseDateStringToMidnight,
   setHoursToMidnight,
   tomorrowAtMidnight,
@@ -17,6 +18,12 @@ import PageGrid from "@/components/PageGrid";
 import RoomSearch from "@/components/RoomSearch";
 import RoomIndex from "@/components/RoomIndex";
 import RoomSort from "@/components/RoomSort";
+import {
+  adultNumOptionList,
+  childNumOptionList,
+  maxPriceOptionList,
+  minPriceOptionList,
+} from "@/consts/search";
 
 const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;
@@ -31,16 +38,50 @@ const Index = () => {
     maxPrice: String(0),
   };
 
-  const [checkInDate, setCheckInDate] = useState<Date>(
-    initialState.checkInDate
-  );
-  const [checkOutDate, setCheckOutDate] = useState<Date>(
-    initialState.checkOutDate
-  );
-  const [adultNum, setAdultNum] = useState<string>(initialState.adultNum);
-  const [childNum, setChildNum] = useState<string>(initialState.childNum);
-  const [minPrice, setMinPrice] = useState<string>(initialState.minPrice);
-  const [maxPrice, setMaxPrice] = useState<string>(initialState.maxPrice);
+  const currentUrlParams = new URLSearchParams(window.location.search);
+  const checkInDateParam = currentUrlParams.get("check_in");
+  const checkOutDateParam = currentUrlParams.get("check_out");
+  const adultNumParam = currentUrlParams.get("adult_num");
+  const childNumParam = currentUrlParams.get("child_num");
+  const minPriceParam = currentUrlParams.get("min_price");
+  const maxPriceParam = currentUrlParams.get("max_price");
+
+  const checkInDateValue =
+    checkInDateParam && isValidDate(checkInDateParam)
+      ? new Date(checkInDateParam)
+      : initialState.checkInDate;
+  const [checkInDate, setCheckInDate] = useState<Date>(checkInDateValue);
+
+  const checkOutDateValue =
+    checkOutDateParam && isValidDate(checkOutDateParam)
+      ? new Date(checkOutDateParam)
+      : initialState.checkOutDate;
+  const [checkOutDate, setCheckOutDate] = useState<Date>(checkOutDateValue);
+
+  const adultNumValue =
+    adultNumParam && adultNumOptionList.includes(Number(adultNumParam))
+      ? adultNumParam
+      : initialState.adultNum;
+  const [adultNum, setAdultNum] = useState<string>(adultNumValue);
+
+  const childNumValue =
+    childNumParam && childNumOptionList.includes(Number(childNumParam))
+      ? childNumParam
+      : initialState.childNum;
+  const [childNum, setChildNum] = useState<string>(childNumValue);
+
+  const minPriceValue =
+    minPriceParam && minPriceOptionList.includes(Number(minPriceParam))
+      ? minPriceParam
+      : initialState.minPrice;
+  const [minPrice, setMinPrice] = useState<string>(minPriceValue);
+
+  const maxPriceValue =
+    maxPriceParam && maxPriceOptionList.includes(Number(maxPriceParam))
+      ? maxPriceParam
+      : initialState.maxPrice;
+  const [maxPrice, setMaxPrice] = useState<string>(maxPriceValue);
+
   const [sortType, setSortType] = useState<SortType>(1);
 
   const [filterOptions, setFilterOptions] = useState(initialState);
@@ -120,6 +161,7 @@ const Index = () => {
       const minPriceNumber = Number(minPrice);
       const maxPriceNumber = Number(maxPrice);
 
+      // TODO: prettierが丸括弧を自動除去しないように設定変更した上でリファクタ
       if (room.capacity < adultNumNumber + childNumNumber) return;
       if (minPriceNumber !== 0 && room.price < minPriceNumber) return;
       if (maxPriceNumber !== 0 && maxPriceNumber < room.price) return;
@@ -143,7 +185,7 @@ const Index = () => {
       to: "/",
       search: {
         check_in: formatDateToString(checkInDate),
-        check_out: formatDateToString(checkInDate),
+        check_out: formatDateToString(checkOutDate),
         adult_num: Number(adultNum),
         child_num: Number(childNum),
         min_price: Number(minPrice),

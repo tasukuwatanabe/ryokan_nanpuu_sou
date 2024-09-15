@@ -32,3 +32,8 @@ export function addDaysToDate(date: Date = new Date(), days: number = 1): Date {
 export function calcDateFromToday(additionalDays: number = 0): Date {
   return addDaysToDate(new Date(), additionalDays);
 }
+
+export function isValidDate(dateString: string | null = ""): boolean {
+  if (!dateString) return false;
+  return !isNaN(Date.parse(dateString));
+}

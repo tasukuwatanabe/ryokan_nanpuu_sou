@@ -21,6 +21,12 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { calcDateFromToday } from "@/utils/date";
+import {
+  adultNumOptionList,
+  childNumOptionList,
+  maxPriceOptionList,
+  minPriceOptionList,
+} from "@/consts/search";
 
 interface RoomSearchProps {
   checkInDate: Date;
@@ -55,9 +61,7 @@ const RoomSearchNew = ({
   handleRoomSearch,
   clearConditions,
 }: RoomSearchProps) => {
-  const arrayFromOneToTen = [...Array(10).keys()].map((num) => num + 1);
-
-  const guestNumOptions = arrayFromOneToTen.map((num) => {
+  const adultNumOptions = adultNumOptionList.map((num) => {
     const numWithUnit = `${num}名`;
 
     return (
@@ -68,9 +72,26 @@ const RoomSearchNew = ({
     );
   });
 
-  const minPriceOptions = arrayFromOneToTen.map((num) => {
-    const price = num * 10000;
+  const childNumOptions = childNumOptionList.map((num) => {
+    const numWithUnit = `${num}名`;
+
+    return (
+      <SelectItem value={String(num)} key={numWithUnit}>
+        {numWithUnit}
+        {num === 10 ? "〜" : ""}
+      </SelectItem>
+    );
+  });
+
+  const minPriceOptions = minPriceOptionList.map((price) => {
     const priceWithUnit = `${price}円`;
+
+    if (price === 0)
+      return (
+        <SelectItem value="0" key={priceWithUnit}>
+          下限なし
+        </SelectItem>
+      );
 
     return (
       <SelectItem value={String(price)} key={priceWithUnit}>
@@ -79,9 +100,15 @@ const RoomSearchNew = ({
     );
   });
 
-  const maxPriceOptions = arrayFromOneToTen.map((num) => {
-    const price = num * 10000;
+  const maxPriceOptions = maxPriceOptionList.map((price) => {
     const priceWithUnit = `${price}円`;
+
+    if (price === 0)
+      return (
+        <SelectItem value="0" key={priceWithUnit}>
+          上限なし
+        </SelectItem>
+      );
 
     return (
       <SelectItem value={String(price)} key={priceWithUnit}>
@@ -177,7 +204,7 @@ const RoomSearchNew = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>{guestNumOptions}</SelectGroup>
+                <SelectGroup>{adultNumOptions}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -194,10 +221,7 @@ const RoomSearchNew = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="0">0名</SelectItem>
-                  {guestNumOptions}
-                </SelectGroup>
+                <SelectGroup>{childNumOptions}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -212,10 +236,7 @@ const RoomSearchNew = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="0">下限なし</SelectItem>
-                  {minPriceOptions}
-                </SelectGroup>
+                <SelectGroup>{minPriceOptions}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -228,10 +249,7 @@ const RoomSearchNew = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="0">上限なし</SelectItem>
-                  {maxPriceOptions}
-                </SelectGroup>
+                <SelectGroup>{maxPriceOptions}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
