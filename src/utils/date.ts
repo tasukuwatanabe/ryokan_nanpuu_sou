@@ -1,15 +1,21 @@
-export const setHoursToMidnight = (date: Date = new Date()): Date => {
-  return new Date(date.setHours(0, 0, 0, 0));
-};
+const tomorrow = addDaysToDate(new Date(), 1);
+export const tomorrowAtMidnight = setHoursToMidnight(tomorrow);
 
-export const parseDateStringToMidnight = (dateString: string): Date | "" => {
+const dayAfterTomorrow = addDaysToDate(new Date(), 2);
+export const dayAfterTomorrowAtMidnight = setHoursToMidnight(dayAfterTomorrow);
+
+export function setHoursToMidnight(date: Date = new Date()): Date {
+  return new Date(date.setHours(0, 0, 0, 0));
+}
+
+export function parseDateStringToMidnight(dateString: string): Date | "" {
   if (!dateString) return "";
 
   const JSTInDate = new Date(dateString);
   return setHoursToMidnight(JSTInDate);
-};
+}
 
-export const formatDateToString = (date: Date | ""): string | "" => {
+export function formatDateToString(date: Date | ""): string | "" {
   if (!date) return "";
 
   const year = date.getFullYear();
@@ -17,15 +23,12 @@ export const formatDateToString = (date: Date | ""): string | "" => {
   const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
-};
+}
 
-export const addDaysToDate = (
-  date: Date = new Date(),
-  days: number = 1
-): Date => {
+export function addDaysToDate(date: Date = new Date(), days: number = 1): Date {
   return new Date(date.setDate(date.getDate() + days));
-};
+}
 
-export const calcDateFromToday = (additionalDays: number = 0): Date => {
+export function calcDateFromToday(additionalDays: number = 0): Date {
   return addDaysToDate(new Date(), additionalDays);
-};
+}

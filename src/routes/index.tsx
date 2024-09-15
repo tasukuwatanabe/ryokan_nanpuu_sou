@@ -6,10 +6,11 @@ import { SelectSingleEventHandler } from "react-day-picker";
 import type { Room, SortType } from "@/types";
 import { reservationList } from "@/consts";
 import {
-  addDaysToDate,
+  dayAfterTomorrowAtMidnight,
   formatDateToString,
   parseDateStringToMidnight,
   setHoursToMidnight,
+  tomorrowAtMidnight,
 } from "@/utils/date";
 import { getRooms } from "@/api/room";
 import PageGrid from "@/components/PageGrid";
@@ -21,12 +22,6 @@ const ADULT_MIN_COUNT = 1;
 const CHILD_MIN_COUNT = 0;
 
 const Index = () => {
-  const tomorrow = addDaysToDate(new Date(), 1);
-  const tomorrowAtMidnight = setHoursToMidnight(tomorrow);
-
-  const dayAfterTomorrow = addDaysToDate(new Date(), 2);
-  const dayAfterTomorrowAtMidnight = setHoursToMidnight(dayAfterTomorrow);
-
   const initialState = {
     checkInDate: tomorrowAtMidnight,
     checkOutDate: dayAfterTomorrowAtMidnight,
@@ -77,7 +72,7 @@ const Index = () => {
 
   const clearConditions = () => {
     setCheckInDate(tomorrowAtMidnight);
-    setCheckOutDate(new Date(dayAfterTomorrowAtMidnight));
+    setCheckOutDate(dayAfterTomorrowAtMidnight);
     setAdultNum(initialState.adultNum);
     setChildNum(initialState.childNum);
     setMinPrice(initialState.minPrice);
