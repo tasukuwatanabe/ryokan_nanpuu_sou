@@ -8,13 +8,6 @@ export function setHoursToMidnight(date: Date = new Date()): Date {
   return new Date(date.setHours(0, 0, 0, 0));
 }
 
-export function parseDateStringToMidnight(dateString: string): Date | "" {
-  if (!dateString) return "";
-
-  const JSTInDate = new Date(dateString);
-  return setHoursToMidnight(JSTInDate);
-}
-
 export function formatDateToString(date: Date | ""): string | "" {
   if (!date) return "";
 

@@ -9,7 +9,6 @@ import {
   dayAfterTomorrowAtMidnight,
   formatDateToString,
   isValidDate,
-  parseDateStringToMidnight,
   setHoursToMidnight,
   tomorrowAtMidnight,
 } from "@/utils/date";
@@ -96,19 +95,15 @@ const Index = () => {
   const handleCheckInDateChange: SelectSingleEventHandler = (day) => {
     if (!day) return;
 
-    const parsedCheckInDate = parseDateStringToMidnight(
-      formatDateToString(day)
-    );
-    setCheckInDate(new Date(parsedCheckInDate));
+    const checkInDateAtMidnight = new Date(setHoursToMidnight(day));
+    setCheckInDate(checkInDateAtMidnight);
   };
 
   const handleCheckOutDateChange: SelectSingleEventHandler = (day) => {
     if (!day) return;
 
-    const parsedCheckOutDate = parseDateStringToMidnight(
-      formatDateToString(day)
-    );
-    setCheckOutDate(new Date(parsedCheckOutDate));
+    const checkOutDateAtMidnight = new Date(setHoursToMidnight(day));
+    setCheckOutDate(checkOutDateAtMidnight);
   };
 
   const clearConditions = () => {
