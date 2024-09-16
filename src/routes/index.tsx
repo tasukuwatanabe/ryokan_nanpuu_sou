@@ -225,7 +225,13 @@ const Index = () => {
       </aside>
       <div className="relative">
         <RoomSort sortType={sortType} setSortType={setSortType} />
-        <RoomIndex rooms={sortedRooms} />
+        <RoomIndex
+          rooms={sortedRooms}
+          checkInDate={checkInDate}
+          checkOutDate={checkOutDate}
+          adultNum={adultNum}
+          childNum={childNum}
+        />
       </div>
     </PageGrid>
   );
