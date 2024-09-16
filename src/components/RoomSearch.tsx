@@ -22,10 +22,10 @@ import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { calcDateFromToday } from "@/utils/date";
 import {
-  adultNumOptionList,
-  childNumOptionList,
-  maxPriceOptionList,
-  minPriceOptionList,
+  ADULT_NUM_OPTION_LIST,
+  CHILD_NUM_OPTION_LIST,
+  MAX_PRICE_OPTION_LIST,
+  MIN_PRICE_OPTION_LIST,
 } from "@/consts/search";
 
 interface RoomSearchProps {
@@ -61,7 +61,7 @@ const RoomSearchNew = ({
   handleRoomSearch,
   clearConditions,
 }: RoomSearchProps) => {
-  const adultNumOptions = adultNumOptionList.map((num) => {
+  const adultNumOptions = ADULT_NUM_OPTION_LIST.map((num) => {
     const numWithUnit = `${num}名`;
 
     return (
@@ -72,7 +72,7 @@ const RoomSearchNew = ({
     );
   });
 
-  const childNumOptions = childNumOptionList.map((num) => {
+  const childNumOptions = CHILD_NUM_OPTION_LIST.map((num) => {
     const numWithUnit = `${num}名`;
 
     return (
@@ -83,7 +83,7 @@ const RoomSearchNew = ({
     );
   });
 
-  const minPriceOptions = minPriceOptionList.map((price) => {
+  const minPriceOptions = MIN_PRICE_OPTION_LIST.map((price) => {
     const priceWithUnit = `${price}円`;
 
     if (price === 0)
@@ -100,7 +100,7 @@ const RoomSearchNew = ({
     );
   });
 
-  const maxPriceOptions = maxPriceOptionList.map((price) => {
+  const maxPriceOptions = MAX_PRICE_OPTION_LIST.map((price) => {
     const priceWithUnit = `${price}円`;
 
     if (price === 0)

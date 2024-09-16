@@ -18,14 +18,13 @@ import RoomSearch from "@/components/RoomSearch";
 import RoomIndex from "@/components/RoomIndex";
 import RoomSort from "@/components/RoomSort";
 import {
-  adultNumOptionList,
-  childNumOptionList,
-  maxPriceOptionList,
-  minPriceOptionList,
+  ADULT_MIN_COUNT,
+  CHILD_MIN_COUNT,
+  ADULT_NUM_OPTION_LIST,
+  CHILD_NUM_OPTION_LIST,
+  MIN_PRICE_OPTION_LIST,
+  MAX_PRICE_OPTION_LIST,
 } from "@/consts/search";
-
-const ADULT_MIN_COUNT = 1;
-const CHILD_MIN_COUNT = 0;
 
 const Index = () => {
   const initialState = {
@@ -58,25 +57,25 @@ const Index = () => {
   const [checkOutDate, setCheckOutDate] = useState<Date>(checkOutDateValue);
 
   const adultNumValue =
-    adultNumParam && adultNumOptionList.includes(Number(adultNumParam))
+    adultNumParam && ADULT_NUM_OPTION_LIST.includes(Number(adultNumParam))
       ? adultNumParam
       : initialState.adultNum;
   const [adultNum, setAdultNum] = useState<string>(adultNumValue);
 
   const childNumValue =
-    childNumParam && childNumOptionList.includes(Number(childNumParam))
+    childNumParam && CHILD_NUM_OPTION_LIST.includes(Number(childNumParam))
       ? childNumParam
       : initialState.childNum;
   const [childNum, setChildNum] = useState<string>(childNumValue);
 
   const minPriceValue =
-    minPriceParam && minPriceOptionList.includes(Number(minPriceParam))
+    minPriceParam && MIN_PRICE_OPTION_LIST.includes(Number(minPriceParam))
       ? minPriceParam
       : initialState.minPrice;
   const [minPrice, setMinPrice] = useState<string>(minPriceValue);
 
   const maxPriceValue =
-    maxPriceParam && maxPriceOptionList.includes(Number(maxPriceParam))
+    maxPriceParam && MAX_PRICE_OPTION_LIST.includes(Number(maxPriceParam))
       ? maxPriceParam
       : initialState.maxPrice;
   const [maxPrice, setMaxPrice] = useState<string>(maxPriceValue);
