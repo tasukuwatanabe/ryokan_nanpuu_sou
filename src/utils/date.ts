@@ -1,9 +1,3 @@
-const tomorrow = addDaysToDate(new Date(), 1);
-export const tomorrowAtMidnight = setHoursToMidnight(tomorrow);
-
-const dayAfterTomorrow = addDaysToDate(new Date(), 2);
-export const dayAfterTomorrowAtMidnight = setHoursToMidnight(dayAfterTomorrow);
-
 export function setHoursToMidnight(date: Date = new Date()): Date {
   return new Date(date.setHours(0, 0, 0, 0));
 }
@@ -23,7 +17,8 @@ export function addDaysToDate(date: Date = new Date(), days: number = 1): Date {
 }
 
 export function calcDateFromToday(additionalDays: number = 0): Date {
-  return addDaysToDate(new Date(), additionalDays);
+  const todayAtMidnight = setHoursToMidnight(new Date());
+  return addDaysToDate(todayAtMidnight, additionalDays);
 }
 
 export function isValidDate(dateString: string | null = ""): boolean {
