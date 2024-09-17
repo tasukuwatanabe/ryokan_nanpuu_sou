@@ -35,3 +35,8 @@ export function isValidDate(dateString: string | null = ""): boolean {
   if (!dateString) return false;
   return !isNaN(Date.parse(dateString));
 }
+
+export function calcDaysDiff(startDate: Date, endDate: Date): number {
+  const diffMilliSec = endDate.getTime() - startDate.getTime();
+  return Math.floor(diffMilliSec / (1000 * 60 * 60 * 24));
+}

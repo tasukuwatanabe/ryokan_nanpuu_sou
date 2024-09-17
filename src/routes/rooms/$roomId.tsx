@@ -13,6 +13,7 @@ import {
 } from "@/consts/search";
 import {
   calcDateFromToday,
+  calcDaysDiff,
   formatDateToJPString,
   isValidDate,
 } from "@/utils/date";
@@ -58,6 +59,10 @@ const Room = () => {
       : initialState.childNum;
   const [childNum] = useState<string>(childNumValue);
 
+  const calcRoomPrice =
+    room.price * calcDaysDiff(checkInDateValue, checkOutDateValue);
+  const [totalPrice] = useState<string>(calcRoomPrice.toLocaleString());
+
   return (
     <div>
       <h1 className="text-2xl mb-8">確認と予約</h1>
@@ -77,7 +82,7 @@ const Room = () => {
           <hr className="my-5" />
           <div className="flex justify-between px-2">
             <p>合計額</p>
-            <p className="font-bold text-xl">¥32,800</p>
+            <p className="font-bold text-xl">¥{totalPrice}</p>
           </div>
         </div>
         <div>
