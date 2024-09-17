@@ -4,10 +4,59 @@ import { getRoomById } from "@/api/room";
 import { useAuth } from "@/contexts/authContext";
 import LoginForm from "@/components/LoginForm";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import {
+  ADULT_MIN_COUNT,
+  ADULT_NUM_OPTION_LIST,
+  CHILD_MIN_COUNT,
+  CHILD_NUM_OPTION_LIST,
+} from "@/consts/search";
+import {
+  calcDateFromToday,
+  formatDateToJPString,
+  isValidDate,
+} from "@/utils/date";
 
 const Room = () => {
   const { userLoggedIn } = useAuth();
   const { room } = Route.useLoaderData();
+
+  const initialState = {
+    checkInDate: calcDateFromToday(1),
+    checkOutDate: calcDateFromToday(2),
+    adultNum: String(ADULT_MIN_COUNT),
+    childNum: String(CHILD_MIN_COUNT),
+  };
+
+  const currentUrlParams = new URLSearchParams(window.location.search);
+  const checkInDateParam = currentUrlParams.get("check_in");
+  const checkOutDateParam = currentUrlParams.get("check_out");
+  const adultNumParam = currentUrlParams.get("adult_num");
+  const childNumParam = currentUrlParams.get("child_num");
+
+  const checkInDateValue =
+    checkInDateParam && isValidDate(checkInDateParam)
+      ? new Date(checkInDateParam)
+      : initialState.checkInDate;
+  const [checkInDate] = useState<Date>(checkInDateValue);
+
+  const checkOutDateValue =
+    checkOutDateParam && isValidDate(checkOutDateParam)
+      ? new Date(checkOutDateParam)
+      : initialState.checkOutDate;
+  const [checkOutDate] = useState<Date>(checkOutDateValue);
+
+  const adultNumValue =
+    adultNumParam && ADULT_NUM_OPTION_LIST.includes(Number(adultNumParam))
+      ? adultNumParam
+      : initialState.adultNum;
+  const [adultNum] = useState<string>(adultNumValue);
+
+  const childNumValue =
+    childNumParam && CHILD_NUM_OPTION_LIST.includes(Number(childNumParam))
+      ? childNumParam
+      : initialState.childNum;
+  const [childNum] = useState<string>(childNumValue);
 
   return (
     <div>
@@ -37,7 +86,10 @@ const Room = () => {
               <p className="text-gray-500">宿泊日</p>
               <div className="flex justify-between">
                 <div className="grid gap-y-2">
-                  <p className="text-lg">10月1日〜10月3日</p>
+                  <p className="text-lg">
+                    {formatDateToJPString(checkInDate)} 〜{" "}
+                    {formatDateToJPString(checkOutDate)}
+                  </p>
                 </div>
                 <p className="underline">編集</p>
               </div>
@@ -46,8 +98,8 @@ const Room = () => {
               <p className="text-gray-500">宿泊人数</p>
               <div className="flex justify-between">
                 <div>
-                  <p className="text-lg">大人：2名</p>
-                  <p className="text-lg">小人：3名</p>
+                  <p className="text-lg">大人：{adultNum}名</p>
+                  <p className="text-lg">小人：{childNum}名</p>
                 </div>
                 <p className="underline">編集</p>
               </div>
