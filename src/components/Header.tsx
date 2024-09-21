@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { CircleUser } from "lucide-react";
 
 import { doSignOut } from "@/firebase/auth";
 import {
@@ -35,10 +34,9 @@ const Header = () => {
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full"
+                  className="rounded-full text-xl select-none"
                 >
-                  <CircleUser className="h-5 w-5" />
-                  <span className="sr-only">Toggle user menu</span>
+                  T
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
