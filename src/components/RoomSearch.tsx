@@ -122,7 +122,7 @@ const RoomSearchNew = ({
       <div className="grid gap-6 rounded-sm border px-4 pt-6 pb-5">
         <div className="grid grid-cols-2 gap-x-3">
           <div className="grid gap-1">
-            <Label htmlFor="checkInDate" className="text-xs font-bold">
+            <Label htmlFor="checkInDate" className="text-xs">
               チェックイン
             </Label>
             <Popover>
@@ -156,7 +156,7 @@ const RoomSearchNew = ({
             </Popover>
           </div>
           <div className="grid gap-1">
-            <Label htmlFor="checkOutDate" className="text-xs font-bold">
+            <Label htmlFor="checkOutDate" className="text-xs">
               チェックアウト
             </Label>
             <Popover>
@@ -192,7 +192,7 @@ const RoomSearchNew = ({
         </div>
         <div className="grid grid-cols-2 gap-x-3">
           <div className="grid gap-1">
-            <Label htmlFor="adultNum" className="text-xs font-bold">
+            <Label htmlFor="adultNum" className="text-xs">
               大人人数
             </Label>
             <Select
@@ -209,7 +209,7 @@ const RoomSearchNew = ({
             </Select>
           </div>
           <div className="grid gap-1">
-            <Label htmlFor="childNum" className="text-xs font-bold">
+            <Label htmlFor="childNum" className="text-xs">
               子供人数
             </Label>
             <Select
@@ -228,7 +228,7 @@ const RoomSearchNew = ({
         </div>
         <div className="grid grid-cols-2 gap-x-3">
           <div className="grid gap-1">
-            <Label htmlFor="minPrice" className="text-xs font-bold">
+            <Label htmlFor="minPrice" className="text-xs">
               下限料金
             </Label>
             <Select value={minPrice} onValueChange={setMinPrice}>
@@ -241,7 +241,7 @@ const RoomSearchNew = ({
             </Select>
           </div>
           <div className="grid gap-1">
-            <Label htmlFor="maxPrice" className="text-xs font-bold">
+            <Label htmlFor="maxPrice" className="text-xs">
               上限料金
             </Label>
             <Select value={maxPrice} onValueChange={setMaxPrice}>

@@ -41,7 +41,7 @@ const RoomCard = ({
       </div>
       <div className="flex flex-col gap-y-2 p-3">
         <div className="flex flex-col flex-grow gap-y-2">
-          <p className="text-lg font-bold">{name}</p>
+          <p className="text-lg">{name}</p>
           <p className="text-sm text-gray-500">{description}</p>
         </div>
         <div className="flex justify-end gap-x-7">

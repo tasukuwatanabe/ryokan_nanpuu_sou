@@ -75,14 +75,14 @@ const Room = () => {
               alt={room.name}
             />
             <div>
-              <h2 className="text-lg font-bold mb-1">{room.name}</h2>
-              <p>{room.description}</p>
+              <h2 className="text-lg mb-1">{room.name}</h2>
+              <p className="text-sm text-gray-500">{room.description}</p>
             </div>
           </div>
           <hr className="my-5" />
           <div className="flex justify-between px-2">
             <p>合計額</p>
-            <p className="font-bold text-xl">{totalPrice}円</p>
+            <p className="text-xl">{totalPrice}円</p>
           </div>
         </div>
         <div>
