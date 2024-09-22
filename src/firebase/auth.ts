@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   updatePassword,
+  type User,
 } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -31,6 +32,11 @@ export const doSignInWithGoogle = async () => {
 export const doSignOut = () => {
   location.pathname = "/";
   return auth.signOut();
+};
+
+export const doDeleteUser = async (user: User) => {
+  // location.pathname = "/";
+  return await user.delete();
 };
 
 export const doPasswordReset = (email: string) => {

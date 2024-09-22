@@ -116,7 +116,7 @@ const Index = () => {
   // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
   const checkReservationWithinPeriod = (roomId: string): boolean => {
     const roomReservations = reservationList.filter((reservation) => {
-      return reservation.roomId === Number(roomId);
+      return reservation.roomId === roomId;
     });
 
     if (!roomReservations) return false;

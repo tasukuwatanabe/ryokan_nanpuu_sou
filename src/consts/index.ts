@@ -1,6 +1,6 @@
 export const roomList = [
   {
-    id: 1,
+    id: "1",
     name: "梅の間",
     price: 19800,
     description:
@@ -9,7 +9,7 @@ export const roomList = [
     capacity: 5,
   },
   {
-    id: 2,
+    id: "2",
     name: "楓の間",
     price: 32800,
     description:
@@ -18,7 +18,7 @@ export const roomList = [
     capacity: 8,
   },
   {
-    id: 3,
+    id: "3",
     name: "橘の間",
     price: 49800,
     description:
@@ -27,7 +27,7 @@ export const roomList = [
     capacity: 10,
   },
   {
-    id: 4,
+    id: "4",
     name: "葵の間",
     price: 22800,
     description:
@@ -36,7 +36,7 @@ export const roomList = [
     capacity: 7,
   },
   {
-    id: 5,
+    id: "5",
     name: "椎の間",
     price: 17800,
     description:
@@ -45,7 +45,7 @@ export const roomList = [
     capacity: 4,
   },
   {
-    id: 6,
+    id: "6",
     name: "桧扇の間",
     price: 26800,
     description:
@@ -54,7 +54,7 @@ export const roomList = [
     capacity: 9,
   },
   {
-    id: 7,
+    id: "7",
     name: "紫陽花の間",
     price: 12600,
     description:
@@ -63,7 +63,7 @@ export const roomList = [
     capacity: 3,
   },
   {
-    id: 8,
+    id: "8",
     name: "牡丹の間",
     price: 45800,
     description:
@@ -72,7 +72,7 @@ export const roomList = [
     capacity: 11,
   },
   {
-    id: 9,
+    id: "9",
     name: "茜の間",
     price: 27800,
     description:
@@ -81,7 +81,7 @@ export const roomList = [
     capacity: 6,
   },
   {
-    id: 10,
+    id: "10",
     name: "霞の間",
     price: 4980,
     description:
@@ -90,7 +90,7 @@ export const roomList = [
     capacity: 5,
   },
   {
-    id: 11,
+    id: "11",
     name: "雲の間",
     price: 25800,
     description:
@@ -99,7 +99,7 @@ export const roomList = [
     capacity: 4,
   },
   {
-    id: 12,
+    id: "12",
     name: "星の間",
     price: 36800,
     description:
@@ -108,7 +108,7 @@ export const roomList = [
     capacity: 2,
   },
   {
-    id: 13,
+    id: "13",
     name: "月の間",
     price: 47800,
     description:
@@ -117,7 +117,7 @@ export const roomList = [
     capacity: 2,
   },
   {
-    id: 14,
+    id: "14",
     name: "雪の間",
     price: 21800,
     description:
@@ -126,7 +126,7 @@ export const roomList = [
     capacity: 3,
   },
   {
-    id: 15,
+    id: "15",
     name: "風の間",
     price: 19800,
     description:
@@ -135,7 +135,7 @@ export const roomList = [
     capacity: 5,
   },
   {
-    id: 16,
+    id: "16",
     name: "波の間",
     price: 28800,
     description:
@@ -144,7 +144,7 @@ export const roomList = [
     capacity: 6,
   },
   {
-    id: 17,
+    id: "17",
     name: "岩の間",
     price: 34800,
     description:
@@ -153,7 +153,7 @@ export const roomList = [
     capacity: 4,
   },
   {
-    id: 18,
+    id: "18",
     name: "竹の間",
     price: 22800,
     description:
@@ -162,7 +162,7 @@ export const roomList = [
     capacity: 7,
   },
   {
-    id: 19,
+    id: "19",
     name: "松の間",
     price: 33800,
     description:
@@ -171,7 +171,7 @@ export const roomList = [
     capacity: 8,
   },
   {
-    id: 20,
+    id: "20",
     name: "花の間",
     price: 19800,
     description:
@@ -183,123 +183,63 @@ export const roomList = [
 
 export const reservationList = [
   {
-    id: 1,
-    roomId: 1,
-    checkInDate: new Date("2024-09-07"),
-    checkOutDate: new Date("2024-09-09"),
+    id: "1",
+    roomId: "1",
+    userId: "C8TDnb1AC8MRklZbGaZRAMqbRSq2",
+    checkInDate: new Date(2024, 10, 10),
+    checkOutDate: new Date(2024, 10, 13),
+    adultNum: 1,
+    childNum: 0,
+    price: 12345,
   },
   {
-    id: 2,
-    roomId: 2,
-    checkInDate: new Date("2024-08-01"),
-    checkOutDate: new Date("2024-08-03"),
+    id: "2",
+    roomId: "2",
+    userId: "qDkVO9MlUmTY13V5dZqjf8gAsU82",
+    checkInDate: new Date(2024, 10, 10),
+    checkOutDate: new Date(2024, 10, 13),
+    adultNum: 1,
+    childNum: 0,
+    price: 23344,
   },
   {
-    id: 3,
-    roomId: 3,
-    checkInDate: new Date("2024-09-02"),
-    checkOutDate: new Date("2024-09-03"),
+    id: "3",
+    roomId: "3",
+    userId: "g4wprrLLiccuYkDwcZWENtPY2L93",
+    checkInDate: new Date(2024, 10, 10),
+    checkOutDate: new Date(2024, 10, 13),
+    adultNum: 1,
+    childNum: 0,
+    price: 14532,
   },
   {
-    id: 4,
-    roomId: 4,
-    checkInDate: new Date("2024-08-04"),
-    checkOutDate: new Date("2024-08-05"),
+    id: "4",
+    roomId: "4",
+    userId: "C8TDnb1AC8MRklZbGaZRAMqbRSq2",
+    checkInDate: new Date(2024, 10, 10),
+    checkOutDate: new Date(2024, 10, 13),
+    adultNum: 1,
+    childNum: 0,
+    price: 45211,
   },
   {
-    id: 5,
-    roomId: 5,
-    checkInDate: new Date("2024-09-10"),
-    checkOutDate: new Date("2024-09-12"),
+    id: "5",
+    roomId: "5",
+    userId: "qDkVO9MlUmTY13V5dZqjf8gAsU82",
+    checkInDate: new Date(2024, 10, 10),
+    checkOutDate: new Date(2024, 10, 13),
+    adultNum: 1,
+    childNum: 0,
+    price: 35214,
   },
   {
-    id: 6,
-    roomId: 6,
-    checkInDate: new Date("2024-09-19"),
-    checkOutDate: new Date("2024-09-22"),
-  },
-  {
-    id: 7,
-    roomId: 7,
-    checkInDate: new Date("2024-08-13"),
-    checkOutDate: new Date("2024-08-14"),
-  },
-  {
-    id: 8,
-    roomId: 8,
-    checkInDate: new Date("2024-09-13"),
-    checkOutDate: new Date("2024-09-15"),
-  },
-  {
-    id: 9,
-    roomId: 9,
-    checkInDate: new Date("2024-08-25"),
-    checkOutDate: new Date("2024-08-28"),
-  },
-  {
-    id: 10,
-    roomId: 10,
-    checkInDate: new Date("2024-09-22"),
-    checkOutDate: new Date("2024-09-25"),
-  },
-  {
-    id: 11,
-    roomId: 11,
-    checkInDate: new Date("2024-09-17"),
-    checkOutDate: new Date("2024-09-20"),
-  },
-  {
-    id: 12,
-    roomId: 12,
-    checkInDate: new Date("2024-09-11"),
-    checkOutDate: new Date("2024-09-14"),
-  },
-  {
-    id: 13,
-    roomId: 13,
-    checkInDate: new Date("2024-09-20"),
-    checkOutDate: new Date("2024-09-21"),
-  },
-  {
-    id: 14,
-    roomId: 14,
-    checkInDate: new Date("2024-09-07"),
-    checkOutDate: new Date("2024-09-09"),
-  },
-  {
-    id: 15,
-    roomId: 15,
-    checkInDate: new Date("2024-08-04"),
-    checkOutDate: new Date("2024-08-05"),
-  },
-  {
-    id: 16,
-    roomId: 16,
-    checkInDate: new Date("2024-09-04"),
-    checkOutDate: new Date("2024-09-05"),
-  },
-  {
-    id: 17,
-    roomId: 17,
-    checkInDate: new Date("2024-08-19"),
-    checkOutDate: new Date("2024-08-21"),
-  },
-  {
-    id: 18,
-    roomId: 18,
-    checkInDate: new Date("2024-08-23"),
-    checkOutDate: new Date("2024-08-24"),
-  },
-  {
-    id: 19,
-    roomId: 19,
-    checkInDate: new Date("2024-08-12"),
-    checkOutDate: new Date("2024-08-15"),
-  },
-  {
-    id: 20,
-    roomId: 20,
-    checkInDate: new Date("2024-08-29"),
-    checkOutDate: new Date("2024-08-31"),
+    id: "6",
+    roomId: "6",
+    userId: "g4wprrLLiccuYkDwcZWENtPY2L93",
+    checkInDate: new Date(2024, 10, 10),
+    checkOutDate: new Date(2024, 10, 13),
+    adultNum: 1,
+    childNum: 0,
+    price: 75342,
   },
 ];

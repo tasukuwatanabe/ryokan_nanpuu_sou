@@ -14,7 +14,7 @@ import {
 import {
   calcDateFromToday,
   calcDaysDiff,
-  formatDateToJPString,
+  formatDateToString,
   isValidDate,
 } from "@/utils/date";
 
@@ -82,7 +82,7 @@ const Room = () => {
           <hr className="my-5" />
           <div className="flex justify-between px-2">
             <p>合計額</p>
-            <p className="font-bold text-xl">¥{totalPrice}</p>
+            <p className="font-bold text-xl">{totalPrice}円</p>
           </div>
         </div>
         <div>
@@ -92,8 +92,8 @@ const Room = () => {
               <div className="flex justify-between">
                 <div className="grid gap-y-2">
                   <p className="text-lg">
-                    {formatDateToJPString(checkInDate)} 〜{" "}
-                    {formatDateToJPString(checkOutDate)}
+                    {formatDateToString(checkInDate)} 〜{" "}
+                    {formatDateToString(checkOutDate)}
                   </p>
                 </div>
                 <p className="underline">編集</p>
