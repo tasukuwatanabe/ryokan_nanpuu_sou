@@ -12,12 +12,16 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 
 const Header = () => {
-  const { userLoggedIn } = useAuth();
+  const { currentUser, userLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   const redirectMyPage = () => {
     navigate({ to: "/mypage" });
   };
+
+  const userInitialCharacter = (
+    currentUser?.displayName?.[0] || currentUser?.email?.[0]
+  )?.toUpperCase();
 
   return (
     <header className="sticky top-0 border-b bg-background">
@@ -36,7 +40,7 @@ const Header = () => {
                   size="icon"
                   className="rounded-full text-xl select-none"
                 >
-                  T
+                  {userInitialCharacter}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
