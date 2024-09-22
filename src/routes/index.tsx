@@ -143,7 +143,7 @@ const Index = () => {
   if (status !== "success") return;
 
   const filterRooms = () =>
-    data!.filter((room: Room) => {
+    data.filter((room: Room) => {
       const reservedWithinPeriod = checkReservationWithinPeriod(room.id);
       if (reservedWithinPeriod) return;
 
