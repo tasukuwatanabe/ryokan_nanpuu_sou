@@ -100,10 +100,14 @@ const Room = () => {
               <p className="text-gray-500">宿泊日</p>
               <div className="flex justify-between">
                 <div className="grid gap-y-2">
-                  <p className="text-lg">
-                    {date?.from &&
-                      date?.to &&
-                      `${formatDateToString(date.from)} 〜 ${formatDateToString(date.to)}`}
+                  <p className="text-lg flex gap-x-1">
+                    <span className="block min-w-[95px]">
+                      {date?.from && formatDateToString(date.from)}
+                    </span>
+                    <span> 〜 </span>
+                    <span className="block min-w-[95px]">
+                      {date?.to && formatDateToString(date.to)}
+                    </span>
                   </p>
                 </div>
                 <Popover>
