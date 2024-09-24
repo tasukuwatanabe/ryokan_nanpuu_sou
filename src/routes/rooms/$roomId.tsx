@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { DateRange, SelectRangeEventHandler } from "react-day-picker";
-import {
-  createFileRoute,
-  notFound,
-  useNavigate,
-  useRouter,
-  useSearch,
-} from "@tanstack/react-router";
+import { createFileRoute, notFound, useRouter } from "@tanstack/react-router";
 
 import { getRoomById } from "@/api/room";
 import { useAuth } from "@/contexts/authContext";
@@ -79,22 +73,26 @@ const Room = () => {
     room.price * calcDaysDiff(checkInDateValue, checkOutDateValue);
   const [totalPrice, setTotalPrice] = useState<number>(calcRoomPrice);
 
-  const handleDateChange: SelectRangeEventHandler | undefined = (e) => {
-    setDate({ from: e?.from, to: e?.to });
+  const handleDateChange: SelectRangeEventHandler = (range) => {
+    const { from, to } = range ?? {};
 
-    if (e?.from && e?.to) {
+    setDate({ from, to });
+
+    if (from && to) {
+      const check_in = formatDateToString(from);
+      const check_out = formatDateToString(to);
+      const totalPrice = room.price * calcDaysDiff(from, to);
+
       router.navigate({
-        search: {
-          check_in: formatDateToString(e.from),
-          check_out: formatDateToString(e.to),
-        },
+        search: { check_in, check_out },
       });
-      setTotalPrice(room.price * calcDaysDiff(e?.from, e?.to));
+
+      setTotalPrice(totalPrice);
     }
   };
 
   return (
-    <div>
+    <>
       <h1 className="text-2xl mb-8">確認と予約</h1>
       <div className="grid grid-cols-roomPageGrid gap-x-10 items-start">
         <div className="border p-4 rounded-sm">
@@ -181,7 +179,7 @@ const Room = () => {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
