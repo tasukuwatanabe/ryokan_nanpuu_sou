@@ -1,10 +1,9 @@
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import { getRoomById } from "@/api/room";
 import { useAuth } from "@/contexts/authContext";
-import LoginForm from "@/components/LoginForm";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import {
   ADULT_MIN_COUNT,
   ADULT_NUM_OPTION_LIST,
@@ -17,6 +16,14 @@ import {
   formatDateToString,
   isValidDate,
 } from "@/utils/date";
+import LoginForm from "@/components/LoginForm";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 const Room = () => {
   const { userLoggedIn } = useAuth();
@@ -39,13 +46,15 @@ const Room = () => {
     checkInDateParam && isValidDate(checkInDateParam)
       ? new Date(checkInDateParam)
       : initialState.checkInDate;
-  const [checkInDate] = useState<Date>(checkInDateValue);
-
   const checkOutDateValue =
     checkOutDateParam && isValidDate(checkOutDateParam)
       ? new Date(checkOutDateParam)
       : initialState.checkOutDate;
-  const [checkOutDate] = useState<Date>(checkOutDateValue);
+
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: checkInDateValue,
+    to: checkOutDateValue,
+  });
 
   const adultNumValue =
     adultNumParam && ADULT_NUM_OPTION_LIST.includes(Number(adultNumParam))
@@ -92,11 +101,26 @@ const Room = () => {
               <div className="flex justify-between">
                 <div className="grid gap-y-2">
                   <p className="text-lg">
-                    {formatDateToString(checkInDate)} 〜{" "}
-                    {formatDateToString(checkOutDate)}
+                    {date?.from &&
+                      date?.to &&
+                      `${formatDateToString(date.from)} 〜 ${formatDateToString(date.to)}`}
                   </p>
                 </div>
-                <p className="underline">編集</p>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <p className="underline cursor-pointer">編集</p>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      initialFocus
+                      mode="range"
+                      defaultMonth={date?.from}
+                      selected={date}
+                      onSelect={setDate}
+                      numberOfMonths={2}
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
             <div className="grid gap-y-2">
