@@ -1,6 +1,12 @@
 import { useState } from "react";
-import { DateRange } from "react-day-picker";
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { DateRange, SelectRangeEventHandler } from "react-day-picker";
+import {
+  createFileRoute,
+  notFound,
+  useNavigate,
+  useRouter,
+  useSearch,
+} from "@tanstack/react-router";
 
 import { getRoomById } from "@/api/room";
 import { useAuth } from "@/contexts/authContext";
@@ -28,6 +34,7 @@ import { Calendar } from "@/components/ui/calendar";
 const Room = () => {
   const { userLoggedIn } = useAuth();
   const { room } = Route.useLoaderData();
+  const router = useRouter();
 
   const initialState = {
     checkInDate: calcDateFromToday(1),
@@ -70,7 +77,21 @@ const Room = () => {
 
   const calcRoomPrice =
     room.price * calcDaysDiff(checkInDateValue, checkOutDateValue);
-  const [totalPrice] = useState<string>(calcRoomPrice.toLocaleString());
+  const [totalPrice, setTotalPrice] = useState<number>(calcRoomPrice);
+
+  const handleDateChange: SelectRangeEventHandler | undefined = (e) => {
+    setDate({ from: e?.from, to: e?.to });
+
+    if (e?.from && e?.to) {
+      router.navigate({
+        search: {
+          check_in: formatDateToString(e.from),
+          check_out: formatDateToString(e.to),
+        },
+      });
+      setTotalPrice(room.price * calcDaysDiff(e?.from, e?.to));
+    }
+  };
 
   return (
     <div>
@@ -91,7 +112,7 @@ const Room = () => {
           <hr className="my-5" />
           <div className="flex justify-between px-2">
             <p>合計額</p>
-            <p className="text-xl">{totalPrice}円</p>
+            <p className="text-xl">{totalPrice.toLocaleString()}円</p>
           </div>
         </div>
         <div>
@@ -120,7 +141,7 @@ const Room = () => {
                       mode="range"
                       defaultMonth={date?.from}
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={handleDateChange}
                       numberOfMonths={2}
                     />
                   </PopoverContent>
