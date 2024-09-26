@@ -92,8 +92,8 @@ const Room = () => {
 
   return (
     <>
-      <h1 className="text-xl mb-8">確認と予約</h1>
-      <div className="grid grid-cols-1 md:grid-cols-roomPageGrid gap-10 items-start">
+      <h1 className="text-xl">確認と予約</h1>
+      <div className="grid grid-cols-1 md:grid-cols-roomPageGrid gap-6 items-start">
         <div className="border p-4 rounded-sm">
           <div className="grid grid-cols-roomPageCardGrid gap-3">
             <img
@@ -112,8 +112,8 @@ const Room = () => {
             <p className="text-xl">{totalPrice.toLocaleString()}円</p>
           </div>
         </div>
-        <div>
-          <div className="grid gap-y-7">
+        <div className="grid gap-y-6 md:gap-y-12">
+          <div className="grid gap-y-5 md:gap-y-7">
             <div className="grid gap-y-2">
               <p className="text-gray-500">宿泊日</p>
               <div className="flex justify-between">
@@ -161,7 +161,7 @@ const Room = () => {
             <Button
               type="submit"
               size="xl"
-              className="w-full bg-sky-500 hover:bg-sky-400 mt-10 text-md"
+              className="w-full bg-sky-500 hover:bg-sky-400 text-md"
             >
               この内容で予約する
             </Button>
