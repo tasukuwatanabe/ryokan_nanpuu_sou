@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+import plugin from "tailwindcss/plugin";
+
 export default {
   darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -61,5 +64,13 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    plugin(function ({ addVariant }) {
+      addVariant(
+        "hover",
+        "@media(hover:hover) { &:where(:any-link, :enabled):hover }"
+      );
+    }),
+  ],
 };
