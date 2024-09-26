@@ -14,7 +14,7 @@ export const Route = createRootRouteWithContext<routerContext>()({
   component: () => (
     <Wrapper>
       <Header />
-      <div className="flex-grow py-4 md:py-20">
+      <div className="flex-grow py-10 md:py-16">
         <Container>
           <Outlet />
           <TanStackRouterDevtools />

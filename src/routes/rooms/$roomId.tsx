@@ -92,8 +92,8 @@ const Room = () => {
 
   return (
     <>
-      <h1 className="text-2xl mb-8">確認と予約</h1>
-      <div className="grid grid-cols-roomPageGrid gap-x-10 items-start">
+      <h1 className="text-xl mb-8">確認と予約</h1>
+      <div className="grid grid-cols-1 md:grid-cols-roomPageGrid gap-10 items-start">
         <div className="border p-4 rounded-sm">
           <div className="grid grid-cols-roomPageCardGrid gap-3">
             <img
@@ -132,14 +132,14 @@ const Room = () => {
                   <PopoverTrigger asChild>
                     <p className="underline cursor-pointer">編集</p>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 m-4" align="center">
                     <Calendar
                       initialFocus
                       mode="range"
                       defaultMonth={date?.from}
                       selected={date}
                       onSelect={handleDateChange}
-                      numberOfMonths={2}
+                      numberOfMonths={1}
                     />
                   </PopoverContent>
                 </Popover>
