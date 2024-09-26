@@ -216,7 +216,7 @@ const Index = () => {
           clearConditions={clearConditions}
         />
       </aside>
-      <div className="relative">
+      <div>
         <RoomSort sortType={sortType} setSortType={setSortType} />
         <RoomIndex
           rooms={sortedRooms}
