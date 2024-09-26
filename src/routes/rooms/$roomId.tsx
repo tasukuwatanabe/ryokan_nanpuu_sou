@@ -79,15 +79,14 @@ const Room = () => {
     setDate({ from, to });
 
     if (from && to) {
-      const check_in = formatDateToString(from);
-      const check_out = formatDateToString(to);
-      const totalPrice = room.price * calcDaysDiff(from, to);
-
       router.navigate({
-        search: { check_in, check_out },
+        search: {
+          check_in: formatDateToString(from),
+          check_out: formatDateToString(to),
+        },
       });
 
-      setTotalPrice(totalPrice);
+      setTotalPrice(room.price * calcDaysDiff(from, to));
     }
   };
 
