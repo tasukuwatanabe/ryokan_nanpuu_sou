@@ -132,7 +132,7 @@ const Room = () => {
                   <PopoverTrigger asChild>
                     <p className="underline cursor-pointer">編集</p>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 m-4" align="center">
+                  <PopoverContent className="w-auto p-0" align="end">
                     <Calendar
                       initialFocus
                       mode="range"
