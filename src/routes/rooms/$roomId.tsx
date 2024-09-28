@@ -85,8 +85,7 @@ const Room = () => {
   const handleDateChange: SelectRangeEventHandler = (
     range: DateRange | undefined
   ) => {
-    if (!range) return;
-    const { from, to } = range;
+    const { from, to } = range ?? {};
 
     setDate({ from, to });
 
