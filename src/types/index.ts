@@ -14,3 +14,5 @@ export interface Room {
 }
 
 export type SortType = 1 | -1;
+
+export type TGuestCategory = "adult" | "child";

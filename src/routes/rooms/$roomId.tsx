@@ -33,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { TGuestCategory } from "@/types";
 
 const Room = () => {
   const { userLoggedIn } = useAuth();
@@ -118,11 +119,13 @@ const Room = () => {
     }
   };
 
-  const guestNumOptions = (type: "adult" | "child") => {
-    const optionList =
-      type === "adult" ? ADULT_NUM_OPTION_LIST : CHILD_NUM_OPTION_LIST;
+  const guestNumOptions = (type: TGuestCategory) => {
+    const optionList: { [type in TGuestCategory]: number[] } = {
+      adult: ADULT_NUM_OPTION_LIST,
+      child: CHILD_NUM_OPTION_LIST,
+    };
 
-    return optionList.map((num) => {
+    return optionList[type].map((num) => {
       const numWithUnit = `${num}名`;
 
       return (
