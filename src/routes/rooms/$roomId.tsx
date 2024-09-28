@@ -82,17 +82,20 @@ const Room = () => {
     room.price * calcDaysDiff(checkInDateValue, checkOutDateValue);
   const [totalPrice, setTotalPrice] = useState<number>(calcRoomPrice);
 
-  const handleDateChange: SelectRangeEventHandler = (range) => {
-    const { from, to } = range ?? {};
+  const handleDateChange: SelectRangeEventHandler = (
+    range: DateRange | undefined
+  ) => {
+    if (!range) return;
+    const { from, to } = range;
 
     setDate({ from, to });
 
     if (from && to) {
+      currentUrlParams.set("check_in", formatDateToString(from, "hyphen"));
+      currentUrlParams.set("check_out", formatDateToString(to, "hyphen"));
+
       navigate({
-        search: {
-          check_in: formatDateToString(from),
-          check_out: formatDateToString(to),
-        },
+        to: location.pathname + "?" + currentUrlParams.toString(),
       });
 
       setTotalPrice(room.price * calcDaysDiff(from, to));
@@ -106,10 +109,7 @@ const Room = () => {
     currentUrlParams.set(key, value);
 
     navigate({
-      search: {
-        adult_num: +value,
-        child_num: +value,
-      },
+      to: location.pathname + "?" + currentUrlParams.toString(),
     });
 
     if (key === "adult_num") {
