@@ -1,5 +1,9 @@
 import { Suspense, lazy } from "react";
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  Outlet,
+  ScrollRestoration,
+} from "@tanstack/react-router";
 
 import { IAuthContext } from "@/contexts/authContext";
 import Wrapper from "@/components/Wrapper";
@@ -26,6 +30,7 @@ export const Route = createRootRouteWithContext<routerContext>()({
       <div className="flex-grow py-10 md:py-16">
         <Container>
           <Outlet />
+          <ScrollRestoration />
           <Suspense>
             <TanStackRouterDevtools />
           </Suspense>
