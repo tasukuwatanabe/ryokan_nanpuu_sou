@@ -1,7 +1,7 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore/lite";
 
 import { db } from "@/firebase/firebase";
-import { Room } from "@/types";
+import { Room, Reservation } from "@/types";
 
 export const getRooms = async () => {
   const roomsCol = collection(db, "rooms");
@@ -28,4 +28,17 @@ export const getRoomById = async (
     id: roomId,
     ...docSnap.data(),
   } as Room;
+};
+
+export const getReservations = async () => {
+  const reservationsCol = collection(db, "reservations");
+  const reservationSnapshot = await getDocs(reservationsCol);
+
+  return reservationSnapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+      }) as Reservation
+  );
 };
