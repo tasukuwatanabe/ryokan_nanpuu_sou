@@ -20,28 +20,27 @@ const MyPage = () => {
   if (isLoading) return;
 
   const reservationWithRoomData =
-    roomList &&
-    reservationList
-      .filter((reservation) => reservation.userId === currentUser.uid)
-      .map((reservation) => {
-        const roomData = roomList
-          .filter((room) => reservation.roomId === room.id)
-          .map((room) => {
-            return {
+    (roomList &&
+      reservationList
+        .filter((reservation) => reservation.userId === currentUser.uid)
+        .map((reservation) => {
+          const roomData = roomList
+            .filter((room) => reservation.roomId === room.id)
+            .map((room) => ({
               name: room.name,
               image: room.image,
-            };
-          })[0];
+            }))[0];
 
-        return { ...reservation, room: roomData };
-      });
+          return { ...reservation, room: roomData };
+        })) ??
+    [];
 
   return (
     <div className="flex flex-col gap-y-12">
       <div className="flex flex-col gap-y-4">
         <h2 className="text-xl">現在の予約</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {reservationWithRoomData ? (
+          {reservationWithRoomData.length > 0 ? (
             reservationWithRoomData.map((reservation, index) => (
               <div key={index} className="border p-4 rounded-sm">
                 <div className="flex gap-4">
