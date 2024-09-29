@@ -1,4 +1,4 @@
-import { Timestamp } from "firebase/firestore/lite";
+import { type Timestamp } from "firebase/firestore/lite";
 import { type ReactNode } from "react";
 
 export interface ChildrenPropsType {
