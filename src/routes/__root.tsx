@@ -1,5 +1,5 @@
+import { Suspense, lazy } from "react";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 import { IAuthContext } from "@/contexts/authContext";
 import Wrapper from "@/components/Wrapper";
@@ -10,6 +10,15 @@ interface routerContext {
   auth: IAuthContext;
 }
 
+const TanStackRouterDevtools =
+  import.meta.env.VITE_NODE_ENV === "production"
+    ? () => null
+    : lazy(() =>
+        import("@tanstack/router-devtools").then((res) => ({
+          default: res.TanStackRouterDevtools,
+        }))
+      );
+
 export const Route = createRootRouteWithContext<routerContext>()({
   component: () => (
     <Wrapper>
@@ -17,7 +26,9 @@ export const Route = createRootRouteWithContext<routerContext>()({
       <div className="flex-grow py-10 md:py-16">
         <Container>
           <Outlet />
-          <TanStackRouterDevtools />
+          <Suspense>
+            <TanStackRouterDevtools />
+          </Suspense>
         </Container>
       </div>
     </Wrapper>
