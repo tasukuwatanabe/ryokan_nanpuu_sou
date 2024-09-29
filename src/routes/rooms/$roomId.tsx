@@ -137,6 +137,10 @@ const Room = () => {
     });
   };
 
+  const handleRoomReservation = () => {
+    navigate({ to: "/mypage" });
+  };
+
   return (
     <>
       <h1 className="text-xl">確認と予約</h1>
@@ -261,6 +265,7 @@ const Room = () => {
               type="submit"
               size="xl"
               className="w-full bg-sky-500 hover:bg-sky-400 text-md"
+              onClick={handleRoomReservation}
             >
               この内容で予約する
             </Button>
