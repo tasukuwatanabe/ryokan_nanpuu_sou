@@ -163,7 +163,7 @@ const Room = () => {
             <p className="text-xl">{totalPrice.toLocaleString()}円</p>
           </div>
         </div>
-        <div className="grid gap-y-6 md:gap-y-12">
+        <div className="grid gap-y-8">
           <div className="grid gap-y-5 md:gap-y-7">
             <div className="grid gap-y-2">
               <p className="text-gray-500">宿泊日</p>
@@ -259,7 +259,6 @@ const Room = () => {
               </div>
             </div>
           </div>
-
           {userLoggedIn ? (
             <Button
               type="submit"
@@ -271,7 +270,7 @@ const Room = () => {
             </Button>
           ) : (
             <>
-              <hr className="my-6" />
+              <hr />
               <div>
                 <h2 className="text-2xl mb-6">
                   予約するにはログインまたは登録してください
