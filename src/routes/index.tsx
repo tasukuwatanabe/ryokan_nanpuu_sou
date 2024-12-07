@@ -85,7 +85,7 @@ const Index = () => {
 
   const router = useRouter();
 
-  const { data, status } = useQuery({
+  const { data } = useQuery({
     queryKey: ["rooms"],
     queryFn: getRooms,
   });
@@ -140,10 +140,8 @@ const Index = () => {
     return reservationsWithinPeriod.length > 0;
   };
 
-  if (status !== "success") return;
-
   const filterRooms = () =>
-    data.filter((room: Room) => {
+    data?.filter((room: Room) => {
       const reservedWithinPeriod = checkReservationWithinPeriod(room.id);
       if (reservedWithinPeriod) return;
 
@@ -160,7 +158,7 @@ const Index = () => {
       if (maxPriceNumber !== 0 && maxPriceNumber < room.price) return;
 
       return true;
-    });
+    }) ?? [];
 
   const sortRooms = () => {
     const filteredRooms = filterRooms();

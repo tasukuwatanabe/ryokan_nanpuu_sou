@@ -4,16 +4,20 @@ import { db } from "@/firebase/firebase";
 import { Room, Reservation } from "@/types";
 
 export const getRooms = async () => {
-  const roomsCol = collection(db, "rooms");
-  const roomSnapshot = await getDocs(roomsCol);
+  try {
+    const roomsCol = collection(db, "rooms");
+    const roomSnapshot = await getDocs(roomsCol);
 
-  return roomSnapshot.docs.map(
-    (doc) =>
-      ({
-        id: doc.id,
-        ...doc.data(),
-      }) as Room
-  );
+    return roomSnapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        }) as Room
+      );
+  } catch {
+    console.error('データが取得できませんでした')
+  }
 };
 
 export const getRoomById = async (
