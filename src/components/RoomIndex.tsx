@@ -1,12 +1,12 @@
-import type { Room } from "@/types";
+import type { IRoom } from "@/types";
 import RoomCard from "@/components/RoomCard";
 
-interface RoomIndexProps {
-  rooms: Room[];
+interface PropsType {
+  rooms: IRoom[];
   checkInDate: Date;
   checkOutDate: Date;
-  adultNum: string;
-  childNum: string;
+  adultNum: number;
+  childNum: number;
 }
 
 const RoomIndex = ({
@@ -15,10 +15,10 @@ const RoomIndex = ({
   checkOutDate,
   adultNum,
   childNum,
-}: RoomIndexProps) => {
+}: PropsType) => {
   return rooms.length > 0 ? (
     <div className="flex flex-col gap-y-5">
-      {rooms.map((room: Room) => (
+      {rooms.map((room: IRoom) => (
         <RoomCard
           key={`${room.id}-${room.name}`}
           room={room}

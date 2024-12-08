@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { SelectSingleEventHandler } from "react-day-picker";
 
-import type { Room, SortType } from "@/types";
+import type { IRoomSearch, IRoom, TRoomSort } from "@/types";
 import { RESERVATION_LIST, ROOM_LIST } from "@/consts";
 import {
   calcDateFromToday,
@@ -24,173 +24,149 @@ import {
 } from "@/consts/search";
 
 const Index = () => {
-  const initialState = {
+  const initialRoomSearch = {
     checkInDate: calcDateFromToday(1),
     checkOutDate: calcDateFromToday(2),
-    adultNum: String(ADULT_MIN_COUNT),
-    childNum: String(CHILD_MIN_COUNT),
-    minPrice: String(0),
-    maxPrice: String(0),
+    adultNum: ADULT_MIN_COUNT,
+    childNum: CHILD_MIN_COUNT,
+    minPrice: 0,
+    maxPrice: 0,
   };
 
-  const currentUrlParams = new URLSearchParams(window.location.search);
-  const checkInDateParam = currentUrlParams.get("check_in");
-  const checkOutDateParam = currentUrlParams.get("check_out");
-  const adultNumParam = currentUrlParams.get("adult_num");
-  const childNumParam = currentUrlParams.get("child_num");
-  const minPriceParam = currentUrlParams.get("min_price");
-  const maxPriceParam = currentUrlParams.get("max_price");
+  const [roomSearch, setRoomSearch] = useState<IRoomSearch>(initialRoomSearch);
+  const [sortType, setSortType] = useState<TRoomSort>(1);
 
-  const checkInDateValue =
-    checkInDateParam && isValidDate(checkInDateParam)
-      ? new Date(checkInDateParam)
-      : initialState.checkInDate;
-  const [checkInDate, setCheckInDate] = useState<Date>(checkInDateValue);
+  useEffect(() => {
+    const currentUrlParams = new URLSearchParams(window.location.search);
+    const checkInDateParam = currentUrlParams.get("check_in");
+    const checkOutDateParam = currentUrlParams.get("check_out");
+    const adultNumParam = currentUrlParams.get("adult_num");
+    const childNumParam = currentUrlParams.get("child_num");
+    const minPriceParam = currentUrlParams.get("min_price");
+    const maxPriceParam = currentUrlParams.get("max_price");
 
-  const checkOutDateValue =
-    checkOutDateParam && isValidDate(checkOutDateParam)
-      ? new Date(checkOutDateParam)
-      : initialState.checkOutDate;
-  const [checkOutDate, setCheckOutDate] = useState<Date>(checkOutDateValue);
-
-  const adultNumValue =
-    adultNumParam && ADULT_NUM_OPTION_LIST.includes(Number(adultNumParam))
-      ? adultNumParam
-      : initialState.adultNum;
-  const [adultNum, setAdultNum] = useState<string>(adultNumValue);
-
-  const childNumValue =
-    childNumParam && CHILD_NUM_OPTION_LIST.includes(Number(childNumParam))
-      ? childNumParam
-      : initialState.childNum;
-  const [childNum, setChildNum] = useState<string>(childNumValue);
-
-  const minPriceValue =
-    minPriceParam && MIN_PRICE_OPTION_LIST.includes(Number(minPriceParam))
-      ? minPriceParam
-      : initialState.minPrice;
-  const [minPrice, setMinPrice] = useState<string>(minPriceValue);
-
-  const maxPriceValue =
-    maxPriceParam && MAX_PRICE_OPTION_LIST.includes(Number(maxPriceParam))
-      ? maxPriceParam
-      : initialState.maxPrice;
-  const [maxPrice, setMaxPrice] = useState<string>(maxPriceValue);
-
-  const [sortType, setSortType] = useState<SortType>(1);
-
-  const [filterOptions, setFilterOptions] = useState(initialState);
-
-  const router = useRouter();
-
-  const handleCheckInDateChange: SelectSingleEventHandler = (day) => {
-    if (!day) return;
-
-    const checkInDateAtMidnight = new Date(setHoursToMidnight(day));
-    setCheckInDate(checkInDateAtMidnight);
-  };
-
-  const handleCheckOutDateChange: SelectSingleEventHandler = (day) => {
-    if (!day) return;
-
-    const checkOutDateAtMidnight = new Date(setHoursToMidnight(day));
-    setCheckOutDate(checkOutDateAtMidnight);
-  };
-
-  const clearConditions = () => {
-    setCheckInDate(initialState.checkInDate);
-    setCheckOutDate(initialState.checkOutDate);
-    setAdultNum(initialState.adultNum);
-    setChildNum(initialState.childNum);
-    setMinPrice(initialState.minPrice);
-    setMaxPrice(initialState.maxPrice);
-  };
-
-  // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
-  const checkReservationWithinPeriod = (roomId: string): boolean => {
-    const roomReservations = RESERVATION_LIST.filter((reservation) => {
-      return reservation.roomId === roomId;
+    setRoomSearch({
+      checkInDate: checkInDateParam
+        ? new Date(checkInDateParam)
+        : initialRoomSearch.checkInDate,
+      checkOutDate: checkOutDateParam
+        ? new Date(checkOutDateParam)
+        : initialRoomSearch.checkOutDate,
+      adultNum: adultNumParam
+        ? Number(adultNumParam)
+        : initialRoomSearch.adultNum,
+      childNum: childNumParam
+        ? Number(childNumParam)
+        : initialRoomSearch.childNum,
+      minPrice: minPriceParam
+        ? Number(minPriceParam)
+        : initialRoomSearch.minPrice,
+      maxPrice: maxPriceParam
+        ? Number(maxPriceParam)
+        : initialRoomSearch.maxPrice,
     });
+  }, []);
 
-    if (!roomReservations) return false;
+  // const router = useRouter();
 
-    const reservationsWithinPeriod = roomReservations.filter((reservation) => {
-      const reservedCheckInDateAtMidnight = setHoursToMidnight(
-        reservation.checkInDate
-      );
-      const reservedCheckOutDateAtMidnight = setHoursToMidnight(
-        reservation.checkOutDate
-      );
+  // const handleCheckInDateChange: SelectSingleEventHandler = (day) => {
+  //   if (!day) return;
 
-      const { checkInDate, checkOutDate } = filterOptions;
+  //   const checkInDateAtMidnight = new Date(setHoursToMidnight(day));
+  //   setCheckInDate(checkInDateAtMidnight);
+  // };
 
-      return !(
-        checkOutDate <= reservedCheckInDateAtMidnight ||
-        reservedCheckOutDateAtMidnight <= checkInDate
-      );
-    });
+  // const handleCheckOutDateChange: SelectSingleEventHandler = (day) => {
+  //   if (!day) return;
 
-    return reservationsWithinPeriod.length > 0;
-  };
+  //   const checkOutDateAtMidnight = new Date(setHoursToMidnight(day));
+  //   setCheckOutDate(checkOutDateAtMidnight);
+  // };
 
-  const filterRooms = () =>
-    ROOM_LIST.filter((room: Room) => {
-      const reservedWithinPeriod = checkReservationWithinPeriod(room.id);
-      if (reservedWithinPeriod) return;
+  // const clearConditions = () => {
+  //   setCheckInDate(initialState.checkInDate);
+  //   setCheckOutDate(initialState.checkOutDate);
+  //   setAdultNum(initialState.adultNum);
+  //   setChildNum(initialState.childNum);
+  //   setMinPrice(initialState.minPrice);
+  //   setMaxPrice(initialState.maxPrice);
+  // };
 
-      const { adultNum, childNum, minPrice, maxPrice } = filterOptions;
+  // // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
+  // const checkReservationWithinPeriod = (roomId: string): boolean => {
+  //   const roomReservations = RESERVATION_LIST.filter((reservation) => {
+  //     return reservation.roomId === roomId;
+  //   });
 
-      const adultNumNumber = Number(adultNum);
-      const childNumNumber = Number(childNum);
-      const minPriceNumber = Number(minPrice);
-      const maxPriceNumber = Number(maxPrice);
+  //   if (!roomReservations) return false;
 
-      // TODO: prettierが丸括弧を自動除去しないように設定変更した上でリファクタ
-      if (room.capacity < adultNumNumber + childNumNumber) return;
-      if (minPriceNumber !== 0 && room.price < minPriceNumber) return;
-      if (maxPriceNumber !== 0 && maxPriceNumber < room.price) return;
+  //   const reservationsWithinPeriod = roomReservations.filter((reservation) => {
+  //     const reservedCheckInDateAtMidnight = setHoursToMidnight(
+  //       reservation.checkInDate
+  //     );
+  //     const reservedCheckOutDateAtMidnight = setHoursToMidnight(
+  //       reservation.checkOutDate
+  //     );
+
+  //     const { checkInDate, checkOutDate } = roomSearch;
+
+  //     return !(
+  //       checkOutDate <= reservedCheckInDateAtMidnight ||
+  //       reservedCheckOutDateAtMidnight <= checkInDate
+  //     );
+  //   });
+
+  //   return reservationsWithinPeriod.length > 0;
+  // };
+
+  const filteredRooms = ROOM_LIST!
+    .filter((room: IRoom) => {
+      // const reservedWithinPeriod = checkReservationWithinPeriod(room.id);
+      // if (reservedWithinPeriod) return;
+
+      // const { adultNum, childNum, minPrice, maxPrice } = roomSearch;
+
+      // const adultNumNumber = Number(adultNum);
+      // const childNumNumber = Number(childNum);
+      // const minPriceNumber = Number(minPrice);
+      // const maxPriceNumber = Number(maxPrice);
+
+      // // TODO: prettierが丸括弧を自動除去しないように設定変更した上でリファクタ
+      // if (room.capacity < adultNumNumber + childNumNumber) return;
+      // if (minPriceNumber !== 0 && room.price < minPriceNumber) return;
+      // if (maxPriceNumber !== 0 && maxPriceNumber < room.price) return;
 
       return true;
-    }) ?? [];
+    })
+    .sort((a, b) => (sortType === 1 ? a.price - b.price : b.price - a.price));
 
-  const sortRooms = () => {
-    const filteredRooms = filterRooms();
-    const sortedRooms = filteredRooms.sort((a, b) =>
-      sortType === 1 ? a.price - b.price : b.price - a.price
-    );
+  // const handleRoomSearch = () => {
+  //   router.navigate({
+  //     to: "/",
+  //     search: {
+  //       check_in: formatDateToString(checkInDate),
+  //       check_out: formatDateToString(checkOutDate),
+  //       adult_num: Number(adultNum),
+  //       child_num: Number(childNum),
+  //       min_price: Number(minPrice),
+  //       max_price: Number(maxPrice),
+  //     },
+  //   });
 
-    return sortedRooms;
-  };
-
-  const sortedRooms = sortRooms();
-
-  const handleRoomSearch = () => {
-    router.navigate({
-      to: "/",
-      search: {
-        check_in: formatDateToString(checkInDate),
-        check_out: formatDateToString(checkOutDate),
-        adult_num: Number(adultNum),
-        child_num: Number(childNum),
-        min_price: Number(minPrice),
-        max_price: Number(maxPrice),
-      },
-    });
-
-    setFilterOptions({
-      checkInDate,
-      checkOutDate,
-      adultNum,
-      childNum,
-      minPrice,
-      maxPrice,
-    });
-  };
+  //   setFilterOptions({
+  //     checkInDate,
+  //     checkOutDate,
+  //     adultNum,
+  //     childNum,
+  //     minPrice,
+  //     maxPrice,
+  //   });
+  // };
 
   return (
     <PageGrid>
       <aside>
-        <RoomSearch
+        {/* <RoomSearch
           checkInDate={checkInDate}
           checkOutDate={checkOutDate}
           adultNum={adultNum}
@@ -205,16 +181,16 @@ const Index = () => {
           setMaxPrice={setMaxPrice}
           handleRoomSearch={handleRoomSearch}
           clearConditions={clearConditions}
-        />
+        /> */}
       </aside>
       <div>
         <RoomSort sortType={sortType} setSortType={setSortType} />
         <RoomIndex
-          rooms={sortedRooms}
-          checkInDate={checkInDate}
-          checkOutDate={checkOutDate}
-          adultNum={adultNum}
-          childNum={childNum}
+          rooms={filteredRooms}
+          checkInDate={roomSearch.checkInDate}
+          checkOutDate={roomSearch.checkOutDate}
+          adultNum={roomSearch.adultNum}
+          childNum={roomSearch.childNum}
         />
       </div>
     </PageGrid>

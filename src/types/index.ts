@@ -4,8 +4,17 @@ export interface ChildrenPropsType {
   children: ReactNode;
 }
 
-export interface Room {
-  id: string;
+export interface IRoomSearch {
+  checkInDate: Date;
+  checkOutDate: Date;
+  adultNum: number;
+  childNum: number;
+  minPrice: number;
+  maxPrice: number;
+}
+
+export interface IRoom {
+  id: number;
   name: string;
   price: number;
   description: string;
@@ -14,9 +23,8 @@ export interface Room {
 }
 
 export interface Reservation {
-  id: string;
-  roomId: string;
-  userId: string;
+  id: number;
+  roomId: number;
   checkInDate: Date;
   checkOutDate: Date;
   adultNum: number;
@@ -24,6 +32,6 @@ export interface Reservation {
   price: number;
 }
 
-export type SortType = 1 | -1;
+export type TRoomSort = 1 | -1;
 
 export type TGuestCategory = "adult" | "child";

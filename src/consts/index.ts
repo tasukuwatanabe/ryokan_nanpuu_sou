@@ -1,6 +1,6 @@
 export const ROOM_LIST = [
   {
-    id: "1",
+    id: 1,
     name: "梅の間",
     price: 19800,
     description:
@@ -9,7 +9,7 @@ export const ROOM_LIST = [
     capacity: 5,
   },
   {
-    id: "2",
+    id: 2,
     name: "楓の間",
     price: 32800,
     description:
@@ -18,7 +18,7 @@ export const ROOM_LIST = [
     capacity: 8,
   },
   {
-    id: "3",
+    id: 3,
     name: "橘の間",
     price: 49800,
     description:
@@ -27,7 +27,7 @@ export const ROOM_LIST = [
     capacity: 10,
   },
   {
-    id: "4",
+    id: 4,
     name: "葵の間",
     price: 22800,
     description:
@@ -36,7 +36,7 @@ export const ROOM_LIST = [
     capacity: 7,
   },
   {
-    id: "5",
+    id: 5,
     name: "椎の間",
     price: 17800,
     description:
@@ -45,7 +45,7 @@ export const ROOM_LIST = [
     capacity: 4,
   },
   {
-    id: "6",
+    id: 6,
     name: "桧扇の間",
     price: 26800,
     description:
@@ -54,7 +54,7 @@ export const ROOM_LIST = [
     capacity: 9,
   },
   {
-    id: "7",
+    id: 7,
     name: "紫陽花の間",
     price: 12600,
     description:
@@ -63,7 +63,7 @@ export const ROOM_LIST = [
     capacity: 3,
   },
   {
-    id: "8",
+    id: 8,
     name: "牡丹の間",
     price: 45800,
     description:
@@ -72,7 +72,7 @@ export const ROOM_LIST = [
     capacity: 11,
   },
   {
-    id: "9",
+    id: 9,
     name: "茜の間",
     price: 27800,
     description:
@@ -81,7 +81,7 @@ export const ROOM_LIST = [
     capacity: 6,
   },
   {
-    id: "10",
+    id: 10,
     name: "霞の間",
     price: 4980,
     description:
@@ -90,7 +90,7 @@ export const ROOM_LIST = [
     capacity: 5,
   },
   {
-    id: "11",
+    id: 11,
     name: "雲の間",
     price: 25800,
     description:
@@ -99,7 +99,7 @@ export const ROOM_LIST = [
     capacity: 4,
   },
   {
-    id: "12",
+    id: 12,
     name: "星の間",
     price: 36800,
     description:
@@ -108,7 +108,7 @@ export const ROOM_LIST = [
     capacity: 2,
   },
   {
-    id: "13",
+    id: 13,
     name: "月の間",
     price: 47800,
     description:
@@ -117,7 +117,7 @@ export const ROOM_LIST = [
     capacity: 2,
   },
   {
-    id: "14",
+    id: 14,
     name: "雪の間",
     price: 21800,
     description:
@@ -126,7 +126,7 @@ export const ROOM_LIST = [
     capacity: 3,
   },
   {
-    id: "15",
+    id: 15,
     name: "風の間",
     price: 19800,
     description:
@@ -135,7 +135,7 @@ export const ROOM_LIST = [
     capacity: 5,
   },
   {
-    id: "16",
+    id: 16,
     name: "波の間",
     price: 28800,
     description:
@@ -144,7 +144,7 @@ export const ROOM_LIST = [
     capacity: 6,
   },
   {
-    id: "17",
+    id: 17,
     name: "岩の間",
     price: 34800,
     description:
@@ -153,7 +153,7 @@ export const ROOM_LIST = [
     capacity: 4,
   },
   {
-    id: "18",
+    id: 18,
     name: "竹の間",
     price: 22800,
     description:
@@ -162,7 +162,7 @@ export const ROOM_LIST = [
     capacity: 7,
   },
   {
-    id: "19",
+    id: 19,
     name: "松の間",
     price: 33800,
     description:
@@ -171,7 +171,7 @@ export const ROOM_LIST = [
     capacity: 8,
   },
   {
-    id: "20",
+    id: 20,
     name: "花の間",
     price: 19800,
     description:
@@ -183,8 +183,7 @@ export const ROOM_LIST = [
 
 export const RESERVATION_LIST = [
   {
-    id: "1",
-    roomId: "HdRPHuLntQgEXmln51fs",
+    id: 1,
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -192,8 +191,7 @@ export const RESERVATION_LIST = [
     price: 12345,
   },
   {
-    id: "2",
-    roomId: "tL3jOdxZRxcKQr23VUDD",
+    id: 2,
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -201,8 +199,7 @@ export const RESERVATION_LIST = [
     price: 23344,
   },
   {
-    id: "3",
-    roomId: "ceIgBOQzTwJSEXzqoohQ",
+    id: 3,
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -210,8 +207,7 @@ export const RESERVATION_LIST = [
     price: 14532,
   },
   {
-    id: "4",
-    roomId: "HdRPHuLntQgEXmln51fs",
+    id: 4,
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -219,8 +215,7 @@ export const RESERVATION_LIST = [
     price: 45211,
   },
   {
-    id: "5",
-    roomId: "tL3jOdxZRxcKQr23VUDD",
+    id: 5,
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -228,8 +223,7 @@ export const RESERVATION_LIST = [
     price: 35214,
   },
   {
-    id: "6",
-    roomId: "ceIgBOQzTwJSEXzqoohQ",
+    id: 6,
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,

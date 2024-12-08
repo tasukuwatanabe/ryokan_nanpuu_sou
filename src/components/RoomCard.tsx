@@ -1,14 +1,14 @@
 import { Link } from "@tanstack/react-router";
 
-import type { Room } from "@/types";
+import type { IRoom } from "@/types";
 import { formatDateToString } from "@/utils/date";
 
-interface RoomCardProps {
-  room: Room;
+interface PropsType {
+  room: IRoom;
   checkInDate: Date;
   checkOutDate: Date;
-  adultNum: string;
-  childNum: string;
+  adultNum: number;
+  childNum: number;
 }
 
 const RoomCard = ({
@@ -17,14 +17,14 @@ const RoomCard = ({
   checkOutDate,
   adultNum,
   childNum,
-}: RoomCardProps) => {
+}: PropsType) => {
   const { id, name, price, description, image } = room;
 
   return (
     <Link
       to="/rooms/$roomId"
       className="height-[180px] rounded-sm overflow-hidden border border-gray-300 md:grid md:grid-cols-cardGrid duration-200 hover:opacity-60"
-      params={{ roomId: id }}
+      params={{ roomId: String(id) }}
       search={{
         check_in: formatDateToString(checkInDate),
         check_out: formatDateToString(checkOutDate),
