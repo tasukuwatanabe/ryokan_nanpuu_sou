@@ -29,7 +29,7 @@ const SortList = ({ sortType, setSortType }: RoomSortT) => {
   };
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end relative">
       <ul className="flex border-l-2 mb-3 md:mb-0 md:absolute md:top-[-30px] md:right-0">
         <RoomSortItem sort={1}>料金が安い順</RoomSortItem>
         <RoomSortItem sort={-1}>料金が高い順</RoomSortItem>
