@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { SelectSingleEventHandler } from "react-day-picker";
 
 import type { Room, SortType } from "@/types";
-import { reservationList } from "@/consts";
+import { RESERVATION_LIST, ROOM_LIST } from "@/consts";
 import {
   calcDateFromToday,
   formatDateToString,
   isValidDate,
   setHoursToMidnight,
 } from "@/utils/date";
-import { getRooms } from "@/api/room";
 import PageGrid from "@/components/PageGrid";
 import RoomSearch from "@/components/RoomSearch";
 import RoomIndex from "@/components/RoomIndex";
@@ -85,11 +83,6 @@ const Index = () => {
 
   const router = useRouter();
 
-  const { data } = useQuery({
-    queryKey: ["rooms"],
-    queryFn: getRooms,
-  });
-
   const handleCheckInDateChange: SelectSingleEventHandler = (day) => {
     if (!day) return;
 
@@ -115,7 +108,7 @@ const Index = () => {
 
   // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
   const checkReservationWithinPeriod = (roomId: string): boolean => {
-    const roomReservations = reservationList.filter((reservation) => {
+    const roomReservations = RESERVATION_LIST.filter((reservation) => {
       return reservation.roomId === roomId;
     });
 
@@ -141,7 +134,7 @@ const Index = () => {
   };
 
   const filterRooms = () =>
-    data?.filter((room: Room) => {
+    ROOM_LIST.filter((room: Room) => {
       const reservedWithinPeriod = checkReservationWithinPeriod(room.id);
       if (reservedWithinPeriod) return;
 

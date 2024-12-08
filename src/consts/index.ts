@@ -1,4 +1,4 @@
-export const roomList = [
+export const ROOM_LIST = [
   {
     id: "1",
     name: "梅の間",
@@ -181,11 +181,10 @@ export const roomList = [
   },
 ];
 
-export const reservationList = [
+export const RESERVATION_LIST = [
   {
     id: "1",
     roomId: "HdRPHuLntQgEXmln51fs",
-    userId: "g4wprrLLiccuYkDwcZWENtPY2L93",
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -195,7 +194,6 @@ export const reservationList = [
   {
     id: "2",
     roomId: "tL3jOdxZRxcKQr23VUDD",
-    userId: "g4wprrLLiccuYkDwcZWENtPY2L93",
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -205,7 +203,6 @@ export const reservationList = [
   {
     id: "3",
     roomId: "ceIgBOQzTwJSEXzqoohQ",
-    userId: "g4wprrLLiccuYkDwcZWENtPY2L93",
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -215,7 +212,6 @@ export const reservationList = [
   {
     id: "4",
     roomId: "HdRPHuLntQgEXmln51fs",
-    userId: "g4wprrLLiccuYkDwcZWENtPY2L93",
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -225,7 +221,6 @@ export const reservationList = [
   {
     id: "5",
     roomId: "tL3jOdxZRxcKQr23VUDD",
-    userId: "g4wprrLLiccuYkDwcZWENtPY2L93",
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,
@@ -235,7 +230,6 @@ export const reservationList = [
   {
     id: "6",
     roomId: "ceIgBOQzTwJSEXzqoohQ",
-    userId: "g4wprrLLiccuYkDwcZWENtPY2L93",
     checkInDate: new Date(2024, 10, 10),
     checkOutDate: new Date(2024, 10, 13),
     adultNum: 1,

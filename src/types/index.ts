@@ -1,4 +1,3 @@
-import { type Timestamp } from "firebase/firestore/lite";
 import { type ReactNode } from "react";
 
 export interface ChildrenPropsType {
@@ -18,8 +17,8 @@ export interface Reservation {
   id: string;
   roomId: string;
   userId: string;
-  checkInDate: Timestamp;
-  checkOutDate: Timestamp;
+  checkInDate: Date;
+  checkOutDate: Date;
   adultNum: number;
   childNum: number;
   price: number;

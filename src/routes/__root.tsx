@@ -5,14 +5,9 @@ import {
   ScrollRestoration,
 } from "@tanstack/react-router";
 
-import { IAuthContext } from "@/contexts/authContext";
 import Wrapper from "@/components/Wrapper";
 import Container from "@/components/Container";
 import Header from "@/components/Header";
-
-interface routerContext {
-  auth: IAuthContext;
-}
 
 const TanStackRouterDevtools =
   import.meta.env.VITE_NODE_ENV === "production"
@@ -23,7 +18,7 @@ const TanStackRouterDevtools =
         }))
       );
 
-export const Route = createRootRouteWithContext<routerContext>()({
+export const Route = createRootRouteWithContext()({
   component: () => (
     <Wrapper>
       <Header />

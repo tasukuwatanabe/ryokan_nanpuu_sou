@@ -4,16 +4,12 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { routeTree } from "@/routeTree.gen";
-import { AuthProvider, useAuth } from "@/contexts/authContext";
 import NotFound from "@/components/NotFound";
 import "@/index.css";
 
 const router = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFound,
-  context: {
-    auth: undefined!,
-  },
 });
 
 declare module "@tanstack/react-router" {
@@ -25,18 +21,15 @@ declare module "@tanstack/react-router" {
 const queryClient = new QueryClient();
 
 function InnerApp() {
-  const auth = useAuth();
-  return <RouterProvider router={router} context={{ auth }} />;
+  return <RouterProvider router={router} />;
 }
 
 function App() {
   return (
     <StrictMode>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <InnerApp />
-        </QueryClientProvider>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <InnerApp />
+      </QueryClientProvider>
     </StrictMode>
   );
 }

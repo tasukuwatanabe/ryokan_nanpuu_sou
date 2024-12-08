@@ -2,8 +2,7 @@ import { useState } from "react";
 import { DateRange, SelectRangeEventHandler } from "react-day-picker";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 
-import { getRoomById } from "@/api/room";
-import { useAuth } from "@/contexts/authContext";
+import { ROOM_LIST } from "@/consts";
 import {
   ADULT_MIN_COUNT,
   ADULT_NUM_OPTION_LIST,
@@ -16,7 +15,6 @@ import {
   formatDateToString,
   isValidDate,
 } from "@/utils/date";
-import LoginForm from "@/components/LoginForm";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -36,7 +34,6 @@ import {
 import { TGuestCategory } from "@/types";
 
 const Room = () => {
-  const { userLoggedIn } = useAuth();
   const { room } = Route.useLoaderData();
   const navigate = useNavigate();
 
@@ -135,10 +132,6 @@ const Room = () => {
         </SelectItem>
       );
     });
-  };
-
-  const handleRoomReservation = () => {
-    navigate({ to: "/mypage" });
   };
 
   return (
@@ -259,26 +252,14 @@ const Room = () => {
               </div>
             </div>
           </div>
-          {userLoggedIn ? (
-            <Button
-              type="submit"
-              size="xl"
-              className="w-full bg-sky-500 hover:bg-sky-400 text-md"
-              onClick={handleRoomReservation}
-            >
-              この内容で予約する
-            </Button>
-          ) : (
-            <>
-              <hr />
-              <div>
-                <h2 className="text-2xl mb-6">
-                  予約するにはログインまたは登録してください
-                </h2>
-                <LoginForm />
-              </div>
-            </>
-          )}
+          <Button
+            type="submit"
+            size="xl"
+            className="w-full bg-sky-500 hover:bg-sky-400 text-md"
+            disabled
+          >
+            この内容で予約する
+          </Button>
         </div>
       </div>
     </>
@@ -288,7 +269,7 @@ const Room = () => {
 export const Route = createFileRoute("/rooms/$roomId")({
   component: Room,
   loader: async ({ params: { roomId } }) => {
-    const room = await getRoomById(roomId);
+    const room = ROOM_LIST.find((roomItem) => roomItem.id === roomId);
     if (!room) throw notFound();
 
     return { room };
