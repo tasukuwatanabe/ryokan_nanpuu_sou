@@ -8,10 +8,6 @@ export const ADULT_NUM_OPTION_LIST = createNumArray(1, 10);
 
 export const CHILD_NUM_OPTION_LIST = createNumArray(0, 10);
 
-export const MIN_PRICE_OPTION_LIST = createNumArray(0, 10).map(
-  (num) => num * 10000
-);
-
-export const MAX_PRICE_OPTION_LIST = createNumArray(0, 10).map(
+export const PRICE_OPTION_LIST = createNumArray(0, 10).map(
   (num) => num * 10000
 );

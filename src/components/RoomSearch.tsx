@@ -1,6 +1,4 @@
-import React from "react";
 import { format } from "date-fns";
-import { type SelectSingleEventHandler } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,43 +22,24 @@ import { calcDateFromToday } from "@/utils/date";
 import {
   ADULT_NUM_OPTION_LIST,
   CHILD_NUM_OPTION_LIST,
-  MAX_PRICE_OPTION_LIST,
-  MIN_PRICE_OPTION_LIST,
+  PRICE_OPTION_LIST,
 } from "@/consts/search";
+import { IRoomSearch } from "@/types";
 
-interface RoomSearchProps {
-  checkInDate: Date;
-  checkOutDate: Date;
-  adultNum: string;
-  childNum: string;
-  minPrice: string;
-  maxPrice: string;
-  handleCheckInDateChange: SelectSingleEventHandler;
-  handleCheckOutDateChange: SelectSingleEventHandler;
-  setAdultNum: React.Dispatch<React.SetStateAction<string>>;
-  setChildNum: React.Dispatch<React.SetStateAction<string>>;
-  setMinPrice: React.Dispatch<React.SetStateAction<string>>;
-  setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
-  handleRoomSearch: () => void;
-  clearConditions: () => void;
+interface Props {
+  roomSearch: IRoomSearch;
+  setRoomSearch: React.Dispatch<React.SetStateAction<IRoomSearch>>;
+  resetRoomSearch: () => void;
 }
 
 const RoomSearchNew = ({
-  checkInDate,
-  checkOutDate,
-  adultNum,
-  childNum,
-  minPrice,
-  maxPrice,
-  handleCheckInDateChange,
-  handleCheckOutDateChange,
-  setAdultNum,
-  setChildNum,
-  setMinPrice,
-  setMaxPrice,
-  handleRoomSearch,
-  clearConditions,
-}: RoomSearchProps) => {
+  roomSearch,
+  setRoomSearch,
+  resetRoomSearch,
+}: Props) => {
+  const { checkInDate, checkOutDate, adultNum, childNum, minPrice, maxPrice } =
+    roomSearch;
+
   const adultNumOptions = ADULT_NUM_OPTION_LIST.map((num) => {
     const numWithUnit = `${num}名`;
 
@@ -83,38 +62,20 @@ const RoomSearchNew = ({
     );
   });
 
-  const minPriceOptions = MIN_PRICE_OPTION_LIST.map((price) => {
-    const priceWithUnit = `${price}円`;
+  const makePriceSelectItem = (price: number, text: string) => (
+    <SelectItem value={String(price)} key={text}>
+      {text}
+    </SelectItem>
+  );
 
-    if (price === 0)
-      return (
-        <SelectItem value="0" key={priceWithUnit}>
-          下限なし
-        </SelectItem>
-      );
-
-    return (
-      <SelectItem value={String(price)} key={priceWithUnit}>
-        {priceWithUnit}
-      </SelectItem>
-    );
+  const minPriceSelectItemList = PRICE_OPTION_LIST.map((price) => {
+    const text = price === 0 ? "下限なし" : `${price}円`;
+    return makePriceSelectItem(price, text);
   });
 
-  const maxPriceOptions = MAX_PRICE_OPTION_LIST.map((price) => {
-    const priceWithUnit = `${price}円`;
-
-    if (price === 0)
-      return (
-        <SelectItem value="0" key={priceWithUnit}>
-          上限なし
-        </SelectItem>
-      );
-
-    return (
-      <SelectItem value={String(price)} key={priceWithUnit}>
-        {priceWithUnit}
-      </SelectItem>
-    );
+  const maxPriceSelectItemList = PRICE_OPTION_LIST.map((price) => {
+    const text = price === 0 ? "上限なし" : `${price}円`;
+    return makePriceSelectItem(price, text);
   });
 
   return (
@@ -148,7 +109,7 @@ const RoomSearchNew = ({
                 <Calendar
                   mode="single"
                   selected={checkInDate}
-                  onSelect={handleCheckInDateChange}
+                  onSelect={() => {}}
                   fromDate={calcDateFromToday(1)}
                   initialFocus
                 />
@@ -182,7 +143,7 @@ const RoomSearchNew = ({
                 <Calendar
                   mode="single"
                   selected={checkOutDate}
-                  onSelect={handleCheckOutDateChange}
+                  onSelect={() => {}}
                   fromDate={calcDateFromToday(2)}
                   initialFocus
                 />
@@ -196,9 +157,9 @@ const RoomSearchNew = ({
               大人人数
             </Label>
             <Select
-              value={adultNum}
+              value={String(adultNum)}
               defaultValue="1"
-              onValueChange={setAdultNum}
+              onValueChange={() => {}}
             >
               <SelectTrigger id="adultNum" className="rounded-sm">
                 <SelectValue />
@@ -213,9 +174,9 @@ const RoomSearchNew = ({
               子供人数
             </Label>
             <Select
-              value={childNum}
+              value={String(childNum)}
               defaultValue="0"
-              onValueChange={setChildNum}
+              onValueChange={() => {}}
             >
               <SelectTrigger id="childNum" className="rounded-sm">
                 <SelectValue />
@@ -231,12 +192,12 @@ const RoomSearchNew = ({
             <Label htmlFor="minPrice" className="text-xs">
               下限料金
             </Label>
-            <Select value={minPrice} onValueChange={setMinPrice}>
+            <Select value={String(minPrice)} onValueChange={() => {}}>
               <SelectTrigger id="minPrice" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>{minPriceOptions}</SelectGroup>
+                <SelectGroup>{minPriceSelectItemList}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -244,26 +205,26 @@ const RoomSearchNew = ({
             <Label htmlFor="maxPrice" className="text-xs">
               上限料金
             </Label>
-            <Select value={maxPrice} onValueChange={setMaxPrice}>
+            <Select value={String(maxPrice)} onValueChange={() => {}}>
               <SelectTrigger id="minPrice" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>{maxPriceOptions}</SelectGroup>
+                <SelectGroup>{maxPriceSelectItemList}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-3 mt-2">
           <Button
-            onClick={clearConditions}
+            onClick={resetRoomSearch}
             variant="outline"
             className="rounded-sm"
           >
             条件をクリア
           </Button>
           <Button
-            onClick={handleRoomSearch}
+            onClick={() => {}}
             className="bg-sky-500 hover:bg-sky-400 rounded-sm"
           >
             部屋を検索

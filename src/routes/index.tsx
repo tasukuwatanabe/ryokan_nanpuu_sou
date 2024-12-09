@@ -1,27 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { SelectSingleEventHandler } from "react-day-picker";
 
 import type { IRoomSearch, IRoom, TRoomSort } from "@/types";
 import { RESERVATION_LIST, ROOM_LIST } from "@/consts";
-import {
-  calcDateFromToday,
-  formatDateToString,
-  isValidDate,
-  setHoursToMidnight,
-} from "@/utils/date";
+import { calcDateFromToday, setHoursToMidnight } from "@/utils/date";
 import PageGrid from "@/components/PageGrid";
 import RoomSearch from "@/components/RoomSearch";
 import RoomIndex from "@/components/RoomIndex";
 import RoomSort from "@/components/RoomSort";
-import {
-  ADULT_MIN_COUNT,
-  CHILD_MIN_COUNT,
-  ADULT_NUM_OPTION_LIST,
-  CHILD_NUM_OPTION_LIST,
-  MIN_PRICE_OPTION_LIST,
-  MAX_PRICE_OPTION_LIST,
-} from "@/consts/search";
+import { ADULT_MIN_COUNT, CHILD_MIN_COUNT } from "@/consts/search";
 
 const Index = () => {
   const initialRoomSearch = {
@@ -35,37 +22,6 @@ const Index = () => {
 
   const [roomSearch, setRoomSearch] = useState<IRoomSearch>(initialRoomSearch);
   const [sortType, setSortType] = useState<TRoomSort>(1);
-
-  useEffect(() => {
-    const currentUrlParams = new URLSearchParams(window.location.search);
-    const checkInDateParam = currentUrlParams.get("check_in");
-    const checkOutDateParam = currentUrlParams.get("check_out");
-    const adultNumParam = currentUrlParams.get("adult_num");
-    const childNumParam = currentUrlParams.get("child_num");
-    const minPriceParam = currentUrlParams.get("min_price");
-    const maxPriceParam = currentUrlParams.get("max_price");
-
-    setRoomSearch({
-      checkInDate: checkInDateParam
-        ? new Date(checkInDateParam)
-        : initialRoomSearch.checkInDate,
-      checkOutDate: checkOutDateParam
-        ? new Date(checkOutDateParam)
-        : initialRoomSearch.checkOutDate,
-      adultNum: adultNumParam
-        ? Number(adultNumParam)
-        : initialRoomSearch.adultNum,
-      childNum: childNumParam
-        ? Number(childNumParam)
-        : initialRoomSearch.childNum,
-      minPrice: minPriceParam
-        ? Number(minPriceParam)
-        : initialRoomSearch.minPrice,
-      maxPrice: maxPriceParam
-        ? Number(maxPriceParam)
-        : initialRoomSearch.maxPrice,
-    });
-  }, []);
 
   // const router = useRouter();
 
@@ -83,14 +39,7 @@ const Index = () => {
   //   setCheckOutDate(checkOutDateAtMidnight);
   // };
 
-  // const clearConditions = () => {
-  //   setCheckInDate(initialState.checkInDate);
-  //   setCheckOutDate(initialState.checkOutDate);
-  //   setAdultNum(initialState.adultNum);
-  //   setChildNum(initialState.childNum);
-  //   setMinPrice(initialState.minPrice);
-  //   setMaxPrice(initialState.maxPrice);
-  // };
+  const resetRoomSearch = () => setRoomSearch(initialRoomSearch);
 
   // // 検索のチェックイン・チェックアウト期間の間に、すでに予約された日があるか判定する
   // const checkReservationWithinPeriod = (roomId: string): boolean => {
@@ -166,22 +115,11 @@ const Index = () => {
   return (
     <PageGrid>
       <aside>
-        {/* <RoomSearch
-          checkInDate={checkInDate}
-          checkOutDate={checkOutDate}
-          adultNum={adultNum}
-          childNum={childNum}
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-          handleCheckInDateChange={handleCheckInDateChange}
-          handleCheckOutDateChange={handleCheckOutDateChange}
-          setAdultNum={setAdultNum}
-          setChildNum={setChildNum}
-          setMinPrice={setMinPrice}
-          setMaxPrice={setMaxPrice}
-          handleRoomSearch={handleRoomSearch}
-          clearConditions={clearConditions}
-        /> */}
+        <RoomSearch
+          roomSearch={roomSearch}
+          setRoomSearch={setRoomSearch}
+          resetRoomSearch={resetRoomSearch}
+        />
       </aside>
       <div>
         <RoomSort sortType={sortType} setSortType={setSortType} />
