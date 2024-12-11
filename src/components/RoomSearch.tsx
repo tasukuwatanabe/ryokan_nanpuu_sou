@@ -25,18 +25,16 @@ import {
   PRICE_OPTION_LIST,
 } from "@/consts/search";
 import { IRoomSearch } from "@/types";
+import React from "react";
+import { SelectSingleEventHandler } from "react-day-picker";
 
 interface Props {
   roomSearch: IRoomSearch;
   setRoomSearch: React.Dispatch<React.SetStateAction<IRoomSearch>>;
-  resetRoomSearch: () => void;
+  handleReset: () => void;
 }
 
-const RoomSearchNew = ({
-  roomSearch,
-  setRoomSearch,
-  resetRoomSearch,
-}: Props) => {
+const RoomSearchNew = ({ roomSearch, setRoomSearch, handleReset }: Props) => {
   const { checkInDate, checkOutDate, adultNum, childNum, minPrice, maxPrice } =
     roomSearch;
 
@@ -78,6 +76,13 @@ const RoomSearchNew = ({
     return makePriceSelectItem(price, text);
   });
 
+  const handleCheckInChange: SelectSingleEventHandler = (day) => {
+    setRoomSearch({
+      ...roomSearch,
+      checkInDate: day,
+    });
+  };
+
   return (
     <div className="grid w-full items-start gap-6 overflow-auto">
       <div className="grid gap-6 rounded-sm border px-4 pt-6 pb-5">
@@ -109,7 +114,7 @@ const RoomSearchNew = ({
                 <Calendar
                   mode="single"
                   selected={checkInDate}
-                  onSelect={() => {}}
+                  onSelect={handleCheckInChange}
                   fromDate={calcDateFromToday(1)}
                   initialFocus
                 />
@@ -217,7 +222,7 @@ const RoomSearchNew = ({
         </div>
         <div className="grid grid-cols-2 gap-x-3 mt-2">
           <Button
-            onClick={resetRoomSearch}
+            onClick={handleReset}
             variant="outline"
             className="rounded-sm"
           >
