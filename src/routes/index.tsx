@@ -4,7 +4,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { IRoomSearch, TRoomSort } from "@/types";
 import { ROOM_LIST } from "@/consts/room";
 import { calcDateFromToday } from "@/utils/date";
-import PageGrid from "@/components/PageGrid";
 import RoomSearch from "@/components/RoomSearch";
 import RoomIndex from "@/components/RoomIndex";
 import RoomSort from "@/components/RoomSort";
@@ -57,7 +56,7 @@ const Index: React.FC = () => {
   const handleSearchReset = () => setRoomSearch(initialRoomSearch);
 
   return (
-    <PageGrid>
+    <div className="grid grid-cols-1 gap-y-10 md:grid-cols-pageGrid md:gap-x-5 lg:gap-x-8">
       <aside>
         <RoomSearch
           roomSearch={roomSearch}
@@ -69,7 +68,7 @@ const Index: React.FC = () => {
         <RoomSort sort={sortType} onChange={handleSortChange} />
         <RoomIndex rooms={filteredRooms} />
       </main>
-    </PageGrid>
+    </div>
   );
 };
 

@@ -5,8 +5,6 @@ import {
   ScrollRestoration,
 } from "@tanstack/react-router";
 
-import Wrapper from "@/components/Wrapper";
-import Container from "@/components/Container";
 import Header from "@/components/Header";
 
 const TanStackRouterDevtools =
@@ -20,17 +18,17 @@ const TanStackRouterDevtools =
 
 export const Route = createRootRouteWithContext()({
   component: () => (
-    <Wrapper>
+    <div className="min-h-[100vh] flex flex-col">
       <Header />
       <div className="flex-grow py-10 md:py-16">
-        <Container>
+        <div className="px-4 md:px-6 mx-auto w-full max-w-[1000px] grid gap-y-6">
           <Outlet />
           <ScrollRestoration />
           <Suspense>
             <TanStackRouterDevtools />
           </Suspense>
-        </Container>
+        </div>
       </div>
-    </Wrapper>
+    </div>
   ),
 });
