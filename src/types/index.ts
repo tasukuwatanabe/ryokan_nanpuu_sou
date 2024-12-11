@@ -1,9 +1,3 @@
-import { type ReactNode } from "react";
-
-export interface ChildrenPropsType {
-  children: ReactNode;
-}
-
 export interface IRoomSearch {
   checkInDate?: Date;
   checkOutDate?: Date;
@@ -32,6 +26,6 @@ export interface Reservation {
   price: number;
 }
 
-export type TRoomSort = 1 | -1;
+export type TRoomSort = "asc" | "desc";
 
 export type TGuestCategory = "adult" | "child";

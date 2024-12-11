@@ -21,7 +21,11 @@ const Index: React.FC = () => {
   };
 
   const [roomSearch, setRoomSearch] = useState<IRoomSearch>(initialRoomSearch);
-  const [sortType, setSortType] = useState<TRoomSort>(1);
+  const [sortType, setSortType] = useState<TRoomSort>("asc");
+
+  const handleSortChange = (type: TRoomSort) => {
+    setSortType(type);
+  };
 
   const handleSearchChange = (key: keyof IRoomSearch, value: any) => {
     setRoomSearch((state: IRoomSearch) => ({
@@ -46,7 +50,9 @@ const Index: React.FC = () => {
 
       return true;
     })
-    .sort((a, b) => (sortType === 1 ? a.price - b.price : b.price - a.price));
+    .sort((a, b) =>
+      sortType === "asc" ? a.price - b.price : b.price - a.price
+    );
 
   const handleSearchReset = () => setRoomSearch(initialRoomSearch);
 
@@ -60,7 +66,7 @@ const Index: React.FC = () => {
         />
       </aside>
       <main>
-        <RoomSort sortType={sortType} setSortType={setSortType} />
+        <RoomSort sort={sortType} onChange={handleSortChange} />
         <RoomIndex rooms={filteredRooms} />
       </main>
     </PageGrid>

@@ -1,38 +1,33 @@
-import { Dispatch, SetStateAction } from "react";
 import { ReactNode } from "@tanstack/react-router";
 
-import { SortType } from "@/types";
+import { TRoomSort } from "@/types";
 
-interface RoomSortT {
-  sortType: SortType;
-  setSortType: Dispatch<SetStateAction<SortType>>;
-}
+type Props = {
+  sort: TRoomSort;
+  onChange: (value: TRoomSort) => void;
+};
 
-const SortList = ({ sortType, setSortType }: RoomSortT) => {
+const SortList: React.FC<Props> = ({ sort: currentSort, onChange }) => {
   const RoomSortItem = ({
-    sort,
+    targetSort,
     children,
   }: {
-    sort: SortType;
+    targetSort: TRoomSort;
     children: ReactNode;
-  }) => {
-    return (
-      <li
-        className={`${sortType !== sort ? "text-sky-500 underline cursor-pointer" : ""} text-sm px-3 border-r-2 leading-4`}
-        onClick={() => {
-          if (sortType !== sort) setSortType(sort);
-        }}
-      >
-        {children}
-      </li>
-    );
-  };
+  }) => (
+    <li
+      className={`${targetSort !== currentSort ? "text-sky-500 underline cursor-pointer" : ""} text-sm px-3 border-r-2 leading-4`}
+      onClick={() => targetSort !== currentSort && onChange(targetSort)}
+    >
+      {children}
+    </li>
+  );
 
   return (
     <div className="flex justify-end relative">
       <ul className="flex border-l-2 mb-3 md:mb-0 md:absolute md:top-[-30px] md:right-0">
-        <RoomSortItem sort={1}>料金が安い順</RoomSortItem>
-        <RoomSortItem sort={-1}>料金が高い順</RoomSortItem>
+        <RoomSortItem targetSort="asc">料金が安い順</RoomSortItem>
+        <RoomSortItem targetSort="desc">料金が高い順</RoomSortItem>
       </ul>
     </div>
   );
