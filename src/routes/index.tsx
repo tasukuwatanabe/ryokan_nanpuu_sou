@@ -59,10 +59,10 @@ const Index: React.FC = () => {
           handleSearchReset={handleSearchReset}
         />
       </aside>
-      <div>
+      <main>
         <RoomSort sortType={sortType} setSortType={setSortType} />
         <RoomIndex rooms={filteredRooms} />
-      </div>
+      </main>
     </PageGrid>
   );
 };
