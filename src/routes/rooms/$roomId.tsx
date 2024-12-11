@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DateRange, SelectRangeEventHandler } from "react-day-picker";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 
-import { ROOM_LIST } from "@/consts";
+import { ROOM_LIST } from "@/consts/room";
 import {
   ADULT_MIN_COUNT,
   ADULT_NUM_OPTION_LIST,
@@ -269,7 +269,7 @@ const Room = () => {
 export const Route = createFileRoute("/rooms/$roomId")({
   component: Room,
   loader: async ({ params: { roomId } }) => {
-    const room = ROOM_LIST.find((roomItem) => roomItem.id === roomId);
+    const room = ROOM_LIST.find((roomItem) => roomItem.id === Number(roomId));
     if (!room) throw notFound();
 
     return { room };

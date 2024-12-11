@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { IRoomSearch, TRoomSort } from "@/types";
-import { ROOM_LIST } from "@/consts";
+import { ROOM_LIST } from "@/consts/room";
 import { calcDateFromToday } from "@/utils/date";
 import PageGrid from "@/components/PageGrid";
 import RoomSearch from "@/components/RoomSearch";
