@@ -25,63 +25,71 @@ import {
   PRICE_OPTION_LIST,
 } from "@/consts/search";
 import { IRoomSearch } from "@/types";
-import React from "react";
 import { SelectSingleEventHandler } from "react-day-picker";
 
 interface Props {
   roomSearch: IRoomSearch;
-  setRoomSearch: React.Dispatch<React.SetStateAction<IRoomSearch>>;
-  handleReset: () => void;
+  onChange: (key: keyof IRoomSearch, value: any) => void;
+  handleSearchReset: () => void;
 }
 
-const RoomSearchNew = ({ roomSearch, setRoomSearch, handleReset }: Props) => {
+const RoomSearchNew: React.FC<Props> = ({
+  roomSearch,
+  onChange,
+  handleSearchReset,
+}) => {
   const { checkInDate, checkOutDate, adultNum, childNum, minPrice, maxPrice } =
     roomSearch;
 
-  const adultNumOptions = ADULT_NUM_OPTION_LIST.map((num) => {
-    const numWithUnit = `${num}名`;
+  const makeGuestNumSelectList = (list: number[]) =>
+    list.map((num, i) => {
+      const postfix = i === list.length - 1 ? "〜" : "";
+      const numWithUnit = `${num}名${postfix}`;
 
-    return (
-      <SelectItem value={String(num)} key={numWithUnit}>
-        {numWithUnit}
-        {num === 10 ? "〜" : ""}
-      </SelectItem>
-    );
-  });
+      return (
+        <SelectItem value={String(num)} key={numWithUnit}>
+          {numWithUnit}
+        </SelectItem>
+      );
+    });
 
-  const childNumOptions = CHILD_NUM_OPTION_LIST.map((num) => {
-    const numWithUnit = `${num}名`;
+  const makePriceSelectList = (list: number[], defaultText: string) =>
+    list.map((price) => {
+      const text = price === 0 ? defaultText : `${price}円`;
 
-    return (
-      <SelectItem value={String(num)} key={numWithUnit}>
-        {numWithUnit}
-        {num === 10 ? "〜" : ""}
-      </SelectItem>
-    );
-  });
+      return (
+        <SelectItem value={String(price)} key={text}>
+          {text}
+        </SelectItem>
+      );
+    });
 
-  const makePriceSelectItem = (price: number, text: string) => (
-    <SelectItem value={String(price)} key={text}>
-      {text}
-    </SelectItem>
+  const adultNumSelectList = makeGuestNumSelectList(ADULT_NUM_OPTION_LIST);
+
+  const childNumSelectList = makeGuestNumSelectList(CHILD_NUM_OPTION_LIST);
+
+  const minPriceSelectItemList = makePriceSelectList(
+    PRICE_OPTION_LIST,
+    "下限なし"
+  );
+  const maxPriceSelectItemList = makePriceSelectList(
+    PRICE_OPTION_LIST,
+    "上限なし"
   );
 
-  const minPriceSelectItemList = PRICE_OPTION_LIST.map((price) => {
-    const text = price === 0 ? "下限なし" : `${price}円`;
-    return makePriceSelectItem(price, text);
-  });
+  const handleCheckInChange: SelectSingleEventHandler = (day) =>
+    onChange("checkInDate", day);
 
-  const maxPriceSelectItemList = PRICE_OPTION_LIST.map((price) => {
-    const text = price === 0 ? "上限なし" : `${price}円`;
-    return makePriceSelectItem(price, text);
-  });
+  const handleCheckOutChange: SelectSingleEventHandler = (day) =>
+    onChange("checkOutDate", day);
 
-  const handleCheckInChange: SelectSingleEventHandler = (day) => {
-    setRoomSearch({
-      ...roomSearch,
-      checkInDate: day,
-    });
-  };
+  const handleAdultNumChange = (value: string) => onChange("adultNum", value);
+
+  const handleChildNumChange = (value: string) => onChange("childNum", value);
+
+  const handleMinPriceChange = (value: string) => onChange("minPrice", value);
+
+  const handleMaxPriceChange = (value: string) => onChange("maxPrice", value);
 
   return (
     <div className="grid w-full items-start gap-6 overflow-auto">
@@ -148,7 +156,7 @@ const RoomSearchNew = ({ roomSearch, setRoomSearch, handleReset }: Props) => {
                 <Calendar
                   mode="single"
                   selected={checkOutDate}
-                  onSelect={() => {}}
+                  onSelect={handleCheckOutChange}
                   fromDate={calcDateFromToday(2)}
                   initialFocus
                 />
@@ -164,13 +172,13 @@ const RoomSearchNew = ({ roomSearch, setRoomSearch, handleReset }: Props) => {
             <Select
               value={String(adultNum)}
               defaultValue="1"
-              onValueChange={() => {}}
+              onValueChange={handleAdultNumChange}
             >
               <SelectTrigger id="adultNum" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>{adultNumOptions}</SelectGroup>
+                <SelectGroup>{adultNumSelectList}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -181,13 +189,13 @@ const RoomSearchNew = ({ roomSearch, setRoomSearch, handleReset }: Props) => {
             <Select
               value={String(childNum)}
               defaultValue="0"
-              onValueChange={() => {}}
+              onValueChange={handleChildNumChange}
             >
               <SelectTrigger id="childNum" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>{childNumOptions}</SelectGroup>
+                <SelectGroup>{childNumSelectList}</SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -197,7 +205,10 @@ const RoomSearchNew = ({ roomSearch, setRoomSearch, handleReset }: Props) => {
             <Label htmlFor="minPrice" className="text-xs">
               下限料金
             </Label>
-            <Select value={String(minPrice)} onValueChange={() => {}}>
+            <Select
+              value={String(minPrice)}
+              onValueChange={handleMinPriceChange}
+            >
               <SelectTrigger id="minPrice" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
@@ -210,7 +221,10 @@ const RoomSearchNew = ({ roomSearch, setRoomSearch, handleReset }: Props) => {
             <Label htmlFor="maxPrice" className="text-xs">
               上限料金
             </Label>
-            <Select value={String(maxPrice)} onValueChange={() => {}}>
+            <Select
+              value={String(maxPrice)}
+              onValueChange={handleMaxPriceChange}
+            >
               <SelectTrigger id="minPrice" className="rounded-sm">
                 <SelectValue />
               </SelectTrigger>
@@ -222,7 +236,7 @@ const RoomSearchNew = ({ roomSearch, setRoomSearch, handleReset }: Props) => {
         </div>
         <div className="grid grid-cols-2 gap-x-3 mt-2">
           <Button
-            onClick={handleReset}
+            onClick={handleSearchReset}
             variant="outline"
             className="rounded-sm"
           >
