@@ -40,8 +40,8 @@ const Room = () => {
   const initialState = {
     checkInDate: calcDateFromToday(1),
     checkOutDate: calcDateFromToday(2),
-    adultNum: String(ADULT_MIN_COUNT),
-    childNum: String(CHILD_MIN_COUNT),
+    adultNum: ADULT_MIN_COUNT,
+    childNum: CHILD_MIN_COUNT,
   };
 
   const currentUrlParams = new URLSearchParams(window.location.search);
@@ -66,19 +66,20 @@ const Room = () => {
 
   const adultNumValue =
     adultNumParam && ADULT_NUM_OPTION_LIST.includes(Number(adultNumParam))
-      ? adultNumParam
+      ? +adultNumParam
       : initialState.adultNum;
-  const [adultNum, setAdultNum] = useState<string>(adultNumValue);
+  const [adultNum, setAdultNum] = useState<number>(adultNumValue);
 
   const childNumValue =
     childNumParam && CHILD_NUM_OPTION_LIST.includes(Number(childNumParam))
-      ? childNumParam
+      ? +childNumParam
       : initialState.childNum;
-  const [childNum, setChildNum] = useState<string>(childNumValue);
+  const [childNum, setChildNum] = useState<number>(childNumValue);
 
-  const calcRoomPrice =
-    room.price * calcDaysDiff(checkInDateValue, checkOutDateValue);
-  const [totalPrice, setTotalPrice] = useState<number>(calcRoomPrice);
+  const totalPrice =
+    room.price *
+    calcDaysDiff(checkInDateValue, checkOutDateValue) *
+    (adultNum + childNum);
 
   const handleDateChange: SelectRangeEventHandler = (
     range: DateRange | undefined
@@ -94,8 +95,6 @@ const Room = () => {
       navigate({
         to: location.pathname + "?" + currentUrlParams.toString(),
       });
-
-      setTotalPrice(room.price * calcDaysDiff(from, to));
     }
   };
 
@@ -110,9 +109,9 @@ const Room = () => {
     });
 
     if (key === "adult_num") {
-      setAdultNum(value);
+      setAdultNum(+value);
     } else {
-      setChildNum(value);
+      setChildNum(+value);
     }
   };
 
@@ -208,8 +207,8 @@ const Room = () => {
                             大人人数
                           </Label>
                           <Select
-                            value={adultNum}
-                            defaultValue="1"
+                            value={String(adultNum)}
+                            defaultValue={String(initialState.adultNum)}
                             onValueChange={(value) =>
                               handleGuestNumChange("adult_num", value)
                             }
@@ -229,8 +228,8 @@ const Room = () => {
                             子供人数
                           </Label>
                           <Select
-                            value={childNum}
-                            defaultValue="0"
+                            value={String(childNum)}
+                            defaultValue={String(initialState.childNum)}
                             onValueChange={(value) =>
                               handleGuestNumChange("child_num", value)
                             }
