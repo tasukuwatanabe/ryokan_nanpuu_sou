@@ -16,16 +16,6 @@ export interface IRoom {
   capacity: number;
 }
 
-export interface Reservation {
-  id: number;
-  roomId: number;
-  checkInDate: Date;
-  checkOutDate: Date;
-  adultNum: number;
-  childNum: number;
-  price: number;
-}
-
 export type TPriceSort = "asc" | "desc";
 
 export type TGuestCategory = "adult" | "child";
