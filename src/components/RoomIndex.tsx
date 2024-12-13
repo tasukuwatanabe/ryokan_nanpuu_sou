@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 import type { IRoom } from "@/types";
 import RoomCard from "@/components/RoomCard";
 
@@ -5,15 +7,15 @@ interface Props {
   rooms: IRoom[];
 }
 
-const RoomIndex = ({ rooms }: Props) => {
-  return rooms.length > 0 ? (
+const RoomIndex: FC<Props> = ({ rooms }) => {
+  if (rooms.length === 0) return <p>お部屋が見つかりませんでした。</p>;
+
+  return (
     <div className="flex flex-col gap-y-5">
-      {rooms.map((room: IRoom) => (
-        <RoomCard key={`${room.id}-${room.name}`} room={room} />
+      {rooms.map((room) => (
+        <RoomCard key={room.id} room={room} />
       ))}
     </div>
-  ) : (
-    <p>お部屋が見つかりませんでした。</p>
   );
 };
 

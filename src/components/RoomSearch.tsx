@@ -24,19 +24,21 @@ import {
   CHILD_NUM_OPTION_LIST,
   PRICE_OPTION_LIST,
 } from "@/consts/search";
-import { IRoomSearch } from "@/types";
+import { IRoomSearch, ObjectUpdater } from "@/types";
 import { SelectSingleEventHandler } from "react-day-picker";
 
 interface Props {
   roomSearch: IRoomSearch;
-  onChange: (key: keyof IRoomSearch, value: any) => void;
-  handleSearchReset: () => void;
+  onChange: ObjectUpdater<IRoomSearch>;
+  onSubmit: () => void;
+  onReset: () => void;
 }
 
 const RoomSearchNew: React.FC<Props> = ({
   roomSearch,
   onChange,
-  handleSearchReset,
+  onSubmit,
+  onReset,
 }) => {
   const { checkInDate, checkOutDate, adultNum, childNum, minPrice, maxPrice } =
     roomSearch;
@@ -83,13 +85,13 @@ const RoomSearchNew: React.FC<Props> = ({
   const handleCheckOutChange: SelectSingleEventHandler = (day) =>
     onChange("checkOutDate", day);
 
-  const handleAdultNumChange = (value: string) => onChange("adultNum", value);
+  const handleAdultNumChange = (value: string) => onChange("adultNum", +value);
 
-  const handleChildNumChange = (value: string) => onChange("childNum", value);
+  const handleChildNumChange = (value: string) => onChange("childNum", +value);
 
-  const handleMinPriceChange = (value: string) => onChange("minPrice", value);
+  const handleMinPriceChange = (value: string) => onChange("minPrice", +value);
 
-  const handleMaxPriceChange = (value: string) => onChange("maxPrice", value);
+  const handleMaxPriceChange = (value: string) => onChange("maxPrice", +value);
 
   return (
     <div className="grid w-full items-start gap-6 overflow-auto">
@@ -235,15 +237,11 @@ const RoomSearchNew: React.FC<Props> = ({
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-3 mt-2">
-          <Button
-            onClick={handleSearchReset}
-            variant="outline"
-            className="rounded-sm"
-          >
+          <Button onClick={onReset} variant="outline" className="rounded-sm">
             条件をクリア
           </Button>
           <Button
-            onClick={() => {}}
+            onClick={onSubmit}
             className="bg-sky-500 hover:bg-sky-400 rounded-sm"
           >
             部屋を検索

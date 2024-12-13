@@ -26,6 +26,8 @@ export interface Reservation {
   price: number;
 }
 
-export type TRoomSort = "asc" | "desc";
+export type TPriceSort = "asc" | "desc";
 
 export type TGuestCategory = "adult" | "child";
+
+export type ObjectUpdater<T> = <K extends keyof T>(key: K, value: T[K]) => void;

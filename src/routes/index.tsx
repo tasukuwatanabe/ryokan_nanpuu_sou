@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { IRoomSearch, TRoomSort } from "@/types";
+import { IRoom, IRoomSearch, ObjectUpdater, TPriceSort } from "@/types";
 import { ROOM_LIST } from "@/consts/room";
 import { calcDateFromToday } from "@/utils/date";
 import RoomSearch from "@/components/RoomSearch";
 import RoomIndex from "@/components/RoomIndex";
-import RoomSort from "@/components/RoomSort";
+import RoomSort from "@/components/RoomSortList";
 import { ADULT_MIN_COUNT, CHILD_MIN_COUNT } from "@/consts/search";
 
-const Index: React.FC = () => {
+const sortRoomsByPrice = (list: IRoom[], type: TPriceSort) =>
+  [...list].sort((a, b) =>
+    type === "asc" ? a.price - b.price : b.price - a.price
+  );
+
+const Index: FC = () => {
   const initialRoomSearch = {
     checkInDate: calcDateFromToday(1),
     checkOutDate: calcDateFromToday(2),
@@ -18,40 +23,42 @@ const Index: React.FC = () => {
     minPrice: 0,
     maxPrice: 0,
   };
+  const initialRoomSort = "asc";
+  const initialRoomList = sortRoomsByPrice(ROOM_LIST, initialRoomSort);
 
+  const [sortType, setSortType] = useState<TPriceSort>(initialRoomSort);
+  const [roomResult, setRoomResult] = useState<IRoom[]>(initialRoomList);
   const [roomSearch, setRoomSearch] = useState<IRoomSearch>(initialRoomSearch);
-  const [sortType, setSortType] = useState<TRoomSort>("asc");
 
-  const handleSortChange = (type: TRoomSort) => {
+  const handleSortChange = (type: TPriceSort) => {
+    const sortedRooms = sortRoomsByPrice(roomResult, type);
+
     setSortType(type);
+    setRoomResult(sortedRooms);
   };
 
-  const handleSearchChange = (key: keyof IRoomSearch, value: any) => {
+  const handleSearchChange: ObjectUpdater<IRoomSearch> = (key, value) => {
     setRoomSearch((state: IRoomSearch) => ({
       ...state,
       [key]: value,
     }));
   };
 
-  const filteredRooms = ROOM_LIST!
-    .filter(() => {
-      // const { adultNum, childNum, minPrice, maxPrice } = roomSearch;
+  const handleSearchSubmit = () => {
+    const { adultNum, childNum, minPrice, maxPrice } = roomSearch;
 
-      // const adultNumNumber = Number(adultNum);
-      // const childNumNumber = Number(childNum);
-      // const minPriceNumber = Number(minPrice);
-      // const maxPriceNumber = Number(maxPrice);
-
-      // // TODO: prettierが丸括弧を自動除去しないように設定変更した上でリファクタ
-      // if (room.capacity < adultNumNumber + childNumNumber) return;
-      // if (minPriceNumber !== 0 && room.price < minPriceNumber) return;
-      // if (maxPriceNumber !== 0 && maxPriceNumber < room.price) return;
+    const filteredRooms = ROOM_LIST.filter((room: IRoom) => {
+      // TODO: prettierが丸括弧を自動除去しないように設定変更した上でリファクタ
+      if (room.capacity < adultNum + childNum) return;
+      if (minPrice !== 0 && room.price < minPrice) return;
+      if (maxPrice !== 0 && maxPrice < room.price) return;
 
       return true;
-    })
-    .sort((a, b) =>
-      sortType === "asc" ? a.price - b.price : b.price - a.price
-    );
+    });
+
+    const sortedRooms = sortRoomsByPrice(filteredRooms, sortType);
+    setRoomResult(sortedRooms);
+  };
 
   const handleSearchReset = () => setRoomSearch(initialRoomSearch);
 
@@ -61,12 +68,13 @@ const Index: React.FC = () => {
         <RoomSearch
           roomSearch={roomSearch}
           onChange={handleSearchChange}
-          handleSearchReset={handleSearchReset}
+          onSubmit={handleSearchSubmit}
+          onReset={handleSearchReset}
         />
       </aside>
       <main>
         <RoomSort sort={sortType} onChange={handleSortChange} />
-        <RoomIndex rooms={filteredRooms} />
+        <RoomIndex rooms={roomResult} />
       </main>
     </div>
   );
