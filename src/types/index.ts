@@ -1,6 +1,6 @@
 export interface IRoomSearch {
-  checkInDate?: Date;
-  checkOutDate?: Date;
+  checkInDate: Date;
+  checkOutDate: Date;
   adultNum: number;
   childNum: number;
   minPrice: number;

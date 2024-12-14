@@ -74,7 +74,7 @@ const Index: FC = () => {
       </aside>
       <main>
         <RoomSort sort={sortType} onChange={handleSortChange} />
-        <RoomIndex rooms={roomResult} />
+        <RoomIndex rooms={roomResult} search={roomSearch} />
       </main>
     </div>
   );
