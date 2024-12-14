@@ -26,8 +26,8 @@ const RoomCard: FC<Props> = ({ room, search }) => {
       params={{ roomId: String(roomId) }}
       search={(prev) => ({
         ...prev,
-        check_in: formatDateToString(checkInDate, "hyphen"),
-        check_out: formatDateToString(checkOutDate, "hyphen"),
+        in: formatDateToString(checkInDate, "hyphen"),
+        out: formatDateToString(checkOutDate, "hyphen"),
         adult: adultNum,
         child: childNum,
       })}

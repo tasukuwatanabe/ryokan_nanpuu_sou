@@ -45,10 +45,10 @@ const Room = () => {
   };
 
   const currentUrlParams = new URLSearchParams(window.location.search);
-  const checkInDateParam = currentUrlParams.get("check_in");
-  const checkOutDateParam = currentUrlParams.get("check_out");
-  const adultNumParam = currentUrlParams.get("adult_num");
-  const childNumParam = currentUrlParams.get("child_num");
+  const checkInDateParam = currentUrlParams.get("in");
+  const checkOutDateParam = currentUrlParams.get("out");
+  const adultNumParam = currentUrlParams.get("adult");
+  const childNumParam = currentUrlParams.get("child");
 
   const checkInDateValue =
     checkInDateParam && isValidDate(checkInDateParam)
@@ -89,7 +89,7 @@ const Room = () => {
     setDate({ from, to });
 
     if (from && to) {
-      currentUrlParams.set("check_in", formatDateToString(from, "hyphen"));
+      currentUrlParams.set("in", formatDateToString(from, "hyphen"));
       currentUrlParams.set("check_out", formatDateToString(to, "hyphen"));
 
       navigate({
@@ -98,17 +98,14 @@ const Room = () => {
     }
   };
 
-  const handleGuestNumChange = (
-    key: "adult_num" | "child_num",
-    value: string
-  ) => {
+  const handleGuestNumChange = (key: "adult" | "child", value: string) => {
     currentUrlParams.set(key, value);
 
     navigate({
       to: location.pathname + "?" + currentUrlParams.toString(),
     });
 
-    if (key === "adult_num") {
+    if (key === "adult") {
       setAdultNum(+value);
     } else {
       setChildNum(+value);
@@ -210,7 +207,7 @@ const Room = () => {
                             value={String(adultNum)}
                             defaultValue={String(initialState.adultNum)}
                             onValueChange={(value) =>
-                              handleGuestNumChange("adult_num", value)
+                              handleGuestNumChange("adult", value)
                             }
                           >
                             <SelectTrigger id="adultNum" className="rounded-sm">
@@ -231,7 +228,7 @@ const Room = () => {
                             value={String(childNum)}
                             defaultValue={String(initialState.childNum)}
                             onValueChange={(value) =>
-                              handleGuestNumChange("child_num", value)
+                              handleGuestNumChange("child", value)
                             }
                           >
                             <SelectTrigger id="childNum" className="rounded-sm">
