@@ -24,13 +24,12 @@ const RoomCard: FC<Props> = ({ room, search }) => {
     <Link
       to="/rooms/$roomId"
       params={{ roomId: String(roomId) }}
-      search={(prev) => ({
-        ...prev,
+      search={{
         in: formatDateToString(checkInDate, "hyphen"),
         out: formatDateToString(checkOutDate, "hyphen"),
         adult: adultNum,
         child: childNum,
-      })}
+      }}
       className="height-[180px] rounded-sm overflow-hidden border border-gray-300 md:grid md:grid-cols-cardGrid duration-200 hover:opacity-60"
     >
       <div>

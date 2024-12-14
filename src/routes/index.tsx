@@ -3,11 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { IRoom, IRoomSearch, ObjectUpdater, TPriceSort } from "@/types";
 import { ROOM_LIST } from "@/consts/room";
-import { calcDateFromToday } from "@/utils/date";
 import RoomSearch from "@/components/RoomSearch";
 import RoomIndex from "@/components/RoomIndex";
 import RoomSort from "@/components/RoomSortList";
-import { ADULT_MIN_COUNT, CHILD_MIN_COUNT } from "@/consts/search";
+import { INITIAL_SEARCH_DATA } from "@/consts/search";
 
 const sortRoomsByPrice = (list: IRoom[], type: TPriceSort) =>
   [...list].sort((a, b) =>
@@ -15,20 +14,13 @@ const sortRoomsByPrice = (list: IRoom[], type: TPriceSort) =>
   );
 
 const Index: FC = () => {
-  const initialRoomSearch = {
-    checkInDate: calcDateFromToday(1),
-    checkOutDate: calcDateFromToday(2),
-    adultNum: ADULT_MIN_COUNT,
-    childNum: CHILD_MIN_COUNT,
-    minPrice: 0,
-    maxPrice: 0,
-  };
   const initialRoomSort = "asc";
   const initialRoomList = sortRoomsByPrice(ROOM_LIST, initialRoomSort);
 
   const [sortType, setSortType] = useState<TPriceSort>(initialRoomSort);
   const [roomResult, setRoomResult] = useState<IRoom[]>(initialRoomList);
-  const [roomSearch, setRoomSearch] = useState<IRoomSearch>(initialRoomSearch);
+  const [roomSearch, setRoomSearch] =
+    useState<IRoomSearch>(INITIAL_SEARCH_DATA);
 
   const handleSortChange = (type: TPriceSort) => {
     const sortedRooms = sortRoomsByPrice(roomResult, type);
@@ -60,7 +52,7 @@ const Index: FC = () => {
     setRoomResult(sortedRooms);
   };
 
-  const handleSearchReset = () => setRoomSearch(initialRoomSearch);
+  const handleSearchReset = () => setRoomSearch(INITIAL_SEARCH_DATA);
 
   return (
     <div className="grid grid-cols-1 gap-y-10 md:grid-cols-pageGrid md:gap-x-5 lg:gap-x-8">

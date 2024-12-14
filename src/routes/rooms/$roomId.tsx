@@ -1,20 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange, SelectRangeEventHandler } from "react-day-picker";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
+import { z } from "zod";
 
 import { ROOM_LIST } from "@/consts/room";
 import {
-  ADULT_MIN_COUNT,
   ADULT_NUM_OPTION_LIST,
-  CHILD_MIN_COUNT,
   CHILD_NUM_OPTION_LIST,
+  INITIAL_SEARCH_DATA,
 } from "@/consts/search";
-import {
-  calcDateFromToday,
-  calcDaysDiff,
-  formatDateToString,
-  isValidDate,
-} from "@/utils/date";
+import { calcDaysDiff, formatDateToString } from "@/utils/date";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -31,85 +27,70 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TGuestCategory } from "@/types";
+import { IRoomReservation, TGuestCategory } from "@/types";
 
 const Room = () => {
   const { room } = Route.useLoaderData();
   const navigate = useNavigate();
+  const searchParams = Route.useSearch();
 
-  const initialState = {
-    checkInDate: calcDateFromToday(1),
-    checkOutDate: calcDateFromToday(2),
-    adultNum: ADULT_MIN_COUNT,
-    childNum: CHILD_MIN_COUNT,
-  };
-
-  const currentUrlParams = new URLSearchParams(window.location.search);
-  const checkInDateParam = currentUrlParams.get("in");
-  const checkOutDateParam = currentUrlParams.get("out");
-  const adultNumParam = currentUrlParams.get("adult");
-  const childNumParam = currentUrlParams.get("child");
-
-  const checkInDateValue =
-    checkInDateParam && isValidDate(checkInDateParam)
-      ? new Date(checkInDateParam)
-      : initialState.checkInDate;
-  const checkOutDateValue =
-    checkOutDateParam && isValidDate(checkOutDateParam)
-      ? new Date(checkOutDateParam)
-      : initialState.checkOutDate;
-
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: checkInDateValue,
-    to: checkOutDateValue,
+  const [reservation, setReservation] = useState<IRoomReservation>({
+    checkInDate: INITIAL_SEARCH_DATA.checkInDate,
+    checkOutDate: INITIAL_SEARCH_DATA.checkOutDate,
+    adultNum: INITIAL_SEARCH_DATA.adultNum,
+    childNum: INITIAL_SEARCH_DATA.childNum,
   });
 
-  const adultNumValue =
-    adultNumParam && ADULT_NUM_OPTION_LIST.includes(Number(adultNumParam))
-      ? +adultNumParam
-      : initialState.adultNum;
-  const [adultNum, setAdultNum] = useState<number>(adultNumValue);
+  useEffect(() => {
+    const {
+      in: checkInParam,
+      out: checkOutParam,
+      adult: adultParam,
+      child: childParam,
+    } = searchParams;
 
-  const childNumValue =
-    childNumParam && CHILD_NUM_OPTION_LIST.includes(Number(childNumParam))
-      ? +childNumParam
-      : initialState.childNum;
-  const [childNum, setChildNum] = useState<number>(childNumValue);
+    setReservation((prev) => ({
+      checkInDate: checkInParam ? new Date(checkInParam) : prev.checkInDate,
+      checkOutDate: checkOutParam ? new Date(checkOutParam) : prev.checkOutDate,
+      adultNum: adultParam ? +adultParam : prev.adultNum,
+      childNum: childParam ? +childParam : prev.childNum,
+    }));
+  }, [searchParams]);
 
   const totalPrice =
     room.price *
-    calcDaysDiff(checkInDateValue, checkOutDateValue) *
-    (adultNum + childNum);
+    calcDaysDiff(reservation.checkInDate, reservation.checkOutDate) *
+    (reservation.adultNum + reservation.childNum);
 
   const handleDateChange: SelectRangeEventHandler = (
     range: DateRange | undefined
   ) => {
     const { from, to } = range ?? {};
 
-    setDate({ from, to });
-
     if (from && to) {
-      currentUrlParams.set("in", formatDateToString(from, "hyphen"));
-      currentUrlParams.set("check_out", formatDateToString(to, "hyphen"));
+      setReservation((prev) => ({
+        ...prev,
+        checkInDate: from,
+        checkOutDate: to,
+      }));
 
       navigate({
-        to: location.pathname + "?" + currentUrlParams.toString(),
+        search: {
+          from: formatDateToString(from, "hyphen"),
+          to: formatDateToString(to, "hyphen"),
+        },
+        replace: true,
       });
     }
   };
 
-  const handleGuestNumChange = (key: "adult" | "child", value: string) => {
-    currentUrlParams.set(key, value);
-
+  const handleGuestNumChange = (key: TGuestCategory, value: string) => {
     navigate({
-      to: location.pathname + "?" + currentUrlParams.toString(),
+      search: {
+        [key]: +value,
+      },
+      replace: true,
     });
-
-    if (key === "adult") {
-      setAdultNum(+value);
-    } else {
-      setChildNum(+value);
-    }
   };
 
   const guestNumOptions = (type: TGuestCategory) => {
@@ -128,6 +109,11 @@ const Room = () => {
         </SelectItem>
       );
     });
+  };
+
+  const reservationRange: DateRange = {
+    from: reservation.checkInDate,
+    to: reservation.checkInDate,
   };
 
   return (
@@ -160,11 +146,11 @@ const Room = () => {
                 <div className="grid gap-y-2">
                   <p className="text-lg flex gap-x-1">
                     <span className="block min-w-[95px]">
-                      {date?.from && formatDateToString(date.from)}
+                      {formatDateToString(reservation.checkInDate)}
                     </span>
                     <span> 〜 </span>
                     <span className="block min-w-[95px]">
-                      {date?.to && formatDateToString(date.to)}
+                      {formatDateToString(reservation.checkOutDate)}
                     </span>
                   </p>
                 </div>
@@ -176,10 +162,10 @@ const Room = () => {
                     <Calendar
                       initialFocus
                       mode="range"
-                      defaultMonth={date?.from}
-                      selected={date}
+                      defaultMonth={reservation.checkInDate}
+                      selected={reservationRange}
                       onSelect={handleDateChange}
-                      numberOfMonths={1}
+                      numberOfMonths={2}
                     />
                   </PopoverContent>
                 </Popover>
@@ -189,8 +175,8 @@ const Room = () => {
               <p className="text-gray-500">宿泊人数</p>
               <div className="flex justify-between">
                 <div>
-                  <p className="text-lg">大人：{adultNum}名</p>
-                  <p className="text-lg">小人：{childNum}名</p>
+                  <p className="text-lg">大人：{reservation.adultNum}名</p>
+                  <p className="text-lg">小人：{reservation.childNum}名</p>
                 </div>
                 <div>
                   <Popover>
@@ -204,8 +190,8 @@ const Room = () => {
                             大人人数
                           </Label>
                           <Select
-                            value={String(adultNum)}
-                            defaultValue={String(initialState.adultNum)}
+                            value={String(reservation.adultNum)}
+                            defaultValue={String(INITIAL_SEARCH_DATA.adultNum)}
                             onValueChange={(value) =>
                               handleGuestNumChange("adult", value)
                             }
@@ -225,8 +211,8 @@ const Room = () => {
                             子供人数
                           </Label>
                           <Select
-                            value={String(childNum)}
-                            defaultValue={String(initialState.childNum)}
+                            value={String(reservation.childNum)}
+                            defaultValue={String(INITIAL_SEARCH_DATA.childNum)}
                             onValueChange={(value) =>
                               handleGuestNumChange("child", value)
                             }
@@ -252,7 +238,6 @@ const Room = () => {
             type="submit"
             size="xl"
             className="w-full bg-sky-500 hover:bg-sky-400 text-md"
-            disabled
           >
             この内容で予約する
           </Button>
@@ -262,9 +247,17 @@ const Room = () => {
   );
 };
 
+const reservationSearchSchema = z.object({
+  in: z.string().default(""),
+  out: z.string().default(""),
+  adult: z.number().default(INITIAL_SEARCH_DATA.adultNum),
+  child: z.number().default(INITIAL_SEARCH_DATA.childNum),
+});
+
 export const Route = createFileRoute("/rooms/$roomId")({
   component: Room,
-  loader: async ({ params: { roomId } }) => {
+  validateSearch: zodValidator(reservationSearchSchema),
+  loader: ({ params: { roomId } }) => {
     const room = ROOM_LIST.find((roomItem) => roomItem.id === Number(roomId));
     if (!room) throw notFound();
 

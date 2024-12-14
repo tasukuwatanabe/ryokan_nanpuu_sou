@@ -1,10 +1,13 @@
-export interface IRoomSearch {
+export interface IRoomSearch extends IRoomReservation {
+  minPrice: number;
+  maxPrice: number;
+}
+
+export interface IRoomReservation {
   checkInDate: Date;
   checkOutDate: Date;
   adultNum: number;
   childNum: number;
-  minPrice: number;
-  maxPrice: number;
 }
 
 export interface IRoom {

@@ -1,4 +1,5 @@
 import { createNumArray } from "@/utils";
+import { calcDateFromToday } from "@/utils/date";
 
 export const ADULT_MIN_COUNT = 1;
 
@@ -11,3 +12,12 @@ export const CHILD_NUM_OPTION_LIST = createNumArray(0, 10);
 export const PRICE_OPTION_LIST = createNumArray(0, 10).map(
   (num) => num * 10000
 );
+
+export const INITIAL_SEARCH_DATA = {
+  checkInDate: calcDateFromToday(1),
+  checkOutDate: calcDateFromToday(2),
+  adultNum: ADULT_MIN_COUNT,
+  childNum: CHILD_MIN_COUNT,
+  minPrice: 0,
+  maxPrice: 0,
+};
