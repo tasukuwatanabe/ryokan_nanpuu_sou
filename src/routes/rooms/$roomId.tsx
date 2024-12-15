@@ -34,6 +34,7 @@ const searchSchema = z.object({
   adultNum: z.number().default(INITIAL_SEARCH_DATA.adultNum),
   childNum: z.number().default(INITIAL_SEARCH_DATA.childNum),
 });
+type searchSchema = z.infer<typeof searchSchema>;
 
 const Room = () => {
   const { room } = Route.useLoaderData();
@@ -95,7 +96,7 @@ const Room = () => {
     }));
 
     navigate({
-      search: (prev: z.infer<typeof searchSchema>) => ({
+      search: (prev: searchSchema) => ({
         ...prev,
         checkInDate: formatDateToString(from, "hyphen"),
         checkOutDate: formatDateToString(to, "hyphen"),
@@ -108,7 +109,7 @@ const Room = () => {
 
   const handleGuestNumChange = (key: GuestCategory, value: string) => {
     navigate({
-      search: (prev: z.infer<typeof searchSchema>) => ({
+      search: (prev: searchSchema) => ({
         ...prev,
         [key]: +value,
       }),
