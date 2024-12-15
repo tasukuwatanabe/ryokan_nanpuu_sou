@@ -25,10 +25,10 @@ const RoomCard: FC<Props> = ({ room, search }) => {
       to="/rooms/$roomId"
       params={{ roomId: String(roomId) }}
       search={{
-        in: formatDateToString(checkInDate, "hyphen"),
-        out: formatDateToString(checkOutDate, "hyphen"),
-        adult: adultNum,
-        child: childNum,
+        checkInDate: formatDateToString(checkInDate, "hyphen"),
+        checkOutDate: formatDateToString(checkOutDate, "hyphen"),
+        adultNum,
+        childNum,
       }}
       className="height-[180px] rounded-sm overflow-hidden border border-gray-300 md:grid md:grid-cols-cardGrid duration-200 hover:opacity-60"
     >

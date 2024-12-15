@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { DateRange, SelectRangeEventHandler } from "react-day-picker";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 
 import { ROOM_LIST } from "@/consts/room";
@@ -29,6 +28,13 @@ import {
 } from "@/components/ui/select";
 import type { RoomReservation, GuestCategory } from "@/types";
 
+const searchSchema = z.object({
+  checkInDate: z.string().default(""),
+  checkOutDate: z.string().default(""),
+  adultNum: z.number().default(INITIAL_SEARCH_DATA.adultNum),
+  childNum: z.number().default(INITIAL_SEARCH_DATA.childNum),
+});
+
 const Room = () => {
   const { room } = Route.useLoaderData();
   const navigate = useNavigate();
@@ -48,15 +54,15 @@ const Room = () => {
 
   useEffect(() => {
     const {
-      in: checkInParam,
-      out: checkOutParam,
-      adult: adultParam,
-      child: childParam,
+      checkInDate: checkInParam,
+      checkOutDate: checkOutParam,
+      adultNum: adultParam,
+      childNum: childParam,
     } = searchParams;
 
     setReservation({
-      checkInDate: checkInParam && new Date(checkInParam),
-      checkOutDate: checkOutParam && new Date(checkOutParam),
+      checkInDate: checkInParam ? new Date(checkInParam) : undefined,
+      checkOutDate: checkOutParam ? new Date(checkOutParam) : undefined,
       adultNum: adultParam && +adultParam,
       childNum: childParam && +childParam,
     });
@@ -89,10 +95,12 @@ const Room = () => {
     }));
 
     navigate({
-      search: (prev: RoomReservation) => ({
+      search: (prev: z.infer<typeof searchSchema>) => ({
         ...prev,
-        in: formatDateToString(from, "hyphen"),
-        out: formatDateToString(to, "hyphen"),
+        checkInDate: formatDateToString(from, "hyphen"),
+        checkOutDate: formatDateToString(to, "hyphen"),
+        adultNum: reservation.adultNum,
+        childNum: reservation.childNum,
       }),
       replace: true,
     });
@@ -100,7 +108,7 @@ const Room = () => {
 
   const handleGuestNumChange = (key: GuestCategory, value: string) => {
     navigate({
-      search: (prev: RoomReservation) => ({
+      search: (prev: z.infer<typeof searchSchema>) => ({
         ...prev,
         [key]: +value,
       }),
@@ -110,8 +118,8 @@ const Room = () => {
 
   const guestNumOptions = (type: GuestCategory) => {
     const optionList: { [type in GuestCategory]: number[] } = {
-      adult: ADULT_NUM_OPTION_LIST,
-      child: CHILD_NUM_OPTION_LIST,
+      adultNum: ADULT_NUM_OPTION_LIST,
+      childNum: CHILD_NUM_OPTION_LIST,
     };
 
     return optionList[type].map((num) => {
@@ -203,7 +211,7 @@ const Room = () => {
                             value={String(reservation.adultNum)}
                             defaultValue={String(INITIAL_SEARCH_DATA.adultNum)}
                             onValueChange={(value) =>
-                              handleGuestNumChange("adult", value)
+                              handleGuestNumChange("adultNum", value)
                             }
                           >
                             <SelectTrigger id="adultNum" className="rounded-sm">
@@ -211,7 +219,7 @@ const Room = () => {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
-                                {guestNumOptions("adult")}
+                                {guestNumOptions("adultNum")}
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -224,7 +232,7 @@ const Room = () => {
                             value={String(reservation.childNum)}
                             defaultValue={String(INITIAL_SEARCH_DATA.childNum)}
                             onValueChange={(value) =>
-                              handleGuestNumChange("child", value)
+                              handleGuestNumChange("childNum", value)
                             }
                           >
                             <SelectTrigger id="childNum" className="rounded-sm">
@@ -232,7 +240,7 @@ const Room = () => {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
-                                {guestNumOptions("child")}
+                                {guestNumOptions("childNum")}
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -258,16 +266,9 @@ const Room = () => {
   );
 };
 
-const reservationSearchSchema = z.object({
-  in: z.string().default(""),
-  out: z.string().default(""),
-  adult: z.number().default(INITIAL_SEARCH_DATA.adultNum),
-  child: z.number().default(INITIAL_SEARCH_DATA.childNum),
-});
-
 export const Route = createFileRoute("/rooms/$roomId")({
   component: Room,
-  validateSearch: zodValidator(reservationSearchSchema),
+  validateSearch: (search) => searchSchema.parse(search),
   loader: ({ params: { roomId } }) => {
     const room = ROOM_LIST.find((roomItem) => roomItem.id === Number(roomId));
     if (!room) throw notFound();

@@ -21,6 +21,6 @@ export interface Room {
 
 export type PriceSort = "asc" | "desc";
 
-export type GuestCategory = "adult" | "child";
+export type GuestCategory = "adultNum" | "childNum";
 
 export type ObjectUpdater<T> = <K extends keyof T>(key: K, value: T[K]) => void;
