@@ -1,4 +1,7 @@
+import { FC } from "react";
 import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { SelectSingleEventHandler } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -17,24 +20,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
+
 import { calcDateFromToday } from "@/utils/date";
 import {
   ADULT_NUM_OPTION_LIST,
   CHILD_NUM_OPTION_LIST,
   PRICE_OPTION_LIST,
 } from "@/consts/search";
-import { IRoomSearch, ObjectUpdater } from "@/types";
-import { SelectSingleEventHandler } from "react-day-picker";
+import type { RoomSearch, ObjectUpdater } from "@/types";
 
 interface Props {
-  roomSearch: IRoomSearch;
-  onChange: ObjectUpdater<IRoomSearch>;
+  roomSearch: RoomSearch;
+  onChange: ObjectUpdater<RoomSearch>;
   onSubmit: () => void;
   onReset: () => void;
 }
 
-const RoomSearchNew: React.FC<Props> = ({
+const RoomSearchNew: FC<Props> = ({
   roomSearch,
   onChange,
   onSubmit,
@@ -79,11 +81,13 @@ const RoomSearchNew: React.FC<Props> = ({
     "上限なし"
   );
 
-  const handleCheckInChange: SelectSingleEventHandler = (day) =>
-    onChange("checkInDate", day);
+  const handleCheckInChange: SelectSingleEventHandler = (day) => {
+    if (day) onChange("checkInDate", day);
+  };
 
-  const handleCheckOutChange: SelectSingleEventHandler = (day) =>
-    onChange("checkOutDate", day);
+  const handleCheckOutChange: SelectSingleEventHandler = (day) => {
+    if (day) onChange("checkOutDate", day);
+  };
 
   const handleAdultNumChange = (value: string) => onChange("adultNum", +value);
 

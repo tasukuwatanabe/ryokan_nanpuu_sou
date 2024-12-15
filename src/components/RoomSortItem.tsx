@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { ReactNode } from "@tanstack/react-router";
 
-import { TPriceSort } from "@/types";
+import type { PriceSort } from "@/types";
 
 type Props = {
-  currentSort: TPriceSort;
-  targetSort: TPriceSort;
-  onChange: (value: TPriceSort) => void;
+  currentSort: PriceSort;
+  targetSort: PriceSort;
+  onChange: (value: PriceSort) => void;
   children: ReactNode;
 };
 

@@ -1,11 +1,11 @@
 import { FC } from "react";
 
-import type { IRoom, IRoomSearch } from "@/types";
+import type { Room, RoomSearch } from "@/types";
 import RoomCard from "@/components/RoomCard";
 
 interface Props {
-  rooms: IRoom[];
-  search: IRoomSearch;
+  rooms: Room[];
+  search: RoomSearch;
 }
 
 const RoomIndex: FC<Props> = ({ rooms, search }) => {

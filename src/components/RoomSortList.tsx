@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { TPriceSort } from "@/types";
+import type { PriceSort } from "@/types";
 import RoomSortItem from "@/components/RoomSortItem";
 
 type Props = {
-  sort: TPriceSort;
-  onChange: (value: TPriceSort) => void;
+  sort: PriceSort;
+  onChange: (value: PriceSort) => void;
 };
 
 const RoomSortList: FC<Props> = ({ sort: currentSort, onChange }) => {

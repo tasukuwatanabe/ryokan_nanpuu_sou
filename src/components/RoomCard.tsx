@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { Link } from "@tanstack/react-router";
 
-import type { IRoom, IRoomSearch } from "@/types";
+import type { Room, RoomSearch } from "@/types";
 import { formatDateToString } from "@/utils/date";
 
 interface Props {
-  room: IRoom;
-  search: IRoomSearch;
+  room: Room;
+  search: RoomSearch;
 }
 
 const RoomCard: FC<Props> = ({ room, search }) => {

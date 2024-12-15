@@ -1,16 +1,16 @@
-export interface IRoomSearch extends IRoomReservation {
+export interface RoomSearch extends RoomReservation {
   minPrice: number;
   maxPrice: number;
 }
 
-export interface IRoomReservation {
+export interface RoomReservation {
   checkInDate: Date;
   checkOutDate: Date;
   adultNum: number;
   childNum: number;
 }
 
-export interface IRoom {
+export interface Room {
   id: number;
   name: string;
   price: number;
@@ -19,8 +19,8 @@ export interface IRoom {
   capacity: number;
 }
 
-export type TPriceSort = "asc" | "desc";
+export type PriceSort = "asc" | "desc";
 
-export type TGuestCategory = "adult" | "child";
+export type GuestCategory = "adult" | "child";
 
 export type ObjectUpdater<T> = <K extends keyof T>(key: K, value: T[K]) => void;

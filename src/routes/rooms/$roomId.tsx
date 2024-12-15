@@ -27,14 +27,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { IRoomReservation, TGuestCategory } from "@/types";
+import type { RoomReservation, GuestCategory } from "@/types";
 
 const Room = () => {
   const { room } = Route.useLoaderData();
   const navigate = useNavigate();
   const searchParams = Route.useSearch();
 
-  const [reservation, setReservation] = useState<IRoomReservation>({
+  const [reservation, setReservation] = useState<RoomReservation>({
     checkInDate: INITIAL_SEARCH_DATA.checkInDate,
     checkOutDate: INITIAL_SEARCH_DATA.checkOutDate,
     adultNum: INITIAL_SEARCH_DATA.adultNum,
@@ -84,7 +84,7 @@ const Room = () => {
     }
   };
 
-  const handleGuestNumChange = (key: TGuestCategory, value: string) => {
+  const handleGuestNumChange = (key: GuestCategory, value: string) => {
     navigate({
       search: {
         [key]: +value,
@@ -93,8 +93,8 @@ const Room = () => {
     });
   };
 
-  const guestNumOptions = (type: TGuestCategory) => {
-    const optionList: { [type in TGuestCategory]: number[] } = {
+  const guestNumOptions = (type: GuestCategory) => {
+    const optionList: { [type in GuestCategory]: number[] } = {
       adult: ADULT_NUM_OPTION_LIST,
       child: CHILD_NUM_OPTION_LIST,
     };
