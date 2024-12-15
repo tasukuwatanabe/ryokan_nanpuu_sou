@@ -3,7 +3,7 @@ export function setHoursToMidnight(date: Date = new Date()): Date {
 }
 
 export function formatDateToString(
-  date: Date,
+  date?: Date,
   format?: "hyphen" | "jp"
 ): string | "" {
   if (!date) return "";

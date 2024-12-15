@@ -41,6 +41,11 @@ const Room = () => {
     childNum: INITIAL_SEARCH_DATA.childNum,
   });
 
+  const reservationRange: DateRange = {
+    from: reservation.checkInDate,
+    to: reservation.checkOutDate,
+  };
+
   useEffect(() => {
     const {
       in: checkInParam,
@@ -49,46 +54,56 @@ const Room = () => {
       child: childParam,
     } = searchParams;
 
-    setReservation((prev) => ({
-      checkInDate: checkInParam ? new Date(checkInParam) : prev.checkInDate,
-      checkOutDate: checkOutParam ? new Date(checkOutParam) : prev.checkOutDate,
-      adultNum: adultParam ? +adultParam : prev.adultNum,
-      childNum: childParam ? +childParam : prev.childNum,
-    }));
+    setReservation({
+      checkInDate: checkInParam && new Date(checkInParam),
+      checkOutDate: checkOutParam && new Date(checkOutParam),
+      adultNum: adultParam && +adultParam,
+      childNum: childParam && +childParam,
+    });
   }, [searchParams]);
 
-  const totalPrice =
-    room.price *
-    calcDaysDiff(reservation.checkInDate, reservation.checkOutDate) *
-    (reservation.adultNum + reservation.childNum);
+  const getTotalPrice = ({
+    checkInDate,
+    checkOutDate,
+    adultNum,
+    childNum,
+  }: RoomReservation): string => {
+    const totalPrice =
+      checkInDate && checkOutDate
+        ? room.price *
+          calcDaysDiff(checkInDate, checkOutDate) *
+          (adultNum + childNum)
+        : 0;
 
-  const handleDateChange: SelectRangeEventHandler = (
-    range: DateRange | undefined
-  ) => {
+    return totalPrice.toLocaleString();
+  };
+  const totalPrice = getTotalPrice(reservation);
+
+  const handleDateChange: SelectRangeEventHandler = (range) => {
     const { from, to } = range ?? {};
 
-    if (from && to) {
-      setReservation((prev) => ({
-        ...prev,
-        checkInDate: from,
-        checkOutDate: to,
-      }));
+    setReservation((prev) => ({
+      ...prev,
+      checkInDate: from,
+      checkOutDate: to,
+    }));
 
-      navigate({
-        search: {
-          from: formatDateToString(from, "hyphen"),
-          to: formatDateToString(to, "hyphen"),
-        },
-        replace: true,
-      });
-    }
+    navigate({
+      search: (prev: RoomReservation) => ({
+        ...prev,
+        in: formatDateToString(from, "hyphen"),
+        out: formatDateToString(to, "hyphen"),
+      }),
+      replace: true,
+    });
   };
 
   const handleGuestNumChange = (key: GuestCategory, value: string) => {
     navigate({
-      search: {
+      search: (prev: RoomReservation) => ({
+        ...prev,
         [key]: +value,
-      },
+      }),
       replace: true,
     });
   };
@@ -111,11 +126,6 @@ const Room = () => {
     });
   };
 
-  const reservationRange: DateRange = {
-    from: reservation.checkInDate,
-    to: reservation.checkInDate,
-  };
-
   return (
     <>
       <h1 className="text-xl">確認と予約</h1>
@@ -135,7 +145,7 @@ const Room = () => {
           <hr className="my-5" />
           <div className="flex justify-between px-2">
             <p>合計額</p>
-            <p className="text-xl">{totalPrice.toLocaleString()}円</p>
+            <p className="text-xl">{totalPrice}円</p>
           </div>
         </div>
         <div className="grid gap-y-8">
@@ -238,6 +248,7 @@ const Room = () => {
             type="submit"
             size="xl"
             className="w-full bg-sky-500 hover:bg-sky-400 text-md"
+            disabled={!(reservation.checkInDate && reservation.checkOutDate)}
           >
             この内容で予約する
           </Button>

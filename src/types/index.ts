@@ -4,8 +4,8 @@ export interface RoomSearch extends RoomReservation {
 }
 
 export interface RoomReservation {
-  checkInDate: Date;
-  checkOutDate: Date;
+  checkInDate?: Date;
+  checkOutDate?: Date;
   adultNum: number;
   childNum: number;
 }
