@@ -5,11 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config({
-  extends: [
-    js.configs.recommended,
-    ...tseslint.configs.recommended,
-    "plugin:@tanstack/eslint-plugin-query/recommend",
-  ],
+  extends: [js.configs.recommended, ...tseslint.configs.recommended],
   files: ["**/*.{ts,tsx}"],
   ignores: ["dist"],
   languageOptions: {

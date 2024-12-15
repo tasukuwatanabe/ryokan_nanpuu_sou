@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { routeTree } from "@/routeTree.gen";
 import NotFound from "@/components/NotFound";
@@ -18,8 +17,6 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const queryClient = new QueryClient();
-
 function InnerApp() {
   return <RouterProvider router={router} />;
 }
@@ -27,9 +24,7 @@ function InnerApp() {
 function App() {
   return (
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <InnerApp />
-      </QueryClientProvider>
+      <InnerApp />
     </StrictMode>
   );
 }
