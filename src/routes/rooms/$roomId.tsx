@@ -4,13 +4,13 @@ import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { ROOM_LIST } from "@/consts/room";
+import type { RoomReservation, GuestCategory } from "@/types";
 import {
   ADULT_NUM_OPTION_LIST,
   CHILD_NUM_OPTION_LIST,
   INITIAL_SEARCH_DATA,
 } from "@/consts/search";
 import { calcDaysDiff, formatDateToString } from "@/utils/date";
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { RoomReservation, GuestCategory } from "@/types";
+import LoadingButton from "@/components/LoadingButton";
 
 const searchSchema = z.object({
   checkInDate: z.string().default(""),
@@ -47,6 +47,8 @@ const Room = () => {
     adultNum: INITIAL_SEARCH_DATA.adultNum,
     childNum: INITIAL_SEARCH_DATA.childNum,
   });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const reservationRange: DateRange = {
     from: reservation.checkInDate,
@@ -135,6 +137,17 @@ const Room = () => {
     });
   };
 
+  const handleSubmit = () => {
+    if (submitted) return;
+
+    setLoading(true);
+    setSubmitted(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
   return (
     <>
       <h1 className="text-xl">確認と予約</h1>
@@ -173,21 +186,23 @@ const Room = () => {
                     </span>
                   </p>
                 </div>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <p className="underline cursor-pointer">編集</p>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="end">
-                    <Calendar
-                      initialFocus
-                      mode="range"
-                      defaultMonth={reservation.checkInDate}
-                      selected={reservationRange}
-                      onSelect={handleDateChange}
-                      numberOfMonths={2}
-                    />
-                  </PopoverContent>
-                </Popover>
+                {!submitted && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <p className="underline cursor-pointer">編集</p>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <Calendar
+                        initialFocus
+                        mode="range"
+                        defaultMonth={reservation.checkInDate}
+                        selected={reservationRange}
+                        onSelect={handleDateChange}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                )}
               </div>
             </div>
             <div className="grid gap-y-2">
@@ -197,7 +212,7 @@ const Room = () => {
                   <p className="text-lg">大人：{reservation.adultNum}名</p>
                   <p className="text-lg">小人：{reservation.childNum}名</p>
                 </div>
-                <div>
+                {!submitted && (
                   <Popover>
                     <PopoverTrigger asChild>
                       <p className="underline cursor-pointer grow-0">編集</p>
@@ -249,18 +264,16 @@ const Room = () => {
                       </div>
                     </PopoverContent>
                   </Popover>
-                </div>
+                )}
               </div>
             </div>
           </div>
-          <Button
-            type="submit"
-            size="xl"
-            className="w-full bg-sky-500 hover:bg-sky-400 text-md"
-            disabled={!(reservation.checkInDate && reservation.checkOutDate)}
-          >
-            この内容で予約する
-          </Button>
+          <LoadingButton
+            disabled={!reservation.checkInDate || !reservation.checkOutDate}
+            loading={loading}
+            submitted={submitted}
+            onSubmit={handleSubmit}
+          />
         </div>
       </div>
     </>
