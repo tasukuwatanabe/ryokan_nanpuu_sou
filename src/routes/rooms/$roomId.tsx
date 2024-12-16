@@ -71,22 +71,21 @@ const Room = () => {
     });
   }, [searchParams]);
 
-  const getTotalPrice = ({
-    checkInDate,
-    checkOutDate,
-    adultNum,
-    childNum,
-  }: RoomReservation): string => {
+  const getTotalPrice = (
+    roomPrice: number,
+    { checkInDate, checkOutDate, adultNum, childNum }: RoomReservation
+  ): string => {
+    if (!checkInDate || !checkOutDate || checkInDate >= checkOutDate)
+      return "0";
+
     const totalPrice =
-      checkInDate && checkOutDate
-        ? room.price *
-          calcDaysDiff(checkInDate, checkOutDate) *
-          (adultNum + childNum)
-        : 0;
+      roomPrice *
+      calcDaysDiff(checkInDate, checkOutDate) *
+      (adultNum + childNum);
 
     return totalPrice.toLocaleString();
   };
-  const totalPrice = getTotalPrice(reservation);
+  const totalPrice = getTotalPrice(room.price, reservation);
 
   const handleDateChange: SelectRangeEventHandler = (range) => {
     const { from, to } = range ?? {};
