@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "./ui/button";
@@ -10,6 +10,8 @@ type Props = {
   onSubmit: () => void;
 };
 
+type buttonStatus = "default" | "loading" | "success";
+
 const LoadingButton: FC<Props> = ({
   disabled,
   loading,
@@ -17,13 +19,13 @@ const LoadingButton: FC<Props> = ({
   onSubmit,
 }) => {
   const commonStyle = "w-full border text-md";
-  const styleMap = {
+  const styleMap: Record<buttonStatus, string> = {
     default: `${commonStyle} border-sky-500 bg-sky-500 hover:bg-sky-400`,
     loading: `${commonStyle} text-gray-400 border-gray-400 bg-white hover:bg-white hover:cursor-default`,
     success: `${commonStyle} text-green-500 border-green-500 bg-white hover:bg-white hover:cursor-default`,
   };
 
-  const contentMap = {
+  const contentMap: Record<buttonStatus, ReactNode | string> = {
     default: "この内容で予約する",
     loading: (
       <>
