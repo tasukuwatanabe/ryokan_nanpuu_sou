@@ -97,6 +97,12 @@ const RoomSearchNew: FC<Props> = ({
 
   const handleMaxPriceChange = (value: string) => onChange("maxPrice", +value);
 
+  const isSearchValid =
+    checkInDate &&
+    checkOutDate &&
+    checkInDate < checkOutDate &&
+    (minPrice && maxPrice ? minPrice < maxPrice : true);
+
   return (
     <div className="grid w-full items-start gap-6 overflow-auto">
       <div className="grid gap-6 rounded-sm border px-4 pt-6 pb-5">
@@ -247,6 +253,7 @@ const RoomSearchNew: FC<Props> = ({
           <Button
             onClick={onSubmit}
             className="bg-sky-500 hover:bg-sky-400 rounded-sm"
+            disabled={!isSearchValid}
           >
             部屋を検索
           </Button>
