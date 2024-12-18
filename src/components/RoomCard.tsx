@@ -7,9 +7,10 @@ import { formatDateToString } from "@/utils/date";
 interface Props {
   room: Room;
   search: RoomSearch;
+  params: RoomSearch;
 }
 
-const RoomCard: FC<Props> = ({ room, search }) => {
+const RoomCard: FC<Props> = ({ room, params }) => {
   const {
     id: roomId,
     name: roomName,
@@ -18,15 +19,16 @@ const RoomCard: FC<Props> = ({ room, search }) => {
     image: roomImage,
   } = room;
 
-  const { checkInDate, checkOutDate, adultNum, childNum } = search;
+  const { checkInDate, checkOutDate, adultNum, childNum } = params;
 
   return (
     <Link
       to="/rooms/$roomId"
       params={{ roomId: String(roomId) }}
       search={{
-        checkInDate: formatDateToString(checkInDate, "hyphen"),
-        checkOutDate: formatDateToString(checkOutDate, "hyphen"),
+        checkInDate: checkInDate && formatDateToString(checkInDate, "hyphen"),
+        checkOutDate:
+          checkOutDate && formatDateToString(checkOutDate, "hyphen"),
         adultNum,
         childNum,
       }}

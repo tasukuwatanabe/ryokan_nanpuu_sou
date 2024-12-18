@@ -20,6 +20,8 @@ const Index: FC = () => {
   const [sortType, setSortType] = useState<PriceSort>(initialRoomSort);
   const [roomResult, setRoomResult] = useState<Room[]>(initialRoomList);
   const [roomSearch, setRoomSearch] = useState<RoomSearch>(INITIAL_SEARCH_DATA);
+  const [searchParams, setSearchParams] =
+    useState<RoomSearch>(INITIAL_SEARCH_DATA);
 
   const handleSortChange = (type: PriceSort) => {
     const sortedRooms = sortRoomsByPrice(roomResult, type);
@@ -49,6 +51,7 @@ const Index: FC = () => {
 
     const sortedRooms = sortRoomsByPrice(filteredRooms, sortType);
     setRoomResult(sortedRooms);
+    setSearchParams({ ...roomSearch });
   };
 
   const handleSearchReset = () => setRoomSearch(INITIAL_SEARCH_DATA);
@@ -65,7 +68,11 @@ const Index: FC = () => {
       </aside>
       <main>
         <RoomSort sort={sortType} onChange={handleSortChange} />
-        <RoomIndex rooms={roomResult} search={roomSearch} />
+        <RoomIndex
+          rooms={roomResult}
+          search={roomSearch}
+          params={searchParams}
+        />
       </main>
     </div>
   );
